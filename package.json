@@ -1,0 +1,27 @@
+{
+  "name": "part-4-project",
+  "version": "0.0.1",
+  "description": "An easy to use Ruby on Rails IDE built with electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xxChinasaurxx/part-4-project"
+  },
+  "keywords": [
+    "Electron",
+    "Ruby",
+    "Rails",
+    "IDE"
+  ],
+  "author": "GitHub",
+  "bugs": {
+    "url": "https://github.com/xxChinasaurxx/part-4-project/issues"
+  },
+  "homepage": "https://github.com/xxChinasaurxx/part-4-project#readme",
+  "devDependencies": {
+    "electron-prebuilt": "^0.36.0"
+  }
+}
