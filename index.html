@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>ACE in Action</title>
+<script src="menu.js" type="text/javascript" charset="utf-8"></script>
+<title>Ruby on Rails IDE</title>
 <style type="text/css" media="screen">
     #editor {
         position: absolute;
@@ -14,16 +15,18 @@
 </head>
 <body>
 
-<div id="editor">function foo(items) {
-    var x = "All this is syntax highlighted";
-    return x;
-}</div>
+<div id="editor">class ClientsController < ApplicationController
+  def new
+  end
+end
+</div>
 
 <script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
-    editor.getSession().setMode("ace/mode/javascript");
+    editor.getSession().setMode("ace/mode/ruby");
+    editor.setOptions({fontSize: "12pt"});
 </script>
 </body>
 </html>
