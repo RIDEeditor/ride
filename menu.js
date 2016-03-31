@@ -24,6 +24,7 @@ fs.exists(fileName, function(exists) {
 
                     // Load data into editor
                     editor.setValue(data);
+                    setFileType(fileName);
                     fs.close(fd);
                 });
             });

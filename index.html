@@ -1,32 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<script src="menu.js" type="text/javascript" charset="utf-8"></script>
-<title>Ruby on Rails IDE</title>
-<style type="text/css" media="screen">
-    #editor {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-    }
-</style>
-</head>
-<body>
+    <head>
+        <title>Ruby on Rails IDE</title>
+        <link rel="stylesheet" type="text/css" href="editor.css">
+    </head>
+    <body>
+        <div id="editor"></div>
+        <div id="statusBar"></div>
 
-<div id="editor">class ClientsController < ApplicationController
-  def new
-  end
-end
-</div>
-
-<script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-<script>
-    var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/monokai");
-    editor.getSession().setMode("ace/mode/ruby");
-    editor.setOptions({fontSize: "12pt"});
-</script>
-</body>
+        <!-- setup menu items -->
+        <script src="menu.js" type="text/javascript" charset="utf-8"></script>
+        <!-- load ace -->
+        <script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+        <!-- load ace language tools -->
+        <script src="ace-builds/src-noconflict/ext-language_tools.js"></script>
+        <!-- load ace statusbar extension -->
+        <script src="ace-builds/src-noconflict/ext-statusbar.js" type="text/javascript" charset="utf-8"></script>
+        <!-- load ace modelist extension -->
+        <script src="ace-builds/src-noconflict/ext-modelist.js"></script>
+        <!-- do the setup of editor element -->
+        <script src="setupEditor.js"></script>
+    </body>
 </html>
