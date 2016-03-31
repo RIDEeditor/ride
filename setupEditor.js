@@ -9,6 +9,7 @@ document.getElementById("statusBar").insertBefore(modeDiv, document.querySelecto
 editor.setTheme("ace/theme/monokai");
 editor.getSession().setMode("ace/mode/ruby");
 editor.setOptions({fontSize: "12pt", enableBasicAutocompletion: true, enableLiveAutocompletion: false});
+editor.focus();
 
 function setFileType(filePath) {
     // Get the type of file that has been opened and set it the editor to that mode,
