@@ -1,37 +1,59 @@
+/**
+ * The electron sample apps provided a good basis for the functionality in this file
+ * https://github.com/hokein/electron-sample-apps/blob/master/mini-code-edit/editor.js
+ */
+
 'use strict';
 
 const remote = require('electron').remote;
 const Menu = remote.Menu;
 const MenuItem = remote.MenuItem;
-const fs = remote.require('fs');
+const fs = require("fs");
 const dialog = remote.require('electron').dialog;;
 
-function openFileDialog() {
-    var file = dialog.showOpenDialog()[0];
-    console.log("File: '" + file + "' selected");
-    loadFile(file);
+/**
+ * Should be called when the 'open file' menu option is selected
+ *
+ * See https://github.com/atom/electron/blob/master/docs/api/dialog.md#dialogshowopendialogbrowserwindow-options-callback
+ * for information on how the dialog works
+ */
+function handleFileOpenClicked() {
+    dialog.showOpenDialog({properties: ['openFile'], title: "Choose file to open"}, function(filename) {
+        if (filename) {
+            // If a file was selected, open it in editor
+            readFileIntoEditor(filename.toString());
+        }
+    });
 }
 
-function loadFile(fileName) {
-fs.exists(fileName, function(exists) {
-    if (exists) {
-        fs.stat(fileName, function(error, stats) {
-            fs.open(fileName, "r", function(error, fd) {
-                var buffer = new Buffer(stats.size);
+/**
+ * Opens dialog allowing user to choose file to save to
+ */
+function handleFileSaveAsClicked() {
+    dialog.showSaveDialog({title: "Choose where to save file"}, function(filename) {
+        if (filename) {
+            // If a file was selected, save file to it
+            writeEditorDataToFile(filename.toString());
+            if (!fileEntry) {
+                // If editor current path is not set, set it
+                fileEntry = filename;
+            }
+        }
+    });
+}
 
-                fs.read(fd, buffer, 0, buffer.length, null, function(error, bytesRead, buffer) {
-                    var data = buffer.toString("utf8", 0, buffer.length);
-
-                    // Load data into editor
-                    editor.setValue(data);
-                    setFileType(fileName);
-                    fs.close(fd);
-                });
-            });
-        });
+/**
+ * Saves the file currently in editor
+ */
+function handleSaveClicked() {
+    if (fileEntry) {
+        writeEditorDataToFile(fileEntry);
+    } else {
+        // handle case where this is a new file and so a file on disk must be chosen before saving
+        handleFileSaveAsClicked();
     }
-});
 }
+
 
 // Defines the menu structure
 var template = [
@@ -51,12 +73,12 @@ var template = [
       {
         label: 'Save',
         accelerator: 'CmdOrCtrl+s',
-        role: 'save'
+        click: handleSaveClicked
       },
       {
         label: 'Save as',
         accelerator: 'Shift+CmdOrCtrl+s',
-        role: 'save_as'
+        click: handleFileSaveAsClicked
       },
       {
         type: 'separator'
@@ -64,7 +86,7 @@ var template = [
       {
         label: 'Open',
         accelerator: 'CmdOrCtrl+o',
-        click: openFileDialog
+        click: handleFileOpenClicked
       },
       {
         label: 'Copy',
@@ -150,7 +172,7 @@ var template = [
   },
 ];
 
-// Mac OSX maenu integration
+// Mac OSX menu integration
 if (process.platform == 'darwin') {
   var name = require('electron').remote.app.getName();
   template.unshift({
