@@ -17,7 +17,7 @@ var modelist = ace.require("ace/ext/modelist");
 // Set the editor up
 editor.setTheme("ace/theme/monokai");
 editor.getSession().setMode("ace/mode/ruby");
-editor.setOptions({fontSize: "12pt", enableBasicAutocompletion: true, enableLiveAutocompletion: false});
+editor.setOptions({fontSize: "12pt", enableBasicAutocompletion: true, enableLiveAutocompletion: false,showPrintMargin: false});
 editor.focus();
 editor.resize();
 
