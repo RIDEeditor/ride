@@ -1,11 +1,17 @@
+// this makes the dom element with id "editor" as the editor
 var editor = ace.edit("editor");
+
 var StatusBar = ace.require("ace/ext/statusbar").StatusBar;
 var modelist = ace.require("ace/ext/modelist");
-// Create a simple selection status indicator
+
+// Create a simple selection status indicator. AT THE BOTTOM
 var statusBar = new StatusBar(editor, document.getElementById("statusBar"));
+
 var modeDiv = document.createElement("div");
 modeDiv.id = "modeDiv";
 document.getElementById("statusBar").insertBefore(modeDiv, document.querySelector("#statusBar > div"));
+
+// set the editor up
 editor.setTheme("ace/theme/monokai");
 editor.getSession().setMode("ace/mode/ruby");
 editor.setOptions({fontSize: "12pt", enableBasicAutocompletion: true, enableLiveAutocompletion: false});
