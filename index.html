@@ -2,14 +2,15 @@
 <html lang="en">
     <head>
         <title>Ruby on Rails IDE</title>
-        <link rel="stylesheet" type="text/css" href="editor.css">
+        <!-- This sets the CSS for the editor -->
+        <link rel="stylesheet" type="text/css" href="css/editor.css">
     </head>
     <body>
         <div id="editor"></div>
         <div id="statusBar"></div>
 
         <!-- setup menu items -->
-        <script src="menu.js" type="text/javascript" charset="utf-8"></script>
+        <script src="js/menu.js" type="text/javascript" charset="utf-8"></script>
         <!-- load ace -->
         <script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
         <!-- load ace language tools -->
@@ -19,6 +20,6 @@
         <!-- load ace modelist extension -->
         <script src="ace-builds/src-noconflict/ext-modelist.js"></script>
         <!-- do the setup of editor element -->
-        <script src="setupEditor.js"></script>
+        <script src="js/setupEditor.js"></script>
     </body>
 </html>
