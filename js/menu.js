@@ -12,18 +12,16 @@ const fs = require("fs");
 const dialog = remote.require('electron').dialog;
 
 var themelist = ace.require("ace/ext/themelist");
-//console.log(themelist.themes);
 var arrayOfThemeNames = [];
 
 for (var i = 0; i < themelist.themes.length ; i++) {
   arrayOfThemeNames[i] = themelist.themes[i].name;
 }
 
-//console.log(arrayOfThemeNames);
-
 var editors = [];
 var tab_counter = 0;
 var current_editor;
+var current_theme;
 
 /**
  * Should be called when the 'open file' menu option is selected
@@ -93,10 +91,8 @@ function handleNewClicked() {
     tabsElement.append(newEditorElement);
 
     // initialize the editor in the tab
-    var editor = ace.edit('editor_' + tabUniqueId);
-    editor.setTheme("ace/theme/monokai");
-    editor.getSession().setMode("ace/mode/javascript");
-
+    editor = Editor('editor_' + tabUniqueId)
+    
     // refresh the tabs widget
     tabsElement.tabs('refresh');
 
@@ -111,7 +107,7 @@ function handleNewClicked() {
     // resize the editor
     editor.resize();
 
-    editors.push({ id: tabUniqueId, instance: editor });
+    editors.push(editor);
 }
 
 
@@ -297,11 +293,15 @@ function findMenuIndex(menuLabel){
 }
 
 function addThemes(label){
-  console.log("ace/theme/" + label);
   template[findMenuIndex("Preferences")].submenu[0].submenu.push(
     {
       label: label,
-      click: function() { editor.setTheme("ace/theme/" + label); }
+      click: function() {
+        current_theme = "ace/theme/" + label;
+        for (var i = 0; i < editors.length; i++) {
+            editors[i].setTheme(current_theme);
+        }
+      }
     }
   );
 }

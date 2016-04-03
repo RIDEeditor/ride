@@ -1,31 +1,31 @@
-// This makes the dom element with id "editor" as the editor
-editor = ace.edit("editor");
+var Editor = function(div_element) {
 
-// Contains the path of the file currently open in the editor
-var fileEntry;
+    // This makes the dom element with id "editor" as the editor
+    editor = ace.edit(div_element);
 
-//var StatusBar = ace.require("ace/ext/statusbar").StatusBar;
-var modelist = ace.require("ace/ext/modelist");
+    // Contains the path of the file currently open in the editor
+    var fileEntry;
 
-// Create a simple selection status indicator. AT THE BOTTOM
-//var statusBar = new StatusBar(editor, document.getElementById("statusBar"));
+    //var StatusBar = ace.require("ace/ext/statusbar").StatusBar;
+    var modelist = ace.require("ace/ext/modelist");
 
-//var modeDiv = document.createElement("div");
-//modeDiv.id = "modeDiv";
-//document.getElementById("statusBar").insertBefore(modeDiv, document.querySelector("#statusBar > div"));
+    // Create a simple selection status indicator. AT THE BOTTOM
+    //var statusBar = new StatusBar(editor, document.getElementById("statusBar"));
 
-// Set the editor up
-editor.setTheme("ace/theme/monokai");
-editor.getSession().setMode("ace/mode/ruby");
-editor.setOptions({fontSize: "12pt", enableBasicAutocompletion: true, enableLiveAutocompletion: false,showPrintMargin: false});
-editor.focus();
-editor.resize();
+    //var modeDiv = document.createElement("div");
+    //modeDiv.id = "modeDiv";
+    //document.getElementById("statusBar").insertBefore(modeDiv, document.querySelector("#statusBar > div"));
 
-window.onload = function() {
-    console.log("Resizing!");
+    // Set the editor up
+    editors.push(editor);
+    editor.setTheme(current_theme);
+    editor.getSession().setMode("ace/mode/ruby");
+    editor.setOptions({fontSize: "12pt", enableBasicAutocompletion: true, enableLiveAutocompletion: false,showPrintMargin: false});
+    editor.focus();
     editor.resize();
-    console.log("Done!");
-};
+
+    return editor;
+}
 
 /**
  * Reads the contents of the file into the editor, and sets the correct document type
