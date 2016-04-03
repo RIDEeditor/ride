@@ -19,7 +19,7 @@ for (var i = 0; i < themelist.themes.length ; i++) {
   arrayOfThemeNames[i] = themelist.themes[i].name;
 }
 
-console.log(arrayOfThemeNames);
+//console.log(arrayOfThemeNames);
 
 
 
@@ -245,20 +245,30 @@ if (process.platform == 'darwin') {
   });
 }
 
+function findMenuIndex(menuLabel){
+  //console.log("template is " + template[5].label);
+  for (var i = 0; i < template.length; i++) {
+    if(template[i].label === menuLabel){
+      return i;
+    }
+  }
+}
+
 function addThemes(label){
-  template[5].submenu[0].submenu.push(
+  template[findMenuIndex("Preferences")].submenu[0].submenu.push(
     {
       label: label,
     }
   );
 }
+
 for (var i = 0; i < arrayOfThemeNames.length; i++) {
   addThemes(arrayOfThemeNames[i]);
 }
-
 
 var menu = Menu.buildFromTemplate(template);
 
 // Set the menu
 Menu.setApplicationMenu(menu);
+
 
