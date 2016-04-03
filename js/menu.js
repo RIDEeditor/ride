@@ -255,7 +255,6 @@ function addThemes(label){
 for (var i = 0; i < arrayOfThemeNames.length; i++) {
   addThemes(arrayOfThemeNames[i]);
 }
-addThemes();
 
 
 var menu = Menu.buildFromTemplate(template);
