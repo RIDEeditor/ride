@@ -44,11 +44,12 @@ function handleFileOpenClicked() {
 function handleFileSaveAsClicked() {
     dialog.showSaveDialog({title: "Choose where to save file"}, function(filename) {
         if (filename) {
+            console.log(current_editor);
             // If a file was selected, save file to it
-            writeEditorDataToFile(filename.toString());
-            if (!fileEntry) {
+            current_editor.writeEditorDataToFile(filename.toString());
+            if (!current_editor.fileEntry) {
                 // If editor current path is not set, set it
-                fileEntry = filename;
+                current_editor.fileEntry = filename;
             }
         }
     });
@@ -59,8 +60,8 @@ function handleFileSaveAsClicked() {
  * Saves the file currently in editor
  */
 function handleSaveClicked() {
-    if (fileEntry) {
-        writeEditorDataToFile(fileEntry);
+    if (current_editor.fileEntry) {
+        current_editor.writeEditorDataToFile(fileEntry);
     } else {
         // handle case where this is a new file and so a file on disk must be chosen before saving
         handleFileSaveAsClicked();
@@ -91,7 +92,7 @@ function handleNewClicked() {
     tabsElement.append(newEditorElement);
 
     // initialize the editor in the tab
-    editor = Editor('editor_' + tabUniqueId)
+    editor = new Editor('editor_' + tabUniqueId)
     
     // refresh the tabs widget
     tabsElement.tabs('refresh');
@@ -108,6 +109,7 @@ function handleNewClicked() {
     editor.resize();
 
     editors.push(editor);
+    current_editor = editor;
 }
 
 
@@ -118,7 +120,7 @@ var template = [
     submenu: [
       {
         label: 'New',
-        role: 'new',
+        accelerator: 'CmdOrCtrl+n',
         click: handleNewClicked
       },
       {

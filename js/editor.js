@@ -1,41 +1,53 @@
 var Editor = function(div_element) {
 
-    // This makes the dom element with id "editor" as the editor
+    // Contains the path of the file currently open in the editor
+    this.fileEntry;
+
+    // This makes the dom element with id div_element an editor
     editor = ace.edit(div_element);
 
-    // Contains the path of the file currently open in the editor
-    var fileEntry;
-
-    //var StatusBar = ace.require("ace/ext/statusbar").StatusBar;
     var modelist = ace.require("ace/ext/modelist");
 
-    // Create a simple selection status indicator. AT THE BOTTOM
-    //var statusBar = new StatusBar(editor, document.getElementById("statusBar"));
-
-    //var modeDiv = document.createElement("div");
-    //modeDiv.id = "modeDiv";
-    //document.getElementById("statusBar").insertBefore(modeDiv, document.querySelector("#statusBar > div"));
-
     // Set the editor up
-    editors.push(editor);
     editor.setTheme(current_theme);
     editor.getSession().setMode("ace/mode/ruby");
     editor.setOptions({fontSize: "12pt", enableBasicAutocompletion: true, enableLiveAutocompletion: false,showPrintMargin: false});
     editor.focus();
     editor.resize();
 
-    return editor;
+};
+
+Editor.prototype = new ace.edit();
+
+
+/**
+ * Writes the contents of the editor into a file
+ *
+ * @param {String} filePath
+ */
+Editor.prototype.writeEditorDataToFile = function(filePath) {
+    var editorContents = this.getValue();
+    console.log(this.getValue());
+    fs.writeFile(filePath, editorContents, function (err) {
+        if (err) {
+            console.log("Writing to file failed: " + err);
+            dialog.showErrorBox("Error Saving", "There was an error saving to " + filePath);
+            return;
+        }
+        console.log("Write completed.");
+    });
 }
+
 
 /**
  * Reads the contents of the file into the editor, and sets the correct document type
  *
  * @param {String} filePath
  */
-function readFileIntoEditor(filePath) {
+Editor.prototype.readFileIntoEditor = function(filePath) {
     // Detect and set the type of file we are loading
     var mode = modelist.getModeForPath(filePath).mode;
-    editor.session.setMode(mode);
+    this..session.setMode(mode);
 
     // Read file data
     fs.readFile(filePath.toString(), function (err, data) {
@@ -46,23 +58,7 @@ function readFileIntoEditor(filePath) {
         }
         // Set the editor's contents to that of the file
         editor.setValue(String(data));
-        fileEntry = filePath;
+        this.fileEntry = filePath;
     });
 }
 
-/**
- * Writes the contents of the editor into a file
- *
- * @param {String} filePath
- */
-function writeEditorDataToFile(filePath) {
-    var editorContents = editor.getValue();
-    fs.writeFile(filePath, editorContents, function (err) {
-        if (err) {
-            console.log("Writing to file failed: " + err);
-            dialog.showErrorBox("Error Saving", "There was an error saving to " + filePath);
-            return;
-        }
-        console.log("Write completed.");
-    });
-}
