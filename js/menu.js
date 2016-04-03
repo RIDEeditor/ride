@@ -245,6 +245,19 @@ if (process.platform == 'darwin') {
   });
 }
 
+function addThemes(label){
+  template[5].submenu[0].submenu.push(
+    {
+      label: label,
+    }
+  );
+}
+for (var i = 0; i < arrayOfThemeNames.length; i++) {
+  addThemes(arrayOfThemeNames[i]);
+}
+addThemes();
+
+
 var menu = Menu.buildFromTemplate(template);
 
 // Set the menu
