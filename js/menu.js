@@ -8,8 +8,8 @@
 const remote = require('electron').remote;
 const Menu = remote.Menu;
 const MenuItem = remote.MenuItem;
-const fs = require("fs");
 const dialog = remote.require('electron').dialog;
+const path = require("path");
 
 var themelist = ace.require("ace/ext/themelist");
 var arrayOfThemeNames = [];
@@ -32,8 +32,14 @@ var current_theme;
 function handleFileOpenClicked() {
     dialog.showOpenDialog({properties: ['openFile'], title: "Choose file to open"}, function(filename) {
         if (filename) {
+            if (editors.length < 1) {
+                // No editors are open, new one must be created
+                handleNewClicked();
+            }
             // If a file was selected, open it in editor
-            readFileIntoEditor(filename.toString());
+            current_editor.readFileIntoEditor(filename.toString());
+            // Set tab title to filename
+            setCurrentTabTitle(path.basename(filename))
         }
     });
 }
@@ -42,73 +48,83 @@ function handleFileOpenClicked() {
  * Opens dialog allowing user to choose file to save to
  */
 function handleFileSaveAsClicked() {
+    if (editors.length < 1) {
+        // No editors are open, so nothing to save
+        return;
+    }
     dialog.showSaveDialog({title: "Choose where to save file"}, function(filename) {
         if (filename) {
-            console.log(current_editor);
+            current_editor.fileEntry = filename;
             // If a file was selected, save file to it
-            current_editor.writeEditorDataToFile(filename.toString());
-            if (!current_editor.fileEntry) {
-                // If editor current path is not set, set it
-                current_editor.fileEntry = filename;
-            }
+            current_editor.writeEditorDataToFile();
+            // Set tab title to filename
+            setCurrentTabTitle(path.basename(filename))
         }
     });
 }
 
+/**
+ * Sets the title of the currently selected tab to the provided string
+ *
+ * @param {String} title
+ */
+function setCurrentTabTitle(title) {
+    $('#tabs .ui-tabs-active a').text(title);
+}
 
 /**
  * Saves the file currently in editor
  */
 function handleSaveClicked() {
+    if (editors.length < 1) {
+        // No editors are open, so nothing to save
+        return;
+    }
     if (current_editor.fileEntry) {
-        current_editor.writeEditorDataToFile(fileEntry);
+        current_editor.writeEditorDataToFile();
     } else {
-        // handle case where this is a new file and so a file on disk must be chosen before saving
+        // Handle case where this is a new file and so a file on disk must be chosen before saving
         handleFileSaveAsClicked();
     }
 }
 
 function handleNewClicked() {
-    console.log('add a tab with an ace editor instance');
-
+    // Find the tabs div
     var tabsElement = $('#tabs');
     var tabsUlElement = tabsElement.find('ul');
 
+    // Increment the counter used for unique id
     tab_counter += 1;
-    console.log(tab_counter);
-
-    // the panel id is a timestamp plus a random number from 0 to 10000
     var tabUniqueId = "editor_" + tab_counter;
 
-    // create a navigation bar item for the new panel
+    // Create a navigation bar item for the new panel
     var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '"><a href="#editor_' + tabUniqueId + '">new file</a></li>');
 
-    // add the new nav item to the DOM
+    // Add the new nav item to the DOM
     tabsUlElement.append(newTabNavElement);
 
-    // create the editor dom
+    // Create the editor dom
     var newEditorElement = $('<div id="editor_' + tabUniqueId + '"></div>');
-
     tabsElement.append(newEditorElement);
 
-    // initialize the editor in the tab
-    editor = new Editor('editor_' + tabUniqueId)
+    // Initialize the editor in the tab
+    editor = Editor('editor_' + tabUniqueId)
     
-    // refresh the tabs widget
+    // Refresh the tabs widget
     tabsElement.tabs('refresh');
 
     var tabIndex = $('#tabs ul li').index($('#panel_nav_' + tabUniqueId));
 
-    console.log('tabIndex: ' + tabIndex);
-
-    // activate the new tab
+    // Activate the new tab
     tabsElement.tabs('option', 'active', tabIndex);
 
-    newEditorElement.height("100%");
-    // resize the editor
+    newEditorElement.height("90%");
+    // Resize the editor
     editor.resize();
+    editor.focus();
 
     editors.push(editor);
+    // When a new editor is created, it gets focus, so it it the current editor
     current_editor = editor;
 }
 
@@ -285,16 +301,15 @@ if (process.platform == 'darwin') {
   });
 }
 
-function findMenuIndex(menuLabel){
-  //console.log("template is " + template[5].label);
-  for (var i = 0; i < template.length; i++) {
-    if(template[i].label === menuLabel){
-      return i;
+function findMenuIndex(menuLabel) {
+    for (var i = 0; i < template.length; i++) {
+        if(template[i].label === menuLabel){
+            return i;
+        }
     }
-  }
 }
 
-function addThemes(label){
+function addThemes(label) {
   template[findMenuIndex("Preferences")].submenu[0].submenu.push(
     {
       label: label,
@@ -309,12 +324,11 @@ function addThemes(label){
 }
 
 for (var i = 0; i < arrayOfThemeNames.length; i++) {
-  addThemes(arrayOfThemeNames[i]);
+    addThemes(arrayOfThemeNames[i]);
 }
 
 var menu = Menu.buildFromTemplate(template);
 
 // Set the menu
 Menu.setApplicationMenu(menu);
-
 

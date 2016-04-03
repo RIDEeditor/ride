@@ -16,10 +16,14 @@
         <script>window.$ = window.jQuery = require("./js/jquery-ui-1.11.4.custom/external/jquery/jquery.js");</script>
         <script>require("./js/jquery-ui-1.11.4.custom/jquery-ui.js");</script>
         <script>
-            var editor;
             $("#tabs").tabs({
-               heightStyle:"fill",
-               collapsible:false
+                heightStyle:"fill",
+                collapsible:false,
+                activate: function(event, ui) {
+                    // When a tab is activated, set it's editor as the current one
+                    var tabIndex = $('#tabs ul li').index($(ui.newTab));
+                    current_editor = editors[tabIndex];
+                }
             });
         </script>
     
