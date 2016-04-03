@@ -9,7 +9,19 @@ const remote = require('electron').remote;
 const Menu = remote.Menu;
 const MenuItem = remote.MenuItem;
 const fs = require("fs");
-const dialog = remote.require('electron').dialog;;
+const dialog = remote.require('electron').dialog;
+
+var themelist = ace.require("ace/ext/themelist");
+//console.log(themelist.themes);
+var arrayOfThemeNames = [];
+
+for (var i = 0; i < themelist.themes.length ; i++) {
+  arrayOfThemeNames[i] = themelist.themes[i].name;
+}
+
+console.log(arrayOfThemeNames);
+
+
 
 /**
  * Should be called when the 'open file' menu option is selected
@@ -41,6 +53,12 @@ function handleFileSaveAsClicked() {
         }
     });
 }
+
+function addThemes(){
+  console.log(template[4].submenu);
+}
+
+addThemes();
 
 /**
  * Saves the file currently in editor
@@ -170,6 +188,19 @@ var template = [
       },
     ]
   },
+  {
+    label: 'Preferences',
+    role: 'preferences',
+    submenu: [
+      {
+        label: 'Themes',
+        submenu: [
+
+        ]
+      },
+    ]
+  },
+
 ];
 
 // Mac OSX menu integration
@@ -217,17 +248,6 @@ if (process.platform == 'darwin') {
       },
     ]
   });
-
-  // Window menu.
-  template[3].submenu.push(
-    {
-      type: 'separator'
-    },
-    {
-      label: 'Bring All to Front',
-      role: 'front'
-    }
-  );
 }
 
 var menu = Menu.buildFromTemplate(template);
