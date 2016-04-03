@@ -301,7 +301,7 @@ function addThemes(label){
   template[findMenuIndex("Preferences")].submenu[0].submenu.push(
     {
       label: label,
-      click: editor.setTheme("ace/theme/" + label)
+      click: function() { editor.setTheme("ace/theme/" + label); }
     }
   );
 }
