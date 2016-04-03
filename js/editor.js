@@ -21,7 +21,6 @@ editor.setOptions({fontSize: "12pt", enableBasicAutocompletion: true, enableLive
 editor.focus();
 editor.resize();
 
-
 window.onload = function() {
     console.log("Resizing!");
     editor.resize();

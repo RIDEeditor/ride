@@ -21,7 +21,9 @@ for (var i = 0; i < themelist.themes.length ; i++) {
 
 console.log(arrayOfThemeNames);
 
-
+var editors = [];
+var tab_counter = 0;
+var current_editor;
 
 /**
  * Should be called when the 'open file' menu option is selected
@@ -67,6 +69,51 @@ function handleSaveClicked() {
     }
 }
 
+function handleNewClicked() {
+    console.log('add a tab with an ace editor instance');
+
+    var tabsElement = $('#tabs');
+    var tabsUlElement = tabsElement.find('ul');
+
+    tab_counter += 1;
+    console.log(tab_counter);
+
+    // the panel id is a timestamp plus a random number from 0 to 10000
+    var tabUniqueId = "editor_" + tab_counter;
+
+    // create a navigation bar item for the new panel
+    var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '"><a href="#editor_' + tabUniqueId + '">new file</a></li>');
+
+    // add the new nav item to the DOM
+    tabsUlElement.append(newTabNavElement);
+
+    // create the editor dom
+    var newEditorElement = $('<div id="editor_' + tabUniqueId + '"></div>');
+
+    tabsElement.append(newEditorElement);
+
+    // initialize the editor in the tab
+    var editor = ace.edit('editor_' + tabUniqueId);
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/javascript");
+
+    // refresh the tabs widget
+    tabsElement.tabs('refresh');
+
+    var tabIndex = $('#tabs ul li').index($('#panel_nav_' + tabUniqueId));
+
+    console.log('tabIndex: ' + tabIndex);
+
+    // activate the new tab
+    tabsElement.tabs('option', 'active', tabIndex);
+
+    newEditorElement.height("100%");
+    // resize the editor
+    editor.resize();
+
+    editors.push({ id: tabUniqueId, instance: editor });
+}
+
 
 // Defines the menu structure
 var template = [
@@ -76,12 +123,7 @@ var template = [
       {
         label: 'New',
         role: 'new',
-        submenu: [
-          {
-            label:  'Project',
-            accelerator: 'Shift+CmdOrCtrl+p',
-          }
-        ]
+        click: handleNewClicked
       },
       {
         label: 'Save',
@@ -252,6 +294,7 @@ function addThemes(label){
     }
   );
 }
+
 for (var i = 0; i < arrayOfThemeNames.length; i++) {
   addThemes(arrayOfThemeNames[i]);
 }
