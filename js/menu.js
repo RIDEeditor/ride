@@ -54,11 +54,6 @@ function handleFileSaveAsClicked() {
     });
 }
 
-function addThemes(){
-  console.log(template[4].submenu);
-}
-
-addThemes();
 
 /**
  * Saves the file currently in editor
