@@ -297,9 +297,11 @@ function findMenuIndex(menuLabel){
 }
 
 function addThemes(label){
+  console.log("ace/theme/" + label);
   template[findMenuIndex("Preferences")].submenu[0].submenu.push(
     {
       label: label,
+      click: editor.setTheme("ace/theme/" + label)
     }
   );
 }

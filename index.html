@@ -18,6 +18,7 @@
         <script>window.$ = window.jQuery = require("./js/jquery-ui-1.11.4.custom/external/jquery/jquery.js");</script>
         <script>require("./js/jquery-ui-1.11.4.custom/jquery-ui.js");</script>
         <script>
+            var editor;
             $("#tabs").tabs({
                heightStyle:"fill",
                collapsible:true
@@ -34,10 +35,9 @@
         <script src="ace-builds/src-noconflict/ext-modelist.js"></script>
         <!-- load ace themelist extension -->
         <script src="ace-builds/src-noconflict/ext-themelist.js"></script>
-        <!-- setup menu items -->
-        <script src="js/menu.js" type="text/javascript" charset="utf-8"></script>
-        
         <!-- do the setup of editor element -->
         <script src="js/editor.js"></script>
+        <!-- setup menu items -->
+        <script src="js/menu.js" type="text/javascript" charset="utf-8"></script>
     </body>
 </html>

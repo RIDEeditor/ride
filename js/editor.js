@@ -1,5 +1,5 @@
 // This makes the dom element with id "editor" as the editor
-var editor = ace.edit("editor");
+editor = ace.edit("editor");
 
 // Contains the path of the file currently open in the editor
 var fileEntry;
