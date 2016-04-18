@@ -7,6 +7,7 @@
         <script src="js/tabs.js"></script>
         <script src="ace-builds/src/ace.js"></script>
         <script src="ace-builds/src/ext-themelist.js"></script>
+        <script src="ace-builds/src/ext-modelist.js"></script>
         <link rel="stylesheet" type="text/css" href="css/tabs.css">
     </head>
     <body>
@@ -20,89 +21,65 @@
     </body>
 
 <script>
-var documents = {};
-var tabs;
-var editor;
+    var TabsList = {}; // Holds all tabs that have been created
+    var tab_bar; // Represents the top tab bar
+    var editor;
 
-$(document).ready(function(){
+    $(document).ready(function() {
+        // Setup the tabs bar
+        tab_bar = new Tabs({
+            shell: $('.tabs-shell'),
+            minWidth: 45,
+            maxWidth: 180
+        });
 
-  tabs = new Tabs({
-    shell: $('.tabs-shell'),
-    minWidth: 45,
-    maxWidth: 180
-  });
+        editor = ace.edit('code');
+        editor.setValue("");
+        editor.setTheme("ace/theme/monokai");
 
-  editor = ace.edit('code');
-  editor.setValue("");
-  editor.setTheme("ace/theme/monokai");
+        // Define what the 'new tab' button does
+        $('.new').on('click', function(ev) {
+            new Tab();
+        });
+    });
 
-  new Document();
+    // Load ace extras
+    var AceDocument = ace.require("ace/document");
+    var EditSession = ace.require("ace/edit_session");
+    var UndoManager = ace.require("ace/undomanager");
 
-  $('.new').on('click', function(ev){
-    new Document();
-  });
-});
-
-var AceDocument = ace.require("ace/document");
-var EditSession = ace.require("ace/edit_session");
-var UndoManager = ace.require("ace/undomanager");
-
-var Document = function() {
-  var self = this;
-  var id = 'document-' + _.uniqueId();
-  this.id = id;
-
-  this.tab =  tabs.add({title: 'untitled'});
-
-  this.tab.data('id', id);
-
-  this.tab.on('activate', function(){
-    switchTab($(this).data('id'));
-  });
-
-  this.tab.on('close', function(){
-    delete documents[self.id];
-    tabs.closeTab(self.tab);
-  });
-
-  var aceDocument = new AceDocument.Document('');
-  this.aceDocument = aceDocument;
-
-  this.aceSession = new EditSession.EditSession(this.aceDocument, 'ace/mode/text');
-  this.aceSession.setUndoManager(new UndoManager.UndoManager());
-
-  documents[this.id] = this;
-
-  switchTab(this.id);
-}
-
-var switchTab = function(id){
-  var doc = documents[id];
-  editor.setSession(doc.aceSession);
-  editor.focus();
-}
+    /**
+    * Switches focus to the tab with the given id
+    */
+    var switchTab = function(id) {
+        var doc = TabsList[id];
+        editor.setSession(doc.aceSession);
+        editor.focus();
+        current_editor = doc;
+    }
 </script>
 
 <!-- setup the menus -->
 <script src="js/menu.js"></script>
+<script src="js/editor.js"></script>
 
 <style>
-body {
-  background-color: #161712;
-}
+    body {
+      background-color: #161712;
+    }
 
-#code {
-  height: 95%;
-}
+    #code {
+      height: 95%;
+    }
 
-button.new {
-  padding: 5px;
-  margin-left: 15px;
-  background: transparent;
-  color: #e1e3e1;
-  border: none;
-  font-size: 18px;
-  font-weight: bold;
-}
+    button.new {
+      padding: 5px;
+      margin-left: 15px;
+      background: transparent;
+      color: #e1e3e1;
+      border: none;
+      font-size: 18px;
+      font-weight: bold;
+    }
 </style>
 

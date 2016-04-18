@@ -17,8 +17,6 @@ for (var i = 0; i < ThemeList.themes.length ; i++) {
   arrayOfThemeNames[i] = ThemeList.themes[i].name;
 }
 
-var editors = [];
-var tab_counter = 0;
 var current_editor;
 var current_theme;
 
@@ -31,10 +29,10 @@ var current_theme;
 function handleFileOpenClicked() {
     dialog.showOpenDialog({properties: ['openFile'], title: "Choose file to open"}, function(filename) {
         if (filename) {
-            if (editors.length < 1) {
-                // No editors are open, new one must be created
-                handleNewClicked();
-            }
+            // TODO check if this file is already open. If so, jump to that tab, rather than open the file again
+            // Also, if the current editor is blank (user hasn;t typed anything), then open the file in this editor,
+            // instead of creating a new tab
+            handleNewClicked();
             // If a file was selected, open it in editor
             current_editor.readFileIntoEditor(filename.toString());
             // Set tab title to filename
@@ -47,7 +45,7 @@ function handleFileOpenClicked() {
  * Opens dialog allowing user to choose file to save to
  */
 function handleFileSaveAsClicked() {
-    if (editors.length < 1) {
+    if (Object.keys(TabsList).length < 1) {
         // No editors are open, so nothing to save
         return;
     }
@@ -67,15 +65,15 @@ function handleFileSaveAsClicked() {
  *
  * @param {String} title
  */
-function setCurrentTabTitle(title) {
-    $('#tabs .ui-tabs-active a').text(title);
+function setCurrentTabTitle(new_title) {
+    tab_bar.updateTab(current_editor.tab, {title: new_title});
 }
 
 /**
  * Saves the file currently in editor
  */
 function handleSaveClicked() {
-    if (editors.length < 1) {
+    if (Object.keys(TabsList).length < 1) {
         // No editors are open, so nothing to save
         return;
     }
@@ -88,44 +86,9 @@ function handleSaveClicked() {
 }
 
 function handleNewClicked() {
-    // Find the tabs div
-    var tabsElement = $('#tabs');
-    var tabsUlElement = tabsElement.find('ul');
-
-    // Increment the counter used for unique id
-    tab_counter += 1;
-    var tabUniqueId = "editor_" + tab_counter;
-
-    // Create a navigation bar item for the new panel
-    var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '"><a href="#editor_' + tabUniqueId + '">new file</a></li>');
-
-    // Add the new nav item to the DOM
-    tabsUlElement.append(newTabNavElement);
-
-    // Create the editor dom
-    var newEditorElement = $('<div id="editor_' + tabUniqueId + '"></div>');
-    tabsElement.append(newEditorElement);
-
-    // Initialize the editor in the tab
-    editor = Editor('editor_' + tabUniqueId)
-    
-    // Refresh the tabs widget
-    tabsElement.tabs('refresh');
-
-    var tabIndex = $('#tabs ul li').index($('#panel_nav_' + tabUniqueId));
-
-    // Activate the new tab
-    tabsElement.tabs('option', 'active', tabIndex);
-
-    newEditorElement.height("90%");
-    // Resize the editor
-    editor.resize();
-    editor.focus();
-
-    editors.push(editor);
-    // When a new editor is created, it gets focus, so it it the current editor
-    current_editor = editor;
+    new Tab("untitled");
 }
+
 
 // Defines the menu structure
 var menu_template = [
@@ -307,15 +270,18 @@ function findMenuIndex(menuLabel) {
     }
 }
 
+/**
+ * Function that is executed when a theme is selected
+ * Iterates through all editors and sets their theme to the one selected
+ */
 function addThemes(label) {
   menu_template[findMenuIndex("Preferences")].submenu[0].submenu.push(
     {
       label: label,
       click: function() {
         current_theme = "ace/theme/" + label;
-        for (var i = 0; i < editors.length; i++) {
-            editors[i].setTheme(current_theme);
-        }
+        // A single editor instance is used, so only need to set theme on it
+        editor.setTheme(current_theme);
       }
     }
   );
