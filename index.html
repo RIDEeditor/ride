@@ -1,45 +1,108 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
         <title>Ruby on Rails IDE</title>
-        <!-- This sets the CSS for the editor -->
-        <link rel="stylesheet" type="text/css" href="css/editor.css">
-        <link href="js/jquery-ui/jquery-ui.css" rel="stylesheet">
-    </head>
-    <body>
-
-        <div id="tabs">
-            <ul>
-            </ul>
-        </div>
-
         <script>window.$ = window.jQuery = require("./js/jquery-ui/external/jquery/jquery.js");</script>
         <script>require("./js/jquery-ui/jquery-ui.js");</script>
-        <script>
-            $("#tabs").tabs({
-                heightStyle:"fill",
-                collapsible:false,
-                activate: function(event, ui) {
-                    // When a tab is activated, set it's editor as the current one
-                    var tabIndex = $('#tabs ul li').index($(ui.newTab));
-                    current_editor = editors[tabIndex];
-                }
-            });
-        </script>
-    
-        <!-- load ace -->
-        <script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-        <!-- load ace language tools -->
-        <script src="ace-builds/src-noconflict/ext-language_tools.js"></script>
-        <!-- load ace statusbar extension -->
-        <script src="ace-builds/src-noconflict/ext-statusbar.js" type="text/javascript" charset="utf-8"></script>
-        <!-- load ace modelist extension -->
-        <script src="ace-builds/src-noconflict/ext-modelist.js"></script>
-        <!-- load ace themelist extension -->
-        <script src="ace-builds/src-noconflict/ext-themelist.js"></script>
-        <!-- do the setup of editor element -->
-        <script src="js/editor.js"></script>
-        <!-- setup menu items -->
-        <script src="js/menu.js" type="text/javascript" charset="utf-8"></script>
+        <script src="js/underscore.js"></script>
+        <script src="js/tabs.js"></script>
+        <script src="ace-builds/src/ace.js"></script>
+        <script src="ace-builds/src/ext-themelist.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/tabs.css">
+    </head>
+    <body>
+        <div class="tabs-shell tabs">
+            <div class="tabs">
+                <button class='new'>+</button>
+            </div>
+        </div>
+
+        <div id='code'></div>
     </body>
-</html>
+
+<script>
+var documents = {};
+var tabs;
+var editor;
+
+$(document).ready(function(){
+
+  tabs = new Tabs({
+    shell: $('.tabs-shell'),
+    minWidth: 45,
+    maxWidth: 180
+  });
+
+  editor = ace.edit('code');
+  editor.setValue("");
+  editor.setTheme("ace/theme/monokai");
+
+  new Document();
+
+  $('.new').on('click', function(ev){
+    new Document();
+  });
+});
+
+var AceDocument = ace.require("ace/document");
+var EditSession = ace.require("ace/edit_session");
+var UndoManager = ace.require("ace/undomanager");
+
+var Document = function() {
+  var self = this;
+  var id = 'document-' + _.uniqueId();
+  this.id = id;
+
+  this.tab =  tabs.add({title: 'untitled'});
+
+  this.tab.data('id', id);
+
+  this.tab.on('activate', function(){
+    switchTab($(this).data('id'));
+  });
+
+  this.tab.on('close', function(){
+    delete documents[self.id];
+    tabs.closeTab(self.tab);
+  });
+
+  var aceDocument = new AceDocument.Document('');
+  this.aceDocument = aceDocument;
+
+  this.aceSession = new EditSession.EditSession(this.aceDocument, 'ace/mode/text');
+  this.aceSession.setUndoManager(new UndoManager.UndoManager());
+
+  documents[this.id] = this;
+
+  switchTab(this.id);
+}
+
+var switchTab = function(id){
+  var doc = documents[id];
+  editor.setSession(doc.aceSession);
+  editor.focus();
+}
+</script>
+
+<!-- setup the menus -->
+<script src="js/menu.js"></script>
+
+<style>
+body {
+  background-color: #161712;
+}
+
+#code {
+  height: 95%;
+}
+
+button.new {
+  padding: 5px;
+  margin-left: 15px;
+  background: transparent;
+  color: #e1e3e1;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+}
+</style>
+

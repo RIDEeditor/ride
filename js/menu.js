@@ -11,11 +11,10 @@ const MenuItem = remote.MenuItem;
 const dialog = remote.require('electron').dialog;
 const path = require("path");
 
-var themelist = ace.require("ace/ext/themelist");
 var arrayOfThemeNames = [];
-
-for (var i = 0; i < themelist.themes.length ; i++) {
-  arrayOfThemeNames[i] = themelist.themes[i].name;
+var ThemeList = ace.require("ace/ext/themelist");
+for (var i = 0; i < ThemeList.themes.length ; i++) {
+  arrayOfThemeNames[i] = ThemeList.themes[i].name;
 }
 
 var editors = [];
@@ -108,7 +107,7 @@ function handleNewClicked() {
     tabsElement.append(newEditorElement);
 
     // Initialize the editor in the tab
-    var editor = Editor('editor_' + tabUniqueId)
+    editor = Editor('editor_' + tabUniqueId)
     
     // Refresh the tabs widget
     tabsElement.tabs('refresh');
@@ -128,9 +127,8 @@ function handleNewClicked() {
     current_editor = editor;
 }
 
-
 // Defines the menu structure
-var template = [
+var menu_template = [
   {
     label: 'File',
     submenu: [
@@ -257,7 +255,7 @@ var template = [
 // Mac OSX menu integration
 if (process.platform == 'darwin') {
   var name = require('electron').remote.app.getName();
-  template.unshift({
+  menu_template.unshift({
     label: name,
     submenu: [
       {
@@ -302,15 +300,15 @@ if (process.platform == 'darwin') {
 }
 
 function findMenuIndex(menuLabel) {
-    for (var i = 0; i < template.length; i++) {
-        if(template[i].label === menuLabel){
+    for (var i = 0; i < menu_template.length; i++) {
+        if(menu_template[i].label === menuLabel){
             return i;
         }
     }
 }
 
 function addThemes(label) {
-  template[findMenuIndex("Preferences")].submenu[0].submenu.push(
+  menu_template[findMenuIndex("Preferences")].submenu[0].submenu.push(
     {
       label: label,
       click: function() {
@@ -327,7 +325,7 @@ for (var i = 0; i < arrayOfThemeNames.length; i++) {
     addThemes(arrayOfThemeNames[i]);
 }
 
-var menu = Menu.buildFromTemplate(template);
+var menu = Menu.buildFromTemplate(menu_template);
 
 // Set the menu
 Menu.setApplicationMenu(menu);
