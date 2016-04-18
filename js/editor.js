@@ -2,6 +2,7 @@
 
 const modelist = ace.require("ace/ext/modelist");
 const fs = require("fs");
+var editor;
 
 var Editor = function(div_element) {
 

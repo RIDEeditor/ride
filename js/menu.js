@@ -23,6 +23,9 @@ var tab_counter = 0;
 var current_editor;
 var current_theme;
 
+var default_theme = "ace/theme/tomorrow_night";
+
+
 /**
  * Should be called when the 'open file' menu option is selected
  *
@@ -109,6 +112,9 @@ function handleNewClicked() {
 
     // Initialize the editor in the tab
     editor = Editor('editor_' + tabUniqueId)
+
+    // set the default theme
+    editor.setTheme(default_theme);
     
     // Refresh the tabs widget
     tabsElement.tabs('refresh');
@@ -301,6 +307,7 @@ if (process.platform == 'darwin') {
   });
 }
 
+// find the id of the menu as it differs in OSX, linux
 function findMenuIndex(menuLabel) {
     for (var i = 0; i < template.length; i++) {
         if(template[i].label === menuLabel){
@@ -309,10 +316,11 @@ function findMenuIndex(menuLabel) {
     }
 }
 
+// add the themes to the preferences menu
 function addThemes(label) {
   template[findMenuIndex("Preferences")].submenu[0].submenu.push(
     {
-      label: label,
+      label: label, // the label is 'Theme'
       click: function() {
         current_theme = "ace/theme/" + label;
         for (var i = 0; i < editors.length; i++) {
@@ -323,10 +331,12 @@ function addThemes(label) {
   );
 }
 
+// get all the themes available
 for (var i = 0; i < arrayOfThemeNames.length; i++) {
     addThemes(arrayOfThemeNames[i]);
 }
 
+// build the menu
 var menu = Menu.buildFromTemplate(template);
 
 // Set the menu
