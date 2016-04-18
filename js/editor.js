@@ -6,7 +6,7 @@ const fs = require("fs");
 var Editor = function(div_element) {
 
     // This makes the dom element with id div_element an editor
-    editor = ace.edit(div_element);
+    var editor = ace.edit(div_element);
 
     // Set the editor up
     editor.setTheme(current_theme);

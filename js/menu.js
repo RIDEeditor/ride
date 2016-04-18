@@ -108,7 +108,7 @@ function handleNewClicked() {
     tabsElement.append(newEditorElement);
 
     // Initialize the editor in the tab
-    editor = Editor('editor_' + tabUniqueId)
+    var editor = Editor('editor_' + tabUniqueId)
     
     // Refresh the tabs widget
     tabsElement.tabs('refresh');
