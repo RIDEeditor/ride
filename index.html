@@ -91,9 +91,10 @@
         var statusBar = new StatusBar(editor, document.getElementById("statusBar"));
 
 
+        // Set panel as resizable
         $(".panel-left").resizable({
-            handleSelector: ".splitter",
-            resizeHeight: false
+            handles: 'e',
+            resizeHeight: false,
         });
 
 
@@ -169,46 +170,50 @@
     }
 
 
-/* horizontal panel*/
+    /* horizontal panel*/
 
-.panel-container {
-  display: flex;
-  flex-direction: row;
-  overflow: hidden;
-  height: calc(100% - 20px);
-  /* avoid browser level touch actions */
-  xtouch-action: none;
-}
+    .panel-container {
+        display: flex;
+        flex-direction: row;
+        overflow: hidden;
+        height: calc(100% - 20px);
+        /* avoid browser level touch actions */
+        xtouch-action: none;
+    }
 
-.panel-left {
-  flex: 0 0 auto;
-  /* only manually resize */
-  padding: 0px;
-  width: 350px;
-  min-height: 200px;
-  min-width: 0px;
-  white-space: nowrap;
-  color: white;
-}
+    .ui-resizable-e {
+        width: 19px;
+        right: -19px;
+        z-index: 101 !important;
+    }
 
-.splitter {
-  flex: 0 0 auto;
-  width: 18px;  
-  background: url(https://raw.githubusercontent.com/RickStrahl/jquery-resizable/master/assets/vsizegrip.png) center center no-repeat #535353;
-  min-height: 200px;
-  cursor: col-resize;
-  z-index: 100;  
-}
+    .panel-left {
+        flex: 0 0 auto;
+        /* only manually resize */
+        padding: 0px;
+        width: 350px;
+        min-height: 200px;
+        min-width: 0px;
+        white-space: nowrap;
+        color: white;
+    }
 
-.panel-right {
-  flex: 1 1 auto;
-  /* resizable */
-  padding: 0px;
-  width: 100%;
-  min-height: 200px;
-  min-width: 200px;
-}
+    .splitter {
+        flex: 0 0 auto;
+        width: 18px;  
+        background: url(https://raw.githubusercontent.com/RickStrahl/jquery-resizable/master/assets/vsizegrip.png) center center no-repeat #535353;
+        min-height: 200px;
+        z-index: 100;
+    }
 
+    .panel-right {
+        flex: 1 1 auto;
+        /* resizable */
+        padding: 0px;
+        width: 100%;
+        min-height: 200px;
+        min-width: 200px;
+    }
 
 </style>
 
