@@ -9,6 +9,7 @@
         <script src="ace-builds/src/ace.js"></script>
         <script src="ace-builds/src/ext-themelist.js"></script>
         <script src="ace-builds/src/ext-modelist.js"></script>
+        <script src="ace-builds/src/ext-statusbar.js"></script>
         <link rel="stylesheet" type="text/css" href="css/tabs.css">
         <link rel="stylesheet" type="text/css" href="css/jstree.css">
     </head>
@@ -23,6 +24,8 @@
             <div id="treeview"></div>
             <div id='code'></div>
         </div>
+
+        <div id="statusBar">filename goes here</div>
         
     </body>
 
@@ -66,6 +69,10 @@
 
         new Tab("untitled");
 
+        var StatusBar = ace.require("ace/ext/statusbar").StatusBar;
+        // Create a simple selection status indicator
+        var statusBar = new StatusBar(editor, document.getElementById("statusBar"));
+
     });
 
     // Load ace extras
@@ -82,6 +89,8 @@
         editor.focus();
         current_editor = doc;
     }
+
+
 </script>
 
 <!-- setup the menus -->
@@ -107,9 +116,22 @@
 
     #code {
         float: right;
-      height: 95%;
-      width: 80%;
+        height: 95%;
+        width: 80%;
     }
+
+    #statusBar {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        padding-bottom: 5px;
+    }
+
+    .ace_status-indicator{
+        float: right;
+        padding-right: 50px;
+    }
+
 
     button.new {
       padding: 5px;
