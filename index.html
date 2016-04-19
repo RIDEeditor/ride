@@ -3,12 +3,14 @@
         <title>Ruby on Rails IDE</title>
         <script>window.$ = window.jQuery = require("jquery");</script>
         <script>require("./js/jquery-ui/jquery-ui.js");</script>
+        <script src="js/jstree.js"></script>
         <script src="js/underscore.js"></script>
         <script src="js/tabs.js"></script>
         <script src="ace-builds/src/ace.js"></script>
         <script src="ace-builds/src/ext-themelist.js"></script>
         <script src="ace-builds/src/ext-modelist.js"></script>
         <link rel="stylesheet" type="text/css" href="css/tabs.css">
+        <link rel="stylesheet" type="text/css" href="css/jstree.css">
     </head>
     <body>
         <div class="tabs-shell tabs">
@@ -29,6 +31,23 @@
     var tab_bar; // Represents the top tab bar
     var editor;
     $(document).ready(function() {
+        $('#treeview').jstree({ 'core' : {
+            'data' : [
+                'Simple root node',
+                {
+                    'text' : 'Root node 2',
+                    'state' : {
+                        'opened' : true,
+                        'selected' : true
+                    },
+                    'children' : [
+                        { 'text' : 'Child 1' },
+                        'Child 2'
+                    ]
+                }
+            ]
+        } });
+
         // Setup the tabs bar
         tab_bar = new Tabs({
             shell: $('.tabs-shell'),
@@ -81,7 +100,7 @@
 
     #treeview{
         background-color: white;
-        width: 50%;
+        width: 20%;
         float: left;
         height: 95%;
     }
@@ -89,7 +108,7 @@
     #code {
         float: right;
       height: 95%;
-      width: 50%;
+      width: 80%;
     }
 
     button.new {
