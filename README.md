@@ -1,5 +1,5 @@
 # part-4-project
-
+![alt tag](documentation/screenshot.png)
 To clone and run this repository:
 
 ```bash
