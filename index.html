@@ -14,7 +14,8 @@
         <link rel="stylesheet" type="text/css" href="css/jstree.css">
     </head>
     <body>
-        <div id="treeview"></div>
+        <div id="top">
+            <div id="treeview"></div>
         <div class="tabs-shell tabs">
             <div class="tabs">
                 <button class='new'>+</button>
@@ -24,6 +25,8 @@
         <div id="parent">
             <div id='code'></div>
         </div>
+        </div>
+        
 
         <footer>
             <div id="statusBar"></div>
@@ -103,6 +106,16 @@
     body {
       background-color: #161712;
       margin: 0px !important;
+    }
+
+    #top{
+        height: 98%;
+        float: top;
+    }
+
+    footer{
+        float: bottom;
+        height: 2%;
     }
 
     #parent{
