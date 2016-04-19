@@ -36,7 +36,7 @@ function handleFileOpenClicked() {
             // If a file was selected, open it in editor
             current_editor.readFileIntoEditor(filename.toString());
             // Set tab title to filename
-            setCurrentTabTitle(path.basename(filename))
+            setCurrentTabTitle(path.basename(filename));
         }
     });
 }
@@ -55,7 +55,7 @@ function handleFileSaveAsClicked() {
             // If a file was selected, save file to it
             current_editor.writeEditorDataToFile();
             // Set tab title to filename
-            setCurrentTabTitle(path.basename(filename))
+            setCurrentTabTitle(path.basename(filename));
         }
     });
 }
