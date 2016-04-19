@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>Ruby on Rails IDE</title>
-        <script>window.$ = window.jQuery = require("./js/jquery-ui/external/jquery/jquery.js");</script>
+        <script>window.$ = window.jQuery = require("jquery");</script>
         <script>require("./js/jquery-ui/jquery-ui.js");</script>
         <script src="js/underscore.js"></script>
         <script src="js/tabs.js"></script>
@@ -24,7 +24,6 @@
     var TabsList = {}; // Holds all tabs that have been created
     var tab_bar; // Represents the top tab bar
     var editor;
-
     $(document).ready(function() {
         // Setup the tabs bar
         tab_bar = new Tabs({
