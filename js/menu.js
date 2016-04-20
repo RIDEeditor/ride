@@ -27,16 +27,16 @@ var current_theme;
  * for information on how the dialog works
  */
 function handleFileOpenClicked() {
-    dialog.showOpenDialog({properties: ['openFile'], title: "Choose file to open"}, function(filename) {
-        if (filename) {
+    dialog.showOpenDialog({properties: ['openFile', 'multiSelections'], title: "Choose file to open"}, function(filenames) {
+        for (var i in filenames) {
             // TODO check if this file is already open. If so, jump to that tab, rather than open the file again
             // Also, if the current editor is blank (user hasn;t typed anything), then open the file in this editor,
             // instead of creating a new tab
             handleNewClicked();
             // If a file was selected, open it in editor
-            current_editor.readFileIntoEditor(filename.toString());
+            current_editor.readFileIntoEditor(filenames[i].toString());
             // Set tab title to filename
-            setCurrentTabTitle(path.basename(filename));
+            setCurrentTabTitle(path.basename(filenames[i]));
         }
     });
 }
