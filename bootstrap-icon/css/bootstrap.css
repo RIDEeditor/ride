@@ -389,6 +389,9 @@
 .glyphicon-folder-close:before {
   content: "\e117";
 }
+.glyphicon-folder-close {
+    color: green;
+}
 .glyphicon-folder-open:before {
   content: "\e118";
 }
