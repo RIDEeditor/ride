@@ -118,6 +118,9 @@ var menu_template = [
         accelerator: 'CmdOrCtrl+o',
         click: handleFileOpenClicked
       },
+        label: 'Open Folder',
+        click: 
+      },
       {
         label: 'Copy',
         accelerator: 'CmdOrCtrl+C',
