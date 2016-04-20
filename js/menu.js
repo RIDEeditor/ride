@@ -48,7 +48,11 @@ function handleDirectoryOpenClicked() {
     dialog.showOpenDialog({properties: ['openDirectory'], title: "Choose directory to open"}, function(dirname) {
         if (dirname) {
             // Open directory in treeview
-            var root_node_id = $("#treeview").jstree('create_node',  "#", buildNode(dirname.toString(), "directory"), 'first');
+            var root_node_id = $("#treeview").jstree('create_node',  "#", buildNode(path.basename(dirname.toString()), dirname.toString() , "directory"), 'first');
+            $("#treeview").on('ready.jstree',function(e,data){
+                console.log("LOADED!");
+                $("#"+data.node.id).prop('title', data.node.original.full_path);
+            });
             recurseTree(root_node_id, dirname);
         }
     });
@@ -67,7 +71,9 @@ function recurseTree(root_node, directory) {
             var root_node_id = $("#treeview").jstree('create_node', root_node, buildNode(filename, full_path, "file"), 'last');
         }
     }, function(err) {
-        if (err) console.log(err);
+        if (err) {
+            console.log(err);
+        }
     });
 }
 
@@ -81,6 +87,7 @@ function buildNode(name_string, full_path, type) {
     var node = {
         "text": name_string,
         "data": full_path,
+        "full_path": full_path,
         "type": type,
         "icon": icon
     }
