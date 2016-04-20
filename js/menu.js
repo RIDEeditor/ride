@@ -10,6 +10,7 @@ const Menu = remote.Menu;
 const MenuItem = remote.MenuItem;
 const dialog = remote.require('electron').dialog;
 const path = require("path");
+const fswalk = require("fs-walk");
 
 var arrayOfThemeNames = [];
 var ThemeList = ace.require("ace/ext/themelist");
