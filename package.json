@@ -26,7 +26,6 @@
     "jquery": "^2.2.3"
   },
   "dependencies": {
-    "fs-walk" : "0.0.1",
-    "walk" : "2.3.9"
+    "fs-walk" : "0.0.1"
   }
 }
