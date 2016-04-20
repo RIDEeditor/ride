@@ -10,6 +10,7 @@ const Menu = remote.Menu;
 const MenuItem = remote.MenuItem;
 const dialog = remote.require('electron').dialog;
 const path = require("path");
+const walk = require('fs-walk');
 
 var arrayOfThemeNames = [];
 var ThemeList = ace.require("ace/ext/themelist");
@@ -50,6 +51,11 @@ function handleDirectoryOpenClicked() {
         if (dirname) {
             // Open directory in treeview
             var root_node_id = $("#treeview").jstree('create_node',  "#", dirname.toString(), 'first');
+            walk.walk(dirname.toString(), function(basedir, filename, stat, next) {
+                $("#treeview").jstree('create_node',  root_node_id, filename, 'last');
+            }, function(err) {
+                if (err) console.log(err);
+            });
         }
     });
 }
