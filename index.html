@@ -57,6 +57,20 @@
             ]
         } });
 
+        $(function () {
+          $("#plugins7").jstree({
+            "types" : {
+              "default" : {
+                "icon" : "glyphicon glyphicon-flash"
+              },
+              "demo" : {
+                "icon" : "glyphicon glyphicon-ok"
+              }
+            },
+            "plugins" : [ "types" ]
+          });
+        });
+
         // Setup the tabs bar
         tab_bar = new Tabs({
             shell: $('.tabs-shell'),
