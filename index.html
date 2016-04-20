@@ -250,6 +250,7 @@
 
     .panel-right {
         flex: 1 1 auto;
+        position: relative;
         /* resizable */
         padding: 0px;
         width: 100%;
@@ -261,6 +262,7 @@
         flex: 0 0 auto;
         height: 18px;
         background: url(https://raw.githubusercontent.com/RickStrahl/jquery-resizable/master/assets/hsizegrip.png) center center no-repeat #535353;
+        z-index: 100;
     }
 
     .panel-right-bottom {
@@ -273,7 +275,7 @@
 
     #console {
         height: 100%;
-        overflow: auto;
+        min-height: 200px;
     }
 
 
