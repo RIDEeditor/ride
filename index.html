@@ -10,7 +10,7 @@
         <script src="ace-builds/src/ext-themelist.js"></script>
         <script src="ace-builds/src/ext-modelist.js"></script>
         <script src="ace-builds/src/ext-statusbar.js"></script>
-        <link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
         <link rel="stylesheet" type="text/css" href="css/tabs.css">
         <link rel="stylesheet" type="text/css" href="css/jstree.css">
         <link rel="stylesheet" type="text/css" href="bootstrap-icon/css/bootstrap.css">
@@ -26,8 +26,7 @@
                 </div>
             </div>
 
-            <div class="splitter">
-            </div>
+            <div class="splitter"></div>
 
             <div class="panel-right">
                 <div class="panel-right-top">
@@ -36,11 +35,13 @@
                             <button class='new'>+</button>
                         </div>
                     </div>
-
                     <div id="code"></div>
                 </div>
+
+                <div class="splitter-horizontal"></div>
+
                 <div class="panel-right-bottom">
-                    <div id="console"></div>
+                    <div id="console">This is a console</div>
                 </div>
             </div>
         </div>
@@ -119,6 +120,11 @@
             resizeHeight: false,
         });
 
+        $(".panel-right-top").resizable({
+            handles: 's',
+            resizeWidth: false
+        });
+
 
     });
 
@@ -164,7 +170,8 @@
 
 
     #code {
-        height: calc(100% - 25px);
+        height: 90%;
+        min-height: 200px;
         width: 100%;
     }
 
@@ -243,6 +250,28 @@
         min-height: 200px;
         min-width: 200px;
     }
+
+    .splitter-horizontal {
+        flex: 0 0 auto;
+        height: 18px;
+        background: url(https://raw.githubusercontent.com/RickStrahl/jquery-resizable/master/assets/hsizegrip.png) center center no-repeat #535353;
+        cursor: row-resize;
+    }
+
+    .panel-right-bottom {
+        flex: 1 1 auto;
+        /* resizable */
+        padding: 10px;
+        min-height: 200px;
+        background: #eee;
+    }
+
+    #console {
+        height: 100%;
+        overflow: auto;
+    }
+
+
 
 </style>
 
