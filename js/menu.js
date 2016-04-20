@@ -42,6 +42,18 @@ function handleFileOpenClicked() {
 }
 
 /**
+ * Should be called when the 'open directory' menu option is selected
+ *
+ */
+function handleDirectoryOpenClicked() {
+    dialog.showOpenDialog({properties: ['openDirectory'], title: "Choose directory to open"}, function(dirname) {
+        if (dirname) {
+            // Open directory in treeview
+        }
+    });
+}
+
+/**
  * Opens dialog allowing user to choose file to save to
  */
 function handleFileSaveAsClicked() {
@@ -118,8 +130,9 @@ var menu_template = [
         accelerator: 'CmdOrCtrl+o',
         click: handleFileOpenClicked
       },
-        label: 'Open Folder',
-        click: 
+      {
+        label: 'Open Directory',
+        click: handleDirectoryOpenClicked
       },
       {
         label: 'Copy',
