@@ -80,9 +80,9 @@ function recurseTree(root_node, directory) {
 function buildNode(name_string, full_path, type) {
     var icon = "";
     if (type == "file") {
-        icon = "css/file.png";
+        icon = "glyphicon glyphicon-file";
     } else {
-        icon = "css/directory.png";
+        icon = "glyphicon glyphicon-folder-close";
     }
     var node = {
         "text": name_string,
@@ -268,6 +268,10 @@ var menu_template = [
 
         ]
       },
+      {
+        label: 'Set Font Size',
+        click: function(){console.log(editor.getFontSize()); editor.setFontSize('14')}
+      }
     ]
   },
 
