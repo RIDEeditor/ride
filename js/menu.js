@@ -49,6 +49,7 @@ function handleDirectoryOpenClicked() {
     dialog.showOpenDialog({properties: ['openDirectory'], title: "Choose directory to open"}, function(dirname) {
         if (dirname) {
             // Open directory in treeview
+            var root_node_id = $("#treeview").jstree('create_node',  "#", dirname.toString(), 'first');
         }
     });
 }
