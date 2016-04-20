@@ -50,7 +50,7 @@ function handleDirectoryOpenClicked() {
             // Open directory in treeview
             var node = buildNode(path.basename(dirname.toString()), dirname.toString() , "directory");
             node["state"] = {"opened": true};
-            var root_node_id = $("#treeview").jstree('create_node',  "#", node, 'first');
+            var root_node_id = $("#treeview").jstree('create_node',  "#", node, 'last');
             recurseTree(root_node_id, dirname);
         }
     });
