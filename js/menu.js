@@ -58,7 +58,14 @@ function handleDirectoryOpenClicked() {
 
 function recurseTree(root_node, directory) {
     walk.walk(directory.toString(), function(basedir, filename, stat, next) {
-        $("#treeview").jstree('create_node',  root_node, filename, 'last');
+        var root_node_id = $("#treeview").jstree('create_node', root_node, filename, 'last');
+        // Check if is a file or directory
+        var full_path = path.join(basedir, filename);
+        var stats = fs.lstatSync(full_path);
+        if (stats.isDirectory()) {
+            // Recurse into directory
+            recurseTree(root_node_id, full_path);
+        }
     }, function(err) {
         if (err) console.log(err);
     });
