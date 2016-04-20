@@ -116,6 +116,9 @@
 .glyphicon-file:before {
   content: "\e022";
 }
+.glyphicon-file {
+  color: #ffffcc;
+}
 .glyphicon-time:before {
   content: "\e023";
 }
@@ -390,7 +393,7 @@
   content: "\e117";
 }
 .glyphicon-folder-close {
-    color: green;
+    color: #9bc2cf;
 }
 .glyphicon-folder-open:before {
   content: "\e118";
