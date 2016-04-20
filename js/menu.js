@@ -50,7 +50,7 @@ function handleDirectoryOpenClicked() {
     dialog.showOpenDialog({properties: ['openDirectory'], title: "Choose directory to open"}, function(dirname) {
         if (dirname) {
             // Open directory in treeview
-            var root_node_id = $("#treeview").jstree('create_node',  "#", dirname.toString(), 'first');
+            var root_node_id = $("#treeview").jstree('create_node',  "#", buildNode(dirname.toString(), "directory"), 'first');
             recurseTree(root_node_id, dirname);
         }
     });
@@ -58,18 +58,35 @@ function handleDirectoryOpenClicked() {
 
 function recurseTree(root_node, directory) {
     walk.walk(directory.toString(), function(basedir, filename, stat, next) {
-        var root_node_id = $("#treeview").jstree('create_node', root_node, filename, 'last');
         // Check if is a file or directory
         var full_path = path.join(basedir, filename);
         var stats = fs.lstatSync(full_path);
         if (stats.isDirectory()) {
             // Recurse into directory
+            var root_node_id = $("#treeview").jstree('create_node', root_node, buildNode(filename, "directory"), 'last');
             recurseTree(root_node_id, full_path);
+        } else {
+            var root_node_id = $("#treeview").jstree('create_node', root_node, buildNode(filename, "file"), 'last');
         }
     }, function(err) {
         if (err) console.log(err);
     });
 }
+
+function buildNode(name_string, type) {
+    var icon = "";
+    if (type == "file") {
+        icon = "css/file.png";
+    } else {
+        icon = "css/directory.png";
+    }
+    var node = {
+        "text": name_string,
+        "icon": icon
+    }
+    return node;
+}
+
 
 /**
  * Opens dialog allowing user to choose file to save to
