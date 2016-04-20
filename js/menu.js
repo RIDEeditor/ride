@@ -51,12 +51,16 @@ function handleDirectoryOpenClicked() {
         if (dirname) {
             // Open directory in treeview
             var root_node_id = $("#treeview").jstree('create_node',  "#", dirname.toString(), 'first');
-            walk.walk(dirname.toString(), function(basedir, filename, stat, next) {
-                $("#treeview").jstree('create_node',  root_node_id, filename, 'last');
-            }, function(err) {
-                if (err) console.log(err);
-            });
+            recurseTree(root_node_id, dirname);
         }
+    });
+}
+
+function recurseTree(root_node, directory) {
+    walk.walk(directory.toString(), function(basedir, filename, stat, next) {
+        $("#treeview").jstree('create_node',  root_node, filename, 'last');
+    }, function(err) {
+        if (err) console.log(err);
     });
 }
 
