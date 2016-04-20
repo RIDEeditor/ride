@@ -48,11 +48,9 @@ function handleDirectoryOpenClicked() {
     dialog.showOpenDialog({properties: ['openDirectory'], title: "Choose directory to open"}, function(dirname) {
         if (dirname) {
             // Open directory in treeview
-            var root_node_id = $("#treeview").jstree('create_node',  "#", buildNode(path.basename(dirname.toString()), dirname.toString() , "directory"), 'first');
-            $("#treeview").on('ready.jstree',function(e,data){
-                console.log("LOADED!");
-                $("#"+data.node.id).prop('title', data.node.original.full_path);
-            });
+            var node = buildNode(path.basename(dirname.toString()), dirname.toString() , "directory");
+            node["state"] = {"opened": true};
+            var root_node_id = $("#treeview").jstree('create_node',  "#", node, 'first');
             recurseTree(root_node_id, dirname);
         }
     });
