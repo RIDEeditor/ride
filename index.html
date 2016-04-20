@@ -55,6 +55,17 @@
             "check_callback" : true
         } });
 
+        $('#treeview').on("select_node.jstree", function (e, data) {
+            for(i = 0, j = data.selected.length; i < j; i++) {
+                var node = data.instance.get_node(data.selected[i]);
+                if (node.original.type == "file") {
+                    var path = data.instance.get_node(data.selected[i]).data;
+                    handleNewClicked();
+                    current_editor.readFileIntoEditor(path);
+                }
+            }
+        });
+
         $(function () {
           $("#plugins7").jstree({
             "types" : {

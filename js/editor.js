@@ -76,6 +76,7 @@ var Tab = function(tab_title) {
             }
             // Set the editor's contents to that of the file
             self.aceSession.setValue(String(data));
+            tab_bar.updateTab(current_editor.tab, {title: path.basename(filePath)});
             self.fileEntry = filePath;
         });
     };

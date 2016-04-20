@@ -36,8 +36,6 @@ function handleFileOpenClicked() {
             handleNewClicked();
             // If a file was selected, open it in editor
             current_editor.readFileIntoEditor(filenames[i].toString());
-            // Set tab title to filename
-            setCurrentTabTitle(path.basename(filenames[i]));
         }
     });
 }
@@ -63,17 +61,17 @@ function recurseTree(root_node, directory) {
         var stats = fs.lstatSync(full_path);
         if (stats.isDirectory()) {
             // Recurse into directory
-            var root_node_id = $("#treeview").jstree('create_node', root_node, buildNode(filename, "directory"), 'last');
+            var root_node_id = $("#treeview").jstree('create_node', root_node, buildNode(filename, full_path, "directory"), 'last');
             recurseTree(root_node_id, full_path);
         } else {
-            var root_node_id = $("#treeview").jstree('create_node', root_node, buildNode(filename, "file"), 'last');
+            var root_node_id = $("#treeview").jstree('create_node', root_node, buildNode(filename, full_path, "file"), 'last');
         }
     }, function(err) {
         if (err) console.log(err);
     });
 }
 
-function buildNode(name_string, type) {
+function buildNode(name_string, full_path, type) {
     var icon = "";
     if (type == "file") {
         icon = "css/file.png";
@@ -82,6 +80,8 @@ function buildNode(name_string, type) {
     }
     var node = {
         "text": name_string,
+        "data": full_path,
+        "type": type,
         "icon": icon
     }
     return node;
