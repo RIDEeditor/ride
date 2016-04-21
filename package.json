@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "fs-walk" : "0.0.1",
-    "tty.js" : "0.2.15"
+    "tty.js" : "0.2.15",
+    "colors": "1.1.2"
   }
 }

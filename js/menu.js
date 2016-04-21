@@ -216,8 +216,8 @@ var menu_template = [
         }
       },
       {
-        label: 'Show terminal',
-        accelerator: 'CmdOrCtrl+t',
+        label: 'Show Terminal',
+        accelerator: 'Shift+CmdOrCtrl+t',
         click: toggleTerminal
 
       },

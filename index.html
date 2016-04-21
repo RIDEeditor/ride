@@ -41,7 +41,7 @@
                 <div class="splitter-horizontal"></div>
 
                 <div class="panel-right-bottom">
-                    <div id="console">This is a console</div>
+                    <div id="console"><iframe id="console-iframe" style="border: 0; width: 100%;" src=""></iframe></div>
                 </div>
             </div>
         </div>
@@ -128,7 +128,14 @@
 
         $(".panel-right-top").on("resize", function(event, ui) {
             editor.resize();
+            console.log($("#console").height());
+            $("#console-iframe").height($(window).height() - $(".panel-right-top").height() - 40);
+            console.log($("#console").height());
         });
+
+
+        toggleTerminal();
+        $('#console-iframe').prop("src", "http://localhost:8000")
 
 
     });
@@ -154,6 +161,7 @@
 <!-- setup the menus -->
 <script src="js/menu.js"></script>
 <script src="js/editor.js"></script>
+
 
 <style>
     html,body {
@@ -273,13 +281,10 @@
     .panel-right-bottom {
         flex: 1 1 auto;
         /* resizable */
-        min-height: 200px;
         background: #eee;
     }
 
     #console {
-        height: 100%;
-        min-height: 200px;
     }
 
 
