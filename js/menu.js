@@ -150,6 +150,7 @@ function toggleTerminal() {
     } else {
         $(".panel-right-top").height($(".panel-right-top").height() - 300);
         editor.resize();
+         $("#console-iframe").height($(window).height() - $(".panel-right-top").height() - 40);
         terminal_maximised = true;
     }
 }
