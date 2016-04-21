@@ -40,9 +40,9 @@
 
                 <div class="splitter-horizontal"></div>
 
-                <!--<div class="panel-right-bottom">
+                <div class="panel-right-bottom">
                     <div id="console">This is a console</div>
-                </div>-->
+                </div>
             </div>
         </div>
 
@@ -101,6 +101,7 @@
         editor = ace.edit('code');
         editor.setValue("");
         editor.setTheme("ace/theme/monokai");
+        editor.setAutoScrollEditorIntoView(true);
 
         // Define what the 'new tab' button does
         $('.new').on('click', function(ev) {
@@ -123,6 +124,10 @@
         $(".panel-right-top").resizable({
             handles: 's',
             resizeWidth: false
+        });
+
+        $(".panel-right-top").on("resize", function(event, ui) {
+            editor.resize();
         });
 
 
@@ -170,7 +175,7 @@
 
 
     #code {
-        height: calc(100% - 25px);
+        height: calc(100% - 30px);
         /*min-height: 200px;*/
         width: 100%;
     }

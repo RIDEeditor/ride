@@ -20,6 +20,7 @@ for (var i = 0; i < ThemeList.themes.length ; i++) {
 
 var current_editor;
 var current_theme;
+var terminal_maximised = false;
 
 /**
  * Should be called when the 'open file' menu option is selected
@@ -141,6 +142,18 @@ function handleNewClicked() {
     new Tab("untitled");
 }
 
+function toggleTerminal() {
+    if (terminal_maximised) {
+        $(".panel-right-top").height($(".panel-right").height());
+        editor.resize();
+        terminal_maximised = false;
+    } else {
+        $(".panel-right-top").height($(".panel-right-top").height() - 300);
+        editor.resize();
+        terminal_maximised = true;
+    }
+}
+
 
 // Defines the menu structure
 var menu_template = [
@@ -201,6 +214,12 @@ var menu_template = [
           if (focusedWindow)
             focusedWindow.reload();
         }
+      },
+      {
+        label: 'Show terminal',
+        accelerator: 'CmdOrCtrl+t',
+        click: toggleTerminal
+
       },
       {
         label: 'Toggle Full Screen',
