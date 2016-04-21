@@ -126,17 +126,21 @@
             resizeWidth: false
         });
 
-        $(".panel-right-top").on("resize", function(event, ui) {
-            editor.resize();
-            console.log($("#console").height());
-            $("#console-iframe").height($(window).height() - $(".panel-right-top").height() - 40);
-            console.log($("#console").height());
-        });
-
 
         toggleTerminal();
         $('#console-iframe').prop("src", "http://localhost:8000")
 
+
+        $('#console-iframe').on('load', function(){
+            editor.resize();
+            // Do inital terminal resize
+            $("#console-iframe").height($(window).height() - $(".panel-right-top").height() - 40);
+        });
+
+        $(".panel-right-top").on("resize", function(event, ui) {
+            editor.resize();
+            $("#console-iframe").height($(window).height() - $(".panel-right-top").height() - 40);
+        });
 
     });
 
@@ -154,7 +158,6 @@
         editor.focus();
         current_editor = doc;
     }
-
 
 </script>
 
