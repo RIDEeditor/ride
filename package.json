@@ -22,12 +22,15 @@
   },
   "homepage": "https://github.com/xxChinasaurxx/part-4-project#readme",
   "devDependencies": {
-    "electron-prebuilt": "^0.37.0",
-    "jquery": "^2.2.3"
+    "electron-prebuilt": "latest"
   },
   "dependencies": {
+    "jquery": "^2.2.3",
+    "tty.js": "0.2.15",
     "fs-walk" : "0.0.1",
-    "tty.js" : "0.2.15",
-    "colors": "1.1.2"
+    "express": "3.1.0",
+    "socket.io": "0.9.16",
+    "term.js": ">= 0.0.5",
+    "pty.js": ">= 0.2.13"
   }
 }

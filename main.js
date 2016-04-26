@@ -6,7 +6,7 @@ const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 const tty = require('tty.js');
-
+var myApp;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -22,7 +22,7 @@ function createWindow () {
     // Maximize the window
     mainWindow.maximize();
 
-    startTerminal();
+    bootup();
 
     // Load the index.html of the app.
     mainWindow.loadURL('file://' + __dirname + '/index.html');
@@ -37,23 +37,119 @@ function createWindow () {
 
 }
 
-function startTerminal() {
-    var app = tty.createServer({
-        shell: 'bash',
-        "localOnly": true,
-        port: 8000
+function bootup() {
+    var http = require('http')
+      , express = require('express')
+      , io = require('socket.io')
+      , pty = require('pty.js')
+      , terminal = require('term.js');
+
+    /**
+     * term.js
+     */
+    process.title = 'term.js';
+
+    /**
+     * Dump
+     */
+    var stream;
+    if (process.argv[2] === '--dump') {
+      stream = require('fs').createWriteStream(__dirname + '/dump.log');
+    }
+
+    /**
+     * Open Terminal
+     */
+    var buff = []
+      , socket
+      , term;
+
+    term = pty.fork(process.env.SHELL || 'sh', [], {
+      name: require('fs').existsSync('/usr/share/terminfo/x/xterm-256color')
+        ? 'xterm-256color'
+        : 'xterm',
+      cols: 80,
+      rows: 24,
+      cwd: process.env.HOME
     });
 
-    //var index = fs.readFileSync('js/terminal_index.html');
-
-    app.get('/', function(req, res, next) {
-        //res.writeHead(200, {'Content-Type': 'text/plain'});
-        //res.end(index);
-        res.sendfile("js/terminal_index.html");
+    term.on('data', function(data) {
+      if (stream) stream.write('OUT: ' + data + '\n-\n');
+      return !socket
+        ? buff.push(data)
+        : socket.emit('data', data);
     });
 
-    app.listen();
+    console.log(''
+      + 'Created shell with pty master/slave'
+      + ' pair (master: %d, pid: %d)',
+      term.fd, term.pid);
 
+    /**
+     * App & Server
+     */
+    var app = express(), server = http.createServer(app);
+    myApp = app;
+
+    app.use(function(req, res, next) {
+      var setHeader = res.setHeader;
+      res.setHeader = function(name) {
+        switch (name) {
+          case 'Cache-Control':
+          case 'Last-Modified':
+          case 'ETag':
+            return;
+        }
+        return setHeader.apply(res, arguments);
+      };
+      next();
+    });
+
+    app.use(express.static(__dirname));
+    app.use(terminal.middleware());
+
+    if (!~process.argv.indexOf('-n')) {
+      server.on('connection', function(socket) {
+        var address = socket.remoteAddress;
+        if (address !== '127.0.0.1' && address !== '::1') {
+          try {
+            socket.destroy();
+          } catch (e) {
+            ;
+          }
+          console.log('Attempted connection from %s. Refused.', address);
+        }
+      });
+    }
+
+    server.listen(8000);
+    console.log("listening");
+
+    /**
+     * Sockets
+     */
+
+    io = io.listen(server, {
+      log: true
+    });
+
+    io.sockets.on('connection', function(sock) {
+      socket = sock;
+
+      socket.on('data', function(data) {
+        if (stream) stream.write('IN: ' + data + '\n-\n');
+        //console.log(JSON.stringify(data));
+        term.write(data);
+      });
+
+      socket.on('disconnect', function() {
+        socket = null;
+      });
+
+      while (buff.length) {
+        socket.emit('data', buff.shift());
+      }
+    });
 }
 
 // This method will be called when Electron has finished

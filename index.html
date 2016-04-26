@@ -1,6 +1,8 @@
 <html>
     <head>
         <title>RIDE Editor</title>
+        <script src="http://localhost:8000/socket.io/socket.io.js"></script>
+        <script src="js/term.js"></script>
         <script>window.$ = window.jQuery = require("jquery");</script>
         <script>require("./js/jquery-ui/jquery-ui.js");</script>
         <script src="js/jstree.js"></script>
@@ -15,11 +17,48 @@
         <link rel="stylesheet" type="text/css" href="css/jstree.css">
         <link rel="stylesheet" type="text/css" href="bootstrap-icon/css/bootstrap.css">
     </head>
+<script>
+  window.onload = function() {
+    var socket = io.connect("http://localhost:8000");
+    console.log("waiting to connect");
+    socket.on('connect', function() {
+      console.log("creating new terminal");
+      var term = new Terminal({
+        cols: 80,
+        rows: 24,
+        useStyle: true,
+        screenKeys: true,
+        cursorBlink: false
+      });
+
+
+      term.on('data', function(data) {
+        socket.emit('data', data);
+      });
+
+      term.on('title', function(title) {
+        document.title = title;
+      });
+
+        console.log(document.getElementById("console"));
+
+      term.open(document.getElementById("console"));
+
+      term.write('\x1b[31mWelcome to term.js!\x1b[m\r\n');
+
+      socket.on('data', function(data) {
+        term.write(data);
+      });
+
+      socket.on('disconnect', function() {
+        term.destroy();
+      });
+    });
+  };
+</script>
+
     <body>
-
-
         <div class="panel-container">
-
             <div class="panel-left">
                 <div id="treecontainer">
                     <div id="treeview"></div>
@@ -41,7 +80,7 @@
                 <div class="splitter-horizontal"></div>
 
                 <div class="panel-right-bottom">
-                    <div id="console"><iframe id="console-iframe" style="border: 0; width: 100%;" src=""></iframe></div>
+                    <div id="console"></div>
                 </div>
             </div>
         </div>
@@ -52,6 +91,7 @@
         </footer>
         
     </body>
+
 
 <script>
     var TabsList = {}; // Holds all tabs that have been created
@@ -128,7 +168,7 @@
 
 
         toggleTerminal();
-        $('#console-iframe').prop("src", "http://localhost:8000")
+        //$('#console-iframe').prop("src", "http://localhost:8000")
 
 
         $('#console-iframe').on('load', function(){
