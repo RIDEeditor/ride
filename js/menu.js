@@ -11,7 +11,10 @@ const MenuItem = remote.MenuItem;
 const dialog = remote.require('electron').dialog;
 const path = require("path");
 const walk = require('fs-walk');
+const rails = require('./js/rails-js');
 
+
+var wrapper = new rails.railsWrapper();
 var arrayOfThemeNames = [];
 var ThemeList = ace.require("ace/ext/themelist");
 for (var i = 0; i < ThemeList.themes.length ; i++) {
@@ -47,13 +50,18 @@ function handleDirectoryOpenClicked() {
     dialog.showOpenDialog({properties: ['openDirectory'], title: "Choose directory to open"}, function(dirname) {
         if (dirname) {
             // Open directory in treeview
-            var node = buildNode(path.basename(dirname.toString()), dirname.toString() , "directory");
-            node["state"] = {"opened": true};
-            var root_node_id = $("#treeview").jstree('create_node',  "#", node, 'last');
-            recurseTree(root_node_id, dirname);
+            addDirectoryToTree(dirname);
         }
     });
 }
+
+function addDirectoryToTree(dirname) {
+    var node = buildNode(path.basename(dirname.toString()), dirname.toString() , "directory");
+    node["state"] = {"opened": true};
+    var root_node_id = $("#treeview").jstree('create_node',  "#", node, 'last');
+    recurseTree(root_node_id, dirname);
+}
+
 
 /**
  * Recurses through a directory, adding files and subdirectories to the file tree
@@ -148,6 +156,19 @@ function handleNewClicked() {
     new Tab("untitled");
 }
 
+function generateNewRailsProject() {
+    // TODO open dialog prompting user for project options
+    wrapper.newProject("asd", "asd", function() {
+        // Open new project in file tree
+        addDirectoryToTree("asd");
+    });
+}
+
+function generateNewController() {
+    // TODO open dialog prompting user for options
+    wrapper.newController("mycontroller");
+}
+
 
 // Defines the menu structure
 var menu_template = [
@@ -155,7 +176,11 @@ var menu_template = [
     label: 'File',
     submenu: [
       {
-        label: 'New',
+        label: 'New rails project',
+        click: generateNewRailsProject
+      },
+      {
+        label: 'New file',
         accelerator: 'CmdOrCtrl+n',
         click: handleNewClicked
       },
@@ -196,6 +221,15 @@ var menu_template = [
         accelerator: 'CmdOrCtrl+A',
         role: 'selectall'
       },
+    ]
+  },
+  {
+    label: 'Generate',
+    submenu: [
+      {
+        label: 'New controller',
+        click: generateNewController
+      }
     ]
   },
   {
