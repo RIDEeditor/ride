@@ -3,6 +3,8 @@
 var TabsList = {}; // Holds all tabs that have been created
 var tab_bar; // Represents the top tab bar
 var editor; // 'Global' editor. New editor sessions are created for each tab
+var terminal_maximised = true;
+
 $(document).ready(function() {
 
     // Setup the tabs bar
@@ -47,6 +49,7 @@ $(document).ready(function() {
     });
 
     // Make terminal visibile
+    setupTerminal();
     toggleTerminal();
 
 });
@@ -64,4 +67,23 @@ var switchTab = function(id) {
     editor.setSession(doc.aceSession);
     editor.focus();
     current_editor = doc;
+}
+
+function toggleTerminal() {
+    if (terminal_maximised) {
+        $(".panel-right-top").height($(".panel-right").height());
+        editor.resize();
+        terminal_maximised = false;
+        // Set focus to editor
+        $(".ace_text-input").focus();
+    } else {
+        // Resize editor
+        $(".panel-right-top").height($(".panel-right-top").height() - 300);
+        editor.resize();
+        // Resize terminal
+        $("#console").height($(window).height() - $(".panel-right-top").height() - 40);
+        terminal_maximised = true;
+        // Set focus to terminal
+        $(".terminal").focus();
+    }
 }

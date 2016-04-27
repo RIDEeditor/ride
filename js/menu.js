@@ -20,7 +20,6 @@ for (var i = 0; i < ThemeList.themes.length ; i++) {
 
 var current_editor;
 var current_theme;
-var terminal_maximised = false;
 
 /**
  * Should be called when the 'open file' menu option is selected
@@ -147,19 +146,6 @@ function handleSaveClicked() {
 
 function handleNewClicked() {
     new Tab("untitled");
-}
-
-function toggleTerminal() {
-    if (terminal_maximised) {
-        $(".panel-right-top").height($(".panel-right").height());
-        editor.resize();
-        terminal_maximised = false;
-    } else {
-        $(".panel-right-top").height($(".panel-right-top").height() - 300);
-        editor.resize();
-         $("#console-iframe").height($(window).height() - $(".panel-right-top").height() - 40);
-        terminal_maximised = true;
-    }
 }
 
 

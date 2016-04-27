@@ -1,7 +1,6 @@
-
 'use strict';
 
-$(document).ready(function() {
+function setupTerminal() {
     var socket = io.connect("http://localhost:8000");
     console.log("Waiting to connect to socket");
     socket.on('connect', function() {
@@ -32,4 +31,4 @@ $(document).ready(function() {
             term.destroy();
         });
     });
-});
+}
