@@ -128,9 +128,8 @@ function bootup() {
     /**
      * Sockets
      */
-
     io = io.listen(server, {
-      log: true
+      log: false
     });
 
     io.sockets.on('connection', function(sock) {

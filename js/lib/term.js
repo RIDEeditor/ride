@@ -762,7 +762,6 @@ Terminal.prototype.open = function(parent) {
   }
 
   // Create our main terminal element.
-  console.log(parent);
   this.element = this.document.createElement('div');
   this.element.className = 'terminal';
   this.element.style.outline = 'none';

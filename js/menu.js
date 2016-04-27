@@ -43,7 +43,6 @@ function handleFileOpenClicked() {
 
 /**
  * Should be called when the 'open directory' menu option is selected
- *
  */
 function handleDirectoryOpenClicked() {
     dialog.showOpenDialog({properties: ['openDirectory'], title: "Choose directory to open"}, function(dirname) {
@@ -57,16 +56,24 @@ function handleDirectoryOpenClicked() {
     });
 }
 
+/**
+ * Recurses through a directory, adding files and subdirectories to the file tree
+ *
+ * @param {String} root_node
+ * @param {String} directory
+ */
 function recurseTree(root_node, directory) {
     walk.walk(directory.toString(), function(basedir, filename, stat, next) {
         // Check if is a file or directory
         var full_path = path.join(basedir, filename);
         var stats = fs.lstatSync(full_path);
         if (stats.isDirectory()) {
-            // Recurse into directory
+            // Add directory to the tree
             var root_node_id = $("#treeview").jstree('create_node', root_node, buildNode(filename, full_path, "directory"), 'last');
+            // Recurse into directory
             recurseTree(root_node_id, full_path);
         } else {
+            // Add file to the tree
             var root_node_id = $("#treeview").jstree('create_node', root_node, buildNode(filename, full_path, "file"), 'last');
         }
     }, function(err) {
@@ -351,8 +358,8 @@ function findMenuIndex(menuLabel) {
 }
 
 /**
- * Function that is executed when a theme is selected
- * Iterates through all editors and sets their theme to the one selected
+ * Executed when a theme is selected
+ * Sets the editor theme to the one selected
  */
 function addThemes(label) {
   menu_template[findMenuIndex("Preferences")].submenu[0].submenu.push(
