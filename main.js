@@ -6,7 +6,7 @@ const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 const tty = require('tty.js');
-var myApp;
+var termProc;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -73,6 +73,8 @@ function bootup() {
       cwd: process.env.HOME
     });
 
+    termProc = term;
+
     term.on('data', function(data) {
       if (stream) stream.write('OUT: ' + data + '\n-\n');
       return !socket
@@ -89,7 +91,6 @@ function bootup() {
      * App & Server
      */
     var app = express(), server = http.createServer(app);
-    myApp = app;
 
     app.use(function(req, res, next) {
       var setHeader = res.setHeader;
@@ -160,6 +161,7 @@ app.on('window-all-closed', function () {
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin') {
+        termProc.destroy();
         app.quit();
     }
 });
