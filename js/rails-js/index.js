@@ -33,7 +33,7 @@ function railsWrapper() {
         if (error == null) {
             console.log("Finished running: " + args);
             if (callback != null) {
-                callback();
+                callback(stdout, stderr);
             }
             return stdout.toString();
         } else {
@@ -49,7 +49,6 @@ railsWrapper.prototype.newProject = function(name, options_list, callback) {
     if (this.findRails()) {
         this.runCommand(this.rails_path + " new " + name, callback);
     }
-
 };
 
 railsWrapper.prototype.newController = function(name, options_list, callback) {

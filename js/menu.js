@@ -158,9 +158,15 @@ function handleNewClicked() {
 
 function generateNewRailsProject() {
     // TODO open dialog prompting user for project options
-    wrapper.newProject("asd", "asd", function() {
+    setStatusIndicatorText("Generating new Rails project")
+    setStatusIconVisibility(true);
+    wrapper.newProject("asd", "asd", function(stdout, stderr) {
         // Open new project in file tree
         addDirectoryToTree("asd");
+        console.log(stdout);
+        setStatusIconVisibility(false);
+        setstatusOpenerVisibility(true);
+        setStatusIndicatorText("Done")
     });
 }
 
@@ -169,6 +175,17 @@ function generateNewController() {
     wrapper.newController("mycontroller");
 }
 
+function setStatusIndicatorText(text) {
+    $("#statusIndicatorText").text(text);
+}
+
+function setStatusIconVisibility(shouldShow) {
+   $("#statusIndicatorImage").toggle(shouldShow);
+}
+
+function setstatusOpenerVisibility(shouldShow) {
+   $("#statusIndicatorOpener").toggle(shouldShow);
+}
 
 // Defines the menu structure
 var menu_template = [
