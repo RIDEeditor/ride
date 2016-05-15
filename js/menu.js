@@ -14,7 +14,7 @@ const walk = require('fs-walk');
 const rails = require('./js/rails-js');
 
 
-var wrapper = new rails.railsWrapper();
+var railsWrapper = new rails.railsWrapper();
 var arrayOfThemeNames = [];
 var ThemeList = ace.require("ace/ext/themelist");
 for (var i = 0; i < ThemeList.themes.length ; i++) {
@@ -158,21 +158,29 @@ function handleNewClicked() {
 
 function generateNewRailsProject() {
     // TODO open dialog prompting user for project options
-    setStatusIndicatorText("Generating new Rails project")
+    setStatusIndicatorText("Generating new Rails project");
     setStatusIconVisibility(true);
-    wrapper.newProject("asd", "asd", function(stdout, stderr) {
+    setStatusIcon("busy");
+    var proc = railsWrapper.newProject("asd", "asd", function(stdout, stderr) {
         // Open new project in file tree
         addDirectoryToTree("asd");
-        console.log(stdout);
-        setStatusIconVisibility(false);
-        setstatusOpenerVisibility(true);
-        setStatusIndicatorText("Done")
+        setStatusIcon("done");
+        setStatusIndicatorText("Done");
     });
+
+    clearDialog();
+
+    // Read from childprocess stdout
+    // TODO handle stderr as well
+    proc.stdout.on('data', function(data){
+        //console.log(data);
+        appendToDialogContents(data);
+	});
 }
 
 function generateNewController() {
     // TODO open dialog prompting user for options
-    wrapper.newController("mycontroller");
+    railsWrapper.newController("mycontroller");
 }
 
 function setStatusIndicatorText(text) {
@@ -183,8 +191,25 @@ function setStatusIconVisibility(shouldShow) {
    $("#statusIndicatorImage").toggle(shouldShow);
 }
 
-function setstatusOpenerVisibility(shouldShow) {
-   $("#statusIndicatorOpener").toggle(shouldShow);
+function setStatusIcon(icon) {
+    if (icon == "busy") {
+        $("#statusIndicatorImage").attr("src", "css/throbber2.gif");
+    } else if (icon == "done") {
+        $("#statusIndicatorImage").attr("src", "css/tick.png");
+    }
+}
+
+function clearDialog() {
+    $("#dialog-contentholder").text("");
+}
+
+function appendToDialogContents(text) {
+    $("#dialog-contentholder").append(nl2br_js(text));
+    $('#dialog').animate({scrollTop:$('#dialog-contentholder').height()}, 0);
+}
+
+function nl2br_js(myString){
+    return myString.replace( /\n/g, '<br />\n' );
 }
 
 // Defines the menu structure

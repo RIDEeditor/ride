@@ -30,16 +30,17 @@ function railsWrapper() {
 
     this.runCommand = function(args, callback) {
         var prc = childProcess.exec(args, {"stdio": "pipe"}, function(error, stdout, stderr) {
-        if (error == null) {
-            console.log("Finished running: " + args);
-            if (callback != null) {
-                callback(stdout, stderr);
+            if (error == null) {
+                console.log("Finished running: " + args);
+                if (callback != null) {
+                    callback(stdout, stderr);
+                }
+                return stdout.toString();
+            } else {
+                console.log(error)
             }
-            return stdout.toString();
-        } else {
-            console.log(error)
-        }
-    });
+        });
+        return prc;
     }
 
 }
@@ -47,13 +48,13 @@ function railsWrapper() {
 
 railsWrapper.prototype.newProject = function(name, options_list, callback) {
     if (this.findRails()) {
-        this.runCommand(this.rails_path + " new " + name, callback);
+        return this.runCommand(this.rails_path + " new " + name, callback);
     }
 };
 
 railsWrapper.prototype.newController = function(name, options_list, callback) {
     if (this.findRails()) {
-        this.runCommand(this.rails_path + " generate controller " + name, callback);
+        return this.runCommand(this.rails_path + " generate controller " + name, callback);
     }
 };
 

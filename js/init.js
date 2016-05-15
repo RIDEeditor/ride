@@ -52,6 +52,13 @@ $(document).ready(function() {
     setupTerminal();
     toggleTerminal();
 
+    // Setup popup dialog
+    $("#dialog").dialog({autoOpen: false, title: "Command Output", height: 500, width: 600});
+    $('#statusIndicatorImage').click(function() {
+        $('#dialog').dialog('open');
+        $('#dialog').animate({scrollTop:$('#dialog-contentholder').height()}, 0);
+    });
+
 });
 
 // Load ace extras
