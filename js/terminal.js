@@ -17,10 +17,6 @@ function setupTerminal() {
             socket.emit('data', data);
         });
 
-        term.on('title', function(title) {
-            document.title = title;
-        });
-
         term.open(document.getElementById("console"));
 
         socket.on('data', function(data) {
