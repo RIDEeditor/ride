@@ -90,7 +90,7 @@ button.new {
 .splitter {
     flex: 0 0 auto;
     width: 18px;  
-    background: url(https://raw.githubusercontent.com/RickStrahl/jquery-resizable/master/assets/vsizegrip.png) center center no-repeat #535353;
+    background: url("images/vsizegrip.png") center center no-repeat #535353;
     min-height: 200px;
     z-index: 100;
 }
@@ -108,7 +108,7 @@ button.new {
 .splitter-horizontal {
     flex: 0 0 auto;
     height: 18px;
-    background: url(https://raw.githubusercontent.com/RickStrahl/jquery-resizable/master/assets/hsizegrip.png) center center no-repeat #535353;
+    background: url("images/hsizegrip.png") center center no-repeat #535353;
     z-index: 100;
 }
 
