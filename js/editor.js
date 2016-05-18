@@ -1,7 +1,6 @@
 'use strict';
 
 const modelist = ace.require("ace/ext/modelist");
-const fs = require("fs");
 
 /**
  * Defines a Tab

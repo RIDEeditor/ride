@@ -32,6 +32,7 @@
     "express": "3.1.0",
     "socket.io": "0.9.16",
     "term.js": ">= 0.0.5",
-    "pty.js": "latest"
+    "pty.js": "latest",
+    "mkdirp": ">=0.5.1"
   }
 }

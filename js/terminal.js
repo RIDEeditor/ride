@@ -6,7 +6,7 @@ function setupTerminal() {
     socket.on('connect', function() {
         console.log("Creating new terminal");
         var term = new Terminal({
-            cols: 80,
+            cols: 150,
             rows: 20,
             useStyle: true,
             screenKeys: true,

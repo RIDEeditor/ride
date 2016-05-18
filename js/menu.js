@@ -9,7 +9,6 @@ const remote = require('electron').remote;
 const Menu = remote.Menu;
 const MenuItem = remote.MenuItem;
 const dialog = remote.require('electron').dialog;
-const path = require("path");
 const walk = require('fs-walk');
 const rails = require('./js/rails-js');
 
@@ -23,6 +22,7 @@ for (var i = 0; i < ThemeList.themes.length ; i++) {
 
 var current_editor;
 var current_theme;
+var open_dirs = [];
 
 /**
  * Should be called when the 'open file' menu option is selected
@@ -55,9 +55,11 @@ function handleDirectoryOpenClicked() {
     });
 }
 
-function addDirectoryToTree(dirname) {
+function addDirectoryToTree(dirname, expanded) {
+    if (typeof expanded === 'undefined') { expanded = true; }
+    open_dirs.push(dirname);
     var node = buildNode(path.basename(dirname.toString()), dirname.toString() , "directory");
-    node["state"] = {"opened": true};
+    node["state"] = {"opened": expanded};
     var root_node_id = $("#treeview").jstree('create_node',  "#", node, 'last');
     recurseTree(root_node_id, dirname);
 }

@@ -24,8 +24,26 @@ $(document).ready(function() {
         new Tab();
     });
 
-    // Create a tab
-    new Tab("untitled");
+
+    // Read settings from disk
+    var settings = loadSettingsFromDisk();
+
+    // Open files from last session
+    for (var i = 0; i < settings.openFiles.length; i++) {
+        var file = settings.openFiles[i];
+        new Tab();
+        if (file) {
+            current_editor.readFileIntoEditor(settings.openFiles[i]);
+        }
+    }
+    if (settings.openFiles.length == 0) {
+        // Create a tab if no files from last session
+        new Tab("untitled");
+    }
+
+    for (var i = 0; i < settings.openDirectories.length; i++) {
+        addDirectoryToTree(settings.openDirectories[i], false);
+    }
 
     // Create a simple status indicator
     var StatusBar = ace.require("ace/ext/statusbar").StatusBar;
@@ -58,6 +76,22 @@ $(document).ready(function() {
         $('#dialog').dialog('open');
         $('#dialog').animate({scrollTop:$('#dialog-contentholder').height()}, 0);
     });
+
+    // Do stuff when user requests to exit
+    window.onbeforeunload = function (e) {
+        // TODO Check if files that are open need to be saved and warn user
+
+        // Update settings
+        settings.openFiles = [];
+        for (var key in TabsList) {
+            settings.openFiles.push(TabsList[key].fileEntry);
+        }
+
+        settings.openDirectories = open_dirs;
+
+        saveSettingsToDisk();
+    }
+
 
 });
 
