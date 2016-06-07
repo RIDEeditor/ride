@@ -1,4 +1,8 @@
 'use strict';
+/**
+ *Code for resizing terminal based on https://gist.github.com/coderaiser/8931194
+ *
+ */
 
 var TabsList = {}; // Holds all tabs that have been created
 var tab_bar; // Represents the top tab bar
@@ -52,7 +56,7 @@ $(document).ready(function() {
     // Make left panel (file tree) resizable
     $(".panel-left").resizable({
         handles: 'e',
-        resizeHeight: false,
+        resizeHeight: false
     });
 
     // Make editor resizable

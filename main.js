@@ -142,6 +142,11 @@ function bootup() {
         term.write(data);
       });
 
+        socket.on('terminal-resize', function (size) {
+            term.resize(size.cols, size.rows);
+            socket.emit('terminal-resize', size);
+        });
+
       socket.on('disconnect', function() {
         socket = null;
       });
