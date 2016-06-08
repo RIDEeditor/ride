@@ -1,16 +1,17 @@
-'use strict';
 
-function setupTerminal() {
-    var socket = io.connect("http://localhost:8000");
-    console.log("Waiting to connect to socket");
-    socket.on('connect', function() {
-        console.log("Creating new terminal");
+class Code_Terminal {
+    constructor(terminal_div, url) {
+        this.element = terminal_div;
+        this.cell = this.createCell(this.element);
+        this.url = url;
+        this.socket = io.connect(this.url);
+        this.socket.on('connect', this.initTerminal.bind(this));
+    }
 
-        var element = document.getElementById("console");
-        var cell = createCell(element);
-        var size = getSize(element, cell);
+    initTerminal() {
+        var size = this.getSize();
 
-        var term = new Terminal({
+        this.term = new Terminal({
             cols: 150,
             rows: 20,
             useStyle: true,
@@ -18,44 +19,44 @@ function setupTerminal() {
             cursorBlink: false
         });
 
-        term.open(element);
+        this.term.open(this.element);
 
-        term.on('data', function(data) {
-            socket.emit('data', data);
-        });
+        this.term.on('data', function(data) {
+            this.socket.emit('data', data);
+        }.bind(this));
 
-        socket.on('data', function(data) {
-            term.write(data);
-        });
+        this.socket.on('data', function(data) {
+            this.term.write(data);
+        }.bind(this));
 
-        socket.on('terminal-resize', function (size) {
-            term.resize(size.cols, size.rows);
-        });
+        this.socket.on('terminal-resize', function (size) {
+            this.term.resize(size.cols, size.rows);
+        }.bind(this));
 
-        socket.emit('terminal-resize', size);
+        this.socket.emit('terminal-resize', size);
 
-        socket.on('disconnect', function() {
-            term.destroy();
-        });
+        this.socket.on('disconnect', function() {
+            this.term.destroy();
+        }.bind(this));
 
         $(".panel-right-top").on("resize", function(event, ui) {
-            var size = getSize(element, cell);
-            socket.emit('terminal-resize', size);
-        });
+            var size = this.getSize();
+            this.socket.emit('terminal-resize', size);
+        }.bind(this));
 
         $(".panel-left").on("resize", function(event, ui) {
-            var size = getSize(element, cell);
-            socket.emit('terminal-resize', size);
-        });
+            var size = this.getSize();
+            this.socket.emit('terminal-resize', size);
+        }.bind(this));
 
-    });
+    }
 
-    function getSize(element, cell) {
-        var elementBox = element.getBoundingClientRect();
+    getSize() {
+        var elementBox = this.element.getBoundingClientRect();
         var w = elementBox.width;
         var h = $(window).height() - $(".panel-right-top").height() - 40;
 
-        var cellBox = cell.getBoundingClientRect();
+        var cellBox = this.cell.getBoundingClientRect();
         var x = cellBox.width;
         var y = cellBox.height;
 
@@ -70,7 +71,7 @@ function setupTerminal() {
         return size;
     }
 
-    function createCell(element) {
+    createCell(element) {
         var cell = document.createElement('div');
 
         cell.innerHTML = '&nbsp';
@@ -84,5 +85,9 @@ function setupTerminal() {
 
         return cell;
     }
-
 }
+
+$(document).ready(function() {
+    var terminal_div = document.getElementById("console");
+    var my_term = new Code_Terminal(terminal_div, "http://localhost:8000");
+});

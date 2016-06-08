@@ -71,7 +71,6 @@ $(document).ready(function() {
     });
 
     // Make terminal visibile
-    setupTerminal();
     toggleTerminal();
 
     // Setup popup dialog
