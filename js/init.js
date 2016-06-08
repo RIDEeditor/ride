@@ -16,8 +16,16 @@ $(document).ready(function() {
     var menu = new Menu();
 
     $(window).on('fileToOpen', function (e) {
+        menu.handleNewClicked();
         current_editor.readFileIntoEditor(e.detail);
     });
+
+    // Setup filetree
+    var filetree = new FileTree($('#treeview'));
+
+    $(window).on('dirToOpen', function (e) {
+        filetree.addDirectoryToTree(e.detail);
+    })
 
     // Setup the tabs bar
     tab_bar = new Tabs({
@@ -55,7 +63,7 @@ $(document).ready(function() {
 
     // Open directories from previous session in tree
     for (var i = 0; i < settings.openDirectories.length; i++) {
-        menu.addDirectoryToTree(settings.openDirectories[i], false);
+        filetree.addDirectoryToTree(settings.openDirectories[i], false);
     }
 
     // Create a simple status indicator
@@ -99,7 +107,7 @@ $(document).ready(function() {
             settings.openFiles.push(TabsList[key].fileEntry);
         }
 
-        settings.openDirectories = menu.open_dirs;
+        settings.openDirectories = filetree.open_dirs;
 
         saveSettingsToDisk();
     }

@@ -12,7 +12,6 @@ class Menu {
         this.arrayOfThemeNames = [];
         this.current_editor = null;
         this.current_theme = null;
-        this.open_dirs = [];
         var ThemeList = ace.require("ace/ext/themelist");
         for (var i = 0; i < ThemeList.themes.length ; i++) {
             this.arrayOfThemeNames[i] = ThemeList.themes[i].name;
@@ -239,9 +238,7 @@ class Menu {
                 // TODO check if this file is already open. If so, jump to that tab, rather than open the file again
                 // Also, if the current editor is blank (user hasn;t typed anything), then open the file in this editor,
                 // instead of creating a new tab
-                this.handleNewClicked();
                 // If a file was selected, open it in editor
-                //this.current_editor.readFileIntoEditor(filenames[i].toString());
                 var evt = new CustomEvent('fileToOpen', { detail: filenames[i].toString() });
                 window.dispatchEvent(evt);
             }
@@ -256,65 +253,11 @@ class Menu {
         dialog.showOpenDialog({properties: ['openDirectory'], title: "Choose directory to open"}, (function(dirname) {
             if (dirname) {
                 // Open directory in treeview
-                this.addDirectoryToTree(dirname);
+                var evt = new CustomEvent('dirToOpen', { detail: dirname });
+                window.dispatchEvent(evt);
             }
         }).bind(this));
     }
-
-    addDirectoryToTree(dirname, expanded) {
-        if (typeof expanded === 'undefined') { expanded = true; }
-        this.open_dirs.push(dirname);
-        var node = this.buildNode(path.basename(dirname.toString()), dirname.toString() , "directory");
-        node["state"] = {"opened": expanded};
-        var root_node_id = $("#treeview").jstree('create_node',  "#", node, 'last');
-        this.recurseTree(root_node_id, dirname);
-    }
-
-
-    /**
-     * Recurses through a directory, adding files and subdirectories to the file tree
-     *
-     * @param {String} root_node
-     * @param {String} directory
-     */
-    recurseTree(root_node, directory) {
-        walk.walk(directory.toString(), (function(basedir, filename, stat, next) {
-            // Check if is a file or directory
-            var full_path = path.join(basedir, filename);
-            var stats = fs.lstatSync(full_path);
-            if (stats.isDirectory()) {
-                // Add directory to the tree
-                var root_node_id = $("#treeview").jstree('create_node', root_node, this.buildNode(filename, full_path, "directory"), 'last');
-                // Recurse into directory
-                this.recurseTree(root_node_id, full_path);
-            } else {
-                // Add file to the tree
-                var root_node_id = $("#treeview").jstree('create_node', root_node, this.buildNode(filename, full_path, "file"), 'last');
-            }
-        }).bind(this), function(err) {
-            if (err) {
-                console.log(err);
-            }
-        });
-    }
-
-    buildNode(name_string, full_path, type) {
-        var icon = "";
-        if (type == "file") {
-            icon = "glyphicon glyphicon-file";
-        } else {
-            icon = "glyphicon glyphicon-folder-close";
-        }
-        var node = {
-            "text": name_string,
-            "data": full_path,
-            "full_path": full_path,
-            "type": type,
-            "icon": icon
-        }
-        return node;
-    }
-
 
     /**
      * Opens dialog allowing user to choose file to save to
@@ -371,7 +314,8 @@ class Menu {
         this.setStatusIcon("busy");
         var proc = this.railsWrapper.newProject("asd", "asd", (function(stdout, stderr) {
             // Open new project in file tree
-            this.addDirectoryToTree("asd");
+            var evt = new CustomEvent('dirToOpen', { detail: "asd" });
+            window.dispatchEvent(evt);
             this.setStatusIcon("done");
             this.setStatusIndicatorText("Done");
         }).bind(this));
