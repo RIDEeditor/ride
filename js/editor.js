@@ -1,7 +1,6 @@
 'use strict';
 
 const modelist = ace.require("ace/ext/modelist");
-const fs = require("fs");
 
 /**
  * Defines a Tab
@@ -55,7 +54,7 @@ var Tab = function(tab_title) {
             }
         });
         console.log("Write to " + this.fileEntry + " completed.");
-    }
+    };
 
     /**
     * Reads the contents of the file into the editor of this tab, and set the correct document type
@@ -76,11 +75,13 @@ var Tab = function(tab_title) {
             }
             // Set the editor's contents to that of the file
             self.aceSession.setValue(String(data));
+            // Set tab title to filename
+            tab_bar.updateTab(self.tab, {title: path.basename(filePath)});
             self.fileEntry = filePath;
         });
-    }
+    };
 
     // Switch focus to this tab
     switchTab(this.id);
-}
+};
 

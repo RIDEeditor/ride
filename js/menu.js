@@ -9,8 +9,11 @@ const remote = require('electron').remote;
 const Menu = remote.Menu;
 const MenuItem = remote.MenuItem;
 const dialog = remote.require('electron').dialog;
-const path = require("path");
+const walk = require('fs-walk');
+const rails = require('./js/rails-js');
 
+
+var railsWrapper = new rails.railsWrapper();
 var arrayOfThemeNames = [];
 var ThemeList = ace.require("ace/ext/themelist");
 for (var i = 0; i < ThemeList.themes.length ; i++) {
@@ -19,6 +22,7 @@ for (var i = 0; i < ThemeList.themes.length ; i++) {
 
 var current_editor;
 var current_theme;
+var open_dirs = [];
 
 /**
  * Should be called when the 'open file' menu option is selected
@@ -27,19 +31,84 @@ var current_theme;
  * for information on how the dialog works
  */
 function handleFileOpenClicked() {
-    dialog.showOpenDialog({properties: ['openFile'], title: "Choose file to open"}, function(filename) {
-        if (filename) {
+    dialog.showOpenDialog({properties: ['openFile', 'multiSelections'], title: "Choose file to open"}, function(filenames) {
+        for (var i in filenames) {
             // TODO check if this file is already open. If so, jump to that tab, rather than open the file again
             // Also, if the current editor is blank (user hasn;t typed anything), then open the file in this editor,
             // instead of creating a new tab
             handleNewClicked();
             // If a file was selected, open it in editor
-            current_editor.readFileIntoEditor(filename.toString());
-            // Set tab title to filename
-            setCurrentTabTitle(path.basename(filename));
+            current_editor.readFileIntoEditor(filenames[i].toString());
         }
     });
 }
+
+/**
+ * Should be called when the 'open directory' menu option is selected
+ */
+function handleDirectoryOpenClicked() {
+    dialog.showOpenDialog({properties: ['openDirectory'], title: "Choose directory to open"}, function(dirname) {
+        if (dirname) {
+            // Open directory in treeview
+            addDirectoryToTree(dirname);
+        }
+    });
+}
+
+function addDirectoryToTree(dirname, expanded) {
+    if (typeof expanded === 'undefined') { expanded = true; }
+    open_dirs.push(dirname);
+    var node = buildNode(path.basename(dirname.toString()), dirname.toString() , "directory");
+    node["state"] = {"opened": expanded};
+    var root_node_id = $("#treeview").jstree('create_node',  "#", node, 'last');
+    recurseTree(root_node_id, dirname);
+}
+
+
+/**
+ * Recurses through a directory, adding files and subdirectories to the file tree
+ *
+ * @param {String} root_node
+ * @param {String} directory
+ */
+function recurseTree(root_node, directory) {
+    walk.walk(directory.toString(), function(basedir, filename, stat, next) {
+        // Check if is a file or directory
+        var full_path = path.join(basedir, filename);
+        var stats = fs.lstatSync(full_path);
+        if (stats.isDirectory()) {
+            // Add directory to the tree
+            var root_node_id = $("#treeview").jstree('create_node', root_node, buildNode(filename, full_path, "directory"), 'last');
+            // Recurse into directory
+            recurseTree(root_node_id, full_path);
+        } else {
+            // Add file to the tree
+            var root_node_id = $("#treeview").jstree('create_node', root_node, buildNode(filename, full_path, "file"), 'last');
+        }
+    }, function(err) {
+        if (err) {
+            console.log(err);
+        }
+    });
+}
+
+function buildNode(name_string, full_path, type) {
+    var icon = "";
+    if (type == "file") {
+        icon = "glyphicon glyphicon-file";
+    } else {
+        icon = "glyphicon glyphicon-folder-close";
+    }
+    var node = {
+        "text": name_string,
+        "data": full_path,
+        "full_path": full_path,
+        "type": type,
+        "icon": icon
+    }
+    return node;
+}
+
 
 /**
  * Opens dialog allowing user to choose file to save to
@@ -89,6 +158,61 @@ function handleNewClicked() {
     new Tab("untitled");
 }
 
+function generateNewRailsProject() {
+    // TODO open dialog prompting user for project options
+    setStatusIndicatorText("Generating new Rails project");
+    setStatusIconVisibility(true);
+    setStatusIcon("busy");
+    var proc = railsWrapper.newProject("asd", "asd", function(stdout, stderr) {
+        // Open new project in file tree
+        addDirectoryToTree("asd");
+        setStatusIcon("done");
+        setStatusIndicatorText("Done");
+    });
+
+    clearDialog();
+
+    // Read from childprocess stdout
+    // TODO handle stderr as well
+    proc.stdout.on('data', function(data){
+        //console.log(data);
+        appendToDialogContents(data);
+	});
+}
+
+function generateNewController() {
+    // TODO open dialog prompting user for options
+    railsWrapper.newController("mycontroller");
+}
+
+function setStatusIndicatorText(text) {
+    $("#statusIndicatorText").text(text);
+}
+
+function setStatusIconVisibility(shouldShow) {
+   $("#statusIndicatorImage").toggle(shouldShow);
+}
+
+function setStatusIcon(icon) {
+    if (icon == "busy") {
+        $("#statusIndicatorImage").attr("src", "css/throbber2.gif");
+    } else if (icon == "done") {
+        $("#statusIndicatorImage").attr("src", "css/tick.png");
+    }
+}
+
+function clearDialog() {
+    $("#dialog-contentholder").text("");
+}
+
+function appendToDialogContents(text) {
+    $("#dialog-contentholder").append(nl2br_js(text));
+    $('#dialog').animate({scrollTop:$('#dialog-contentholder').height()}, 0);
+}
+
+function nl2br_js(myString){
+    return myString.replace( /\n/g, '<br />\n' );
+}
 
 // Defines the menu structure
 var menu_template = [
@@ -96,7 +220,11 @@ var menu_template = [
     label: 'File',
     submenu: [
       {
-        label: 'New',
+        label: 'New rails project',
+        click: generateNewRailsProject
+      },
+      {
+        label: 'New file',
         accelerator: 'CmdOrCtrl+n',
         click: handleNewClicked
       },
@@ -119,6 +247,10 @@ var menu_template = [
         click: handleFileOpenClicked
       },
       {
+        label: 'Open Directory',
+        click: handleDirectoryOpenClicked
+      },
+      {
         label: 'Copy',
         accelerator: 'CmdOrCtrl+C',
         role: 'copy'
@@ -136,6 +268,15 @@ var menu_template = [
     ]
   },
   {
+    label: 'Generate',
+    submenu: [
+      {
+        label: 'New controller',
+        click: generateNewController
+      }
+    ]
+  },
+  {
     label: 'View',
     submenu: [
       {
@@ -145,6 +286,12 @@ var menu_template = [
           if (focusedWindow)
             focusedWindow.reload();
         }
+      },
+      {
+        label: 'Show Terminal',
+        accelerator: 'Shift+CmdOrCtrl+t',
+        click: toggleTerminal
+
       },
       {
         label: 'Toggle Full Screen',
@@ -210,6 +357,10 @@ var menu_template = [
 
         ]
       },
+      {
+        label: 'Set Font Size',
+        click: function(){console.log(editor.getFontSize()); editor.setFontSize('14')}
+      }
     ]
   },
 
@@ -271,8 +422,8 @@ function findMenuIndex(menuLabel) {
 }
 
 /**
- * Function that is executed when a theme is selected
- * Iterates through all editors and sets their theme to the one selected
+ * Executed when a theme is selected
+ * Sets the editor theme to the one selected
  */
 function addThemes(label) {
   menu_template[findMenuIndex("Preferences")].submenu[0].submenu.push(
