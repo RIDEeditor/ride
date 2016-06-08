@@ -2,6 +2,8 @@
 
 'use strict';
 
+const walk = require('fs-walk');
+
 class FileTree {
     constructor(tree_element) {
         this.tree_element = tree_element;
@@ -85,3 +87,5 @@ class FileTree {
         return node;
     }
 }
+
+exports.FileTree = FileTree;

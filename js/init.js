@@ -4,6 +4,10 @@
  *
  */
 
+
+const filetree_lib = require('./js/filetree');
+const menu_lib = require('./js/menu');
+
 var TabsList = {}; // Holds all tabs that have been created
 var tab_bar; // Represents the top tab bar
 var editor; // 'Global' editor. New editor sessions are created for each tab
@@ -13,7 +17,7 @@ var current_editor;
 $(document).ready(function() {
 
     // Create menu
-    var menu = new Menu();
+    var menu = new menu_lib.Menu();
 
     $(window).on('fileToOpen', function (e) {
         menu.handleNewClicked();
@@ -21,7 +25,7 @@ $(document).ready(function() {
     });
 
     // Setup filetree
-    var filetree = new FileTree($('#treeview'));
+    var filetree = new filetree_lib.FileTree($('#treeview'));
 
     $(window).on('dirToOpen', function (e) {
         filetree.addDirectoryToTree(e.detail);
