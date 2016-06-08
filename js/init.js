@@ -8,8 +8,16 @@ var TabsList = {}; // Holds all tabs that have been created
 var tab_bar; // Represents the top tab bar
 var editor; // 'Global' editor. New editor sessions are created for each tab
 var terminal_maximised = true;
+var current_editor;
 
 $(document).ready(function() {
+
+    // Create menu
+    var menu = new Menu();
+
+    $(window).on('fileToOpen', function (e) {
+        current_editor.readFileIntoEditor(e.detail);
+    });
 
     // Setup the tabs bar
     tab_bar = new Tabs({
@@ -45,8 +53,9 @@ $(document).ready(function() {
         new Tab("untitled");
     }
 
+    // Open directories from previous session in tree
     for (var i = 0; i < settings.openDirectories.length; i++) {
-        addDirectoryToTree(settings.openDirectories[i], false);
+        menu.addDirectoryToTree(settings.openDirectories[i], false);
     }
 
     // Create a simple status indicator
@@ -90,7 +99,7 @@ $(document).ready(function() {
             settings.openFiles.push(TabsList[key].fileEntry);
         }
 
-        settings.openDirectories = open_dirs;
+        settings.openDirectories = menu.open_dirs;
 
         saveSettingsToDisk();
     }
