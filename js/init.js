@@ -116,7 +116,7 @@ $(window).load(function() {
         $(window).unbind("resize");
     });
 
-    $(window).load(function() {
+    $(document).ready(function() {
         $(".panel-right-top").height($(".panel-right").height());
         editor.resize();
     });
