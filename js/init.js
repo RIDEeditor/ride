@@ -19,9 +19,6 @@ var current_editor;
 
 $(window).load(function() {
 
-    //$("#code").height(window.innerHeight);
-    console.log("window height: " + window.innerHeight);
-
     // Create menu
     var menu = new menu_lib.Menu();
 
@@ -114,7 +111,6 @@ $(window).load(function() {
     })
 
     $(window).bind("resize", function() {
-        console.log("resize");
         $(".panel-right-top").height($(".panel-right").height());
         editor.resize();
         $(window).unbind("resize");
