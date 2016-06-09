@@ -14,7 +14,7 @@ var tab_bar; // Represents the top tab bar
 var editor; // 'Global' editor. New editor sessions are created for each tab
 var terminal_maximised = false;
 var terminal_loaded = false;
-var terminal_height = 150;
+var terminal_height = 200;
 var current_editor;
 
 $(window).load(function() {
@@ -114,6 +114,11 @@ $(window).load(function() {
         $(".panel-right-top").height($(".panel-right").height());
         editor.resize();
         $(window).unbind("resize");
+    });
+
+    $(window).load(function() {
+        $(".panel-right-top").height($(".panel-right").height());
+        editor.resize();
     });
 
     // Do stuff when user requests to exit
