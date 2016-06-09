@@ -19,13 +19,13 @@ function createWindow () {
         'minWidth': 1100
     });
 
-    // Maximize the window
-    mainWindow.maximize();
-
     bootup();
 
     // Load the index.html of the app.
     mainWindow.loadURL('file://' + __dirname + '/index.html');
+
+    // Maximize the window
+    mainWindow.maximize();
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function() {
