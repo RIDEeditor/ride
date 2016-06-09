@@ -6,6 +6,7 @@ var os = require('os');
 var fs = require('fs');
 var path = require('path');
 var mkdirp = require('mkdirp');
+const dialog = require('electron').remote.dialog;
 
 
 var settingsDir = path.join(os.homedir(), ".config", "ride");

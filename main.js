@@ -16,7 +16,8 @@ function createWindow () {
     // Create the browser window.
     mainWindow = new BrowserWindow({
         'minHeight': 600,
-        'minWidth': 1100
+        'minWidth': 1100,
+        'fullscreenable': true
     });
 
     bootup();

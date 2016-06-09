@@ -5,6 +5,7 @@ const modelist = ace.require("ace/ext/modelist");
 const AceDocument = ace.require("ace/document");
 const EditSession = ace.require("ace/edit_session");
 const UndoManager = ace.require("ace/undomanager");
+//const dialog = require('electron').dialog;
 
 /**
  * Defines a Tab
@@ -74,7 +75,7 @@ var Tab = function(tab_title) {
         fs.readFile(filePath.toString(), function (err, data) {
             if (err) {
                 console.log("Read failed: " + err);
-                dialog.showErrorBox("Error Opening", "There was an error opening the file");
+                dialog.showErrorBox("Error Opening", "There was an error opening the file " + filePath.toString());
                 return;
             }
             // Set the editor's contents to that of the file
