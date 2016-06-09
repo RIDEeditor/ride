@@ -113,6 +113,13 @@ $(window).load(function() {
     $(window).bind("resize", function() {
         $(".panel-right-top").height($(".panel-right").height());
         editor.resize();
+        let height = $(".panel-right").height();
+        while ($(".panel-right").height() !== height) {
+            console.log("resize");
+            $(".panel-right-top").height($(".panel-right").height());
+            editor.resize();
+            height = $(".panel-right").height();
+        }
         $(window).unbind("resize");
     });
 
