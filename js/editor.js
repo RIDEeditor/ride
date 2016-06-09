@@ -1,6 +1,10 @@
 'use strict';
 
 const modelist = ace.require("ace/ext/modelist");
+// Load ace extras
+const AceDocument = ace.require("ace/document");
+const EditSession = ace.require("ace/edit_session");
+const UndoManager = ace.require("ace/undomanager");
 
 /**
  * Defines a Tab
@@ -83,5 +87,6 @@ var Tab = function(tab_title) {
 
     // Switch focus to this tab
     switchTab(this.id);
+
 };
 

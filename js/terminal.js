@@ -87,7 +87,4 @@ class Code_Terminal {
     }
 }
 
-$(document).ready(function() {
-    var terminal_div = document.getElementById("console");
-    var my_term = new Code_Terminal(terminal_div, "http://localhost:8000");
-});
+exports.Code_Terminal = Code_Terminal;

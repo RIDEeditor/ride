@@ -35,7 +35,7 @@ class Menu {
               {
                 label: 'New file',
                 accelerator: 'CmdOrCtrl+n',
-                click: this.handleNewClicked.bind(this)
+                click: function () {new Tab("untitled");}
               },
               {
                 label: 'Save',
@@ -279,6 +279,11 @@ class Menu {
         }).bind(this));
     }
 
+    toggleTerminal() {
+        var evt = new CustomEvent('toggleTerminal', {});
+        window.dispatchEvent(evt);
+    }
+
     /**
      * Sets the title of the currently selected tab to the provided string
      *
@@ -304,10 +309,6 @@ class Menu {
         }
     }
 
-    handleNewClicked() {
-        new Tab("untitled");
-    }
-
     generateNewRailsProject() {
         // TODO open dialog prompting user for project options
         this.setStatusIndicatorText("Generating new Rails project");
@@ -321,7 +322,7 @@ class Menu {
             this.setStatusIndicatorText("Done");
         }).bind(this));
 
-        this.clearDialog();
+        clearDialog();
 
         // Read from childprocess stdout
         // TODO handle stderr as well
@@ -351,20 +352,20 @@ class Menu {
         }
     }
 
-    clearDialog() {
-        $("#dialog-contentholder").text("");
-    }
-
     appendToDialogContents(text) {
-        $("#dialog-contentholder").append(this.nl2br_js(text));
+        $("#dialog-contentholder").append(nl2br_js(text));
         $('#dialog').animate({scrollTop:$('#dialog-contentholder').height()}, 0);
     }
 
-    nl2br_js(myString){
+}
+
+function clearDialog() {
+    $("#dialog-contentholder").text("");
+}
+
+function nl2br_js(myString){
         return myString.replace( /\n/g, '<br />\n' );
     }
-
-}
 
 exports.Menu = Menu;
 

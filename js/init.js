@@ -7,20 +7,26 @@
 
 const filetree_lib = require('./js/filetree');
 const menu_lib = require('./js/menu');
+const terminal_lib = require('./js/terminal');
 
 var TabsList = {}; // Holds all tabs that have been created
 var tab_bar; // Represents the top tab bar
 var editor; // 'Global' editor. New editor sessions are created for each tab
-var terminal_maximised = true;
+var terminal_maximised = false;
+var terminal_loaded = false;
+var terminal_height = 150;
 var current_editor;
 
-$(document).ready(function() {
+$(window).load(function() {
+
+    //$("#code").height(window.innerHeight);
+    console.log("window height: " + window.innerHeight);
 
     // Create menu
     var menu = new menu_lib.Menu();
 
     $(window).on('fileToOpen', function (e) {
-        menu.handleNewClicked();
+        new Tab("untitled");
         current_editor.readFileIntoEditor(e.detail);
     });
 
@@ -48,7 +54,6 @@ $(document).ready(function() {
         new Tab();
     });
 
-
     // Read settings from disk
     var settings = loadSettingsFromDisk();
 
@@ -60,6 +65,7 @@ $(document).ready(function() {
             current_editor.readFileIntoEditor(settings.openFiles[i]);
         }
     }
+
     if (settings.openFiles.length == 0) {
         // Create a tab if no files from last session
         new Tab("untitled");
@@ -91,14 +97,27 @@ $(document).ready(function() {
         editor.resize();
     });
 
-    // Make terminal visibile
-    toggleTerminal();
-
     // Setup popup dialog
     $("#dialog").dialog({autoOpen: false, title: "Command Output", height: 500, width: 600});
     $('#statusIndicatorImage').click(function() {
         $('#dialog').dialog('open');
         $('#dialog').animate({scrollTop:$('#dialog-contentholder').height()}, 0);
+    });
+
+    $(window).on('toggleTerminal', function (e) {
+        if (!terminal_loaded) {
+            // Setup terminal
+            var terminal_div = document.getElementById("console");
+            var my_term = new terminal_lib.Code_Terminal(terminal_div, "http://localhost:8000");
+        }
+        toggleTerminal();
+    })
+
+    $(window).bind("resize", function() {
+        console.log("resize");
+        $(".panel-right-top").height($(".panel-right").height());
+        editor.resize();
+        $(window).unbind("resize");
     });
 
     // Do stuff when user requests to exit
@@ -116,13 +135,7 @@ $(document).ready(function() {
         saveSettingsToDisk();
     }
 
-
 });
-
-// Load ace extras
-var AceDocument = ace.require("ace/document");
-var EditSession = ace.require("ace/edit_session");
-var UndoManager = ace.require("ace/undomanager");
 
 /**
 * Switches focus to the tab with the given id
@@ -136,6 +149,7 @@ var switchTab = function(id) {
 
 function toggleTerminal() {
     if (terminal_maximised) {
+        terminal_height = $(".terminal").outerHeight() + 18;
         $(".panel-right-top").height($(".panel-right").height());
         editor.resize();
         terminal_maximised = false;
@@ -143,7 +157,7 @@ function toggleTerminal() {
         $(".ace_text-input").focus();
     } else {
         // Resize editor
-        $(".panel-right-top").height($(".panel-right-top").height() - 300);
+        $(".panel-right-top").height($(".panel-right-top").height() - terminal_height);
         editor.resize();
         // Resize terminal
         $("#console").height($(window).height() - $(".panel-right-top").height() - 40);
@@ -151,4 +165,5 @@ function toggleTerminal() {
         // Set focus to terminal
         $(".terminal").focus();
     }
+    $(".panel-right-top").trigger("resize");
 }
