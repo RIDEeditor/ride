@@ -22,17 +22,15 @@ class FileTree {
         });
 
         // Setup callback that handles when a file is selected in the tree
-        this.tree_element.on("select_node.jstree", function (e, data) {
-            for(var i = 0, j = data.selected.length; i < j; i++) {
-                var node = data.instance.get_node(data.selected[i]);
-                if (node.original.type == "file") {
-                    var path = node.data;
-                    // Dispatch file open event
-                    var evt = new CustomEvent('fileToOpen', { detail: path });
-                    window.dispatchEvent(evt);
-                }
+        this.tree_element.on("dblclick.jstree", (function (event) {
+            let node = this.tree_element.jstree("get_node", event.target.id);
+            if (node.original.type == "file") {
+                var path = node.data;
+                // Dispatch file open event
+                var evt = new CustomEvent('fileToOpen', { detail: path });
+                window.dispatchEvent(evt);
             }
-        });
+        }).bind(this));
 
         // Setup tooltips to show full file path when hovered over
         this.tree_element.on('hover_node.jstree',function(e,data){
