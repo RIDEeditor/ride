@@ -8,6 +8,7 @@
 const filetree_lib = require('./js/filetree');
 const menu_lib = require('./js/menu');
 const terminal_lib = require('./js/terminal');
+const settings_lib = require('./js/settings');
 
 var TabsList = {}; // Holds all tabs that have been created
 var tab_bar; // Represents the top tab bar
@@ -18,6 +19,8 @@ var terminal_height = 200;
 var current_editor;
 
 $(window).load(function() {
+
+    var settings = new settings_lib.Settings();
 
     // Create menu
     var menu = new menu_lib.Menu();
@@ -52,7 +55,6 @@ $(window).load(function() {
     });
 
     // Read settings from disk
-    var settings = loadSettingsFromDisk();
 
     // Open files from last session
     for (var i = 0; i < settings.openFiles.length; i++) {
@@ -133,7 +135,7 @@ $(window).load(function() {
 
         settings.openDirectories = filetree.open_dirs;
 
-        saveSettingsToDisk();
+        settings.saveSettingsToDisk();
     }
 
 });
