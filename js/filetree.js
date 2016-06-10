@@ -9,12 +9,20 @@ class FileTree {
         this.tree_element = tree_element;
         this.open_dirs = [];
         // Create tree
-        tree_element.jstree({ 'core' : {
-            "check_callback" : true
-        } });
+        tree_element.jstree({
+            'core' : {
+                "check_callback" : true
+            },
+            "plugins" : [
+                "contextmenu"
+            ],
+            'contextmenu' : {
+                'items' : this.removeMenu.bind(this)
+            },
+        });
 
         // Setup callback that handles when a file is selected in the tree
-        tree_element.on("select_node.jstree", function (e, data) {
+        this.tree_element.on("select_node.jstree", function (e, data) {
             for(var i = 0, j = data.selected.length; i < j; i++) {
                 var node = data.instance.get_node(data.selected[i]);
                 if (node.original.type == "file") {
@@ -27,9 +35,30 @@ class FileTree {
         });
 
         // Setup tooltips to show full file path when hovered over
-        tree_element.on('hover_node.jstree',function(e,data){
+        this.tree_element.on('hover_node.jstree',function(e,data){
             $("#"+data.node.id).prop('title', data.node.original.full_path);
         });
+    }
+
+
+    removeMenu(node) {
+        // TODO if files under this node are open in editor, should they be closed?
+        if (node.original.type == "directory" && node.parent == "#") {
+            var items = {
+                'remove' : {
+                    'label' : 'Remove from workspace',
+                    'action' : (function () {
+                        this.tree_element.jstree("delete_node", node);
+                        // Find index of this dir in open_dirs and remove it
+                        let index = this.open_dirs.indexOf(node.data);
+                        this.open_dirs.splice(index, 1);
+                    }).bind(this)
+                }
+            }
+            return items;
+        } else {
+            return null;
+        }
     }
 
 
