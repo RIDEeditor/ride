@@ -322,7 +322,7 @@ class Menu {
             this.setStatusIndicatorText("Done");
         }).bind(this));
 
-        clearDialog();
+        this.clearDialog();
 
         // Read from childprocess stdout
         // TODO handle stderr as well
@@ -353,19 +353,21 @@ class Menu {
     }
 
     appendToDialogContents(text) {
-        $("#dialog-contentholder").append(nl2br_js(text));
+        $("#dialog-contentholder").append(this.nl2br_js(text));
         $('#dialog').animate({scrollTop:$('#dialog-contentholder').height()}, 0);
     }
 
-}
-
-function clearDialog() {
+    clearDialog() {
     $("#dialog-contentholder").text("");
+  }
+
+    nl2br_js(myString){
+        return myString.replace( /\n/g, '<br />\n' );
+  }
+
 }
 
-function nl2br_js(myString){
-        return myString.replace( /\n/g, '<br />\n' );
-    }
+
 
 exports.Menu = Menu;
 
