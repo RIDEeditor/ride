@@ -5,7 +5,9 @@ const modelist = ace.require("ace/ext/modelist");
 const AceDocument = ace.require("ace/document");
 const EditSession = ace.require("ace/edit_session");
 const UndoManager = ace.require("ace/undomanager");
-//const dialog = require('electron').dialog;
+const dialog = require('electron').dialog;
+const path = require('path');
+const fs = require('fs');
 
 /**
  * Defines a Tab

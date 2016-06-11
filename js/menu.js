@@ -4,6 +4,7 @@ const MenuItem = remote.MenuItem;
 const walk = require('fs-walk');
 const rails = require('./rails-js'); // Note: This path is relative to where we are importing from
 // See: https://stackoverflow.com/questions/16652620/node-js-require-cannot-find-custom-module/16652662#16652662
+const dialog = require('electron').remote.dialog;
 
 
 class Menu {
