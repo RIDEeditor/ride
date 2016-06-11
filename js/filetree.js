@@ -3,6 +3,8 @@
 'use strict';
 
 const walk = require('fs-walk');
+const path = require('path');
+const fs = require('fs');
 
 class FileTree {
     constructor(tree_element) {

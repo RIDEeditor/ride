@@ -6,17 +6,20 @@ const rails = require('./rails-js'); // Note: This path is relative to where we 
 // See: https://stackoverflow.com/questions/16652620/node-js-require-cannot-find-custom-module/16652662#16652662
 const dialog = require('electron').remote.dialog;
 
+const editor_lib = require('./editor');
+
 
 class Menu {
-    constructor() {
+    constructor(current_state) {
         this.railsWrapper = new rails.railsWrapper();
         this.arrayOfThemeNames = [];
-        this.current_editor = null;
         this.current_theme = null;
         var ThemeList = ace.require("ace/ext/themelist");
         for (var i = 0; i < ThemeList.themes.length ; i++) {
             this.arrayOfThemeNames[i] = ThemeList.themes[i].name;
         }
+
+        this.current_state = current_state;
 
         // Set the menu
         electronMenu.setApplicationMenu(this.buildMenu.bind(this)());
@@ -35,7 +38,7 @@ class Menu {
               {
                 label: 'New file',
                 accelerator: 'CmdOrCtrl+n',
-                click: function () {new Tab("untitled");}
+                click: (function () {new editor_lib.Editor("Untitled",this.current_state);}).bind(this)
               },
               {
                 label: 'Save',
@@ -264,15 +267,15 @@ class Menu {
      * Opens dialog allowing user to choose file to save to
      */
     handleFileSaveAsClicked() {
-        if (Object.keys(TabsList).length < 1) {
+        if (Object.keys(this.current_state.TabsList).length < 1) {
             // No editors are open, so nothing to save
             return;
         }
         dialog.showSaveDialog({title: "Choose where to save file"}, (function(filename) {
             if (filename) {
-                current_editor.fileEntry = filename;
+                this.current_state.current_editor.fileEntry = filename;
                 // If a file was selected, save file to it
-                current_editor.writeEditorDataToFile();
+                this.current_state.current_editor.writeEditorDataToFile();
                 // Set tab title to filename
                 this.setCurrentTabTitle(path.basename(filename));
             }
@@ -290,19 +293,19 @@ class Menu {
      * @param {String} title
      */
     setCurrentTabTitle(new_title) {
-        tab_bar.updateTab(current_editor.tab, {title: new_title});
+        tab_bar.updateTab(this.current_state.current_editor.tab, {title: new_title});
     }
 
     /**
      * Saves the file currently in editor
      */
     handleSaveClicked() {
-        if (Object.keys(TabsList).length < 1) {
+        if (Object.keys(this.current_state.TabsList).length < 1) {
             // No editors are open, so nothing to save
             return;
         }
-        if (current_editor.fileEntry) {
-            current_editor.writeEditorDataToFile();
+        if (this.current_state.current_editor.fileEntry) {
+            this.current_state.current_editor.writeEditorDataToFile();
         } else {
             // Handle case where this is a new file and so a file on disk must be chosen before saving
             this.handleFileSaveAsClicked();

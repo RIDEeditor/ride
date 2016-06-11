@@ -9,25 +9,33 @@ const filetree_lib = require('./js/filetree');
 const menu_lib = require('./js/menu');
 const terminal_lib = require('./js/terminal');
 const settings_lib = require('./js/settings');
+const editor_lib = require('./js/editor');
+const state_lib = require('./js/state');
 
-var TabsList = {}; // Holds all tabs that have been created
+
 var tab_bar; // Represents the top tab bar
 var editor; // 'Global' editor. New editor sessions are created for each tab
 var terminal_maximised = false;
 var terminal_loaded = false;
 var terminal_height = 200;
-var current_editor;
+
+var current_state = new state_lib.State();
 
 $(window).load(function() {
 
     var settings = new settings_lib.Settings();
 
     // Create menu
-    var menu = new menu_lib.Menu();
+    var menu = new menu_lib.Menu(current_state);
+
+    $(window).on('switchTab', function(e){
+        //console.log(e);
+        switchTab(e.detail);
+    });
 
     $(window).on('fileToOpen', function (e) {
-        new Tab("untitled");
-        current_editor.readFileIntoEditor(e.detail);
+        new editor_lib.Editor("Untitled",current_state);
+        current_state.current_editor.readFileIntoEditor(e.detail);
     });
 
     // Setup filetree
@@ -51,7 +59,7 @@ $(window).load(function() {
 
     // Define what the 'new tab' button does
     $('.new').on('click', function(ev) {
-        new Tab();
+        new editor_lib.Editor("Untitled",current_state);
     });
 
     // Read settings from disk
@@ -59,15 +67,15 @@ $(window).load(function() {
     // Open files from last session
     for (var i = 0; i < settings.openFiles.length; i++) {
         var file = settings.openFiles[i];
-        new Tab();
+        new editor_lib.Editor("Untitled",current_state);
         if (file) {
-            current_editor.readFileIntoEditor(settings.openFiles[i]);
+            current_state.current_editor.readFileIntoEditor(settings.openFiles[i]);
         }
     }
 
     if (settings.openFiles.length == 0) {
         // Create a tab if no files from last session
-        new Tab("untitled");
+        new editor_lib.Editor("Untitled",current_state);
     }
 
     // Open directories from previous session in tree
@@ -129,8 +137,8 @@ $(window).load(function() {
 
         // Update settings
         settings.openFiles = [];
-        for (var key in TabsList) {
-            settings.openFiles.push(TabsList[key].fileEntry);
+        for (var key in current_state.TabsList) {
+            settings.openFiles.push(current_state.TabsList[key].fileEntry);
         }
 
         settings.openDirectories = filetree.open_dirs;
@@ -144,10 +152,12 @@ $(window).load(function() {
 * Switches focus to the tab with the given id
 */
 var switchTab = function(id) {
-    var doc = TabsList[id];
+    var doc = current_state.TabsList[id];
+    //console.log(current_state.TabsList);
+    //console.log(id);
     editor.setSession(doc.aceSession);
     editor.focus();
-    current_editor = doc;
+    current_state.current_editor = doc;
 }
 
 function toggleTerminal() {
