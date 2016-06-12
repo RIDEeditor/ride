@@ -113,7 +113,7 @@ $(window).load(function() {
     });
 
     // Setup popup dialog
-    $("#database-dialog").dialog({autoOpen: false, title: "Database dialog", height: 200, width: 600});
+    $("#database-dialog").dialog({autoOpen: false, title: "Database dialog", height: 200, width: 250});
 
 
     $(window).on('toggleTerminal', function (e) {
