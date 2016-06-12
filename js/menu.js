@@ -13,7 +13,7 @@ const database_lib = require('./database');
 
 
 class Menu {
-    constructor(current_state) {
+    constructor(current_state,filetree) {
        
         this.arrayOfThemeNames = [];
         this.current_theme = null;
@@ -26,7 +26,7 @@ class Menu {
 
         this.rails_ui = new RailsUI_lib.RailsUI();
 
-        this.database = new database_lib.Database();
+        this.database = new database_lib.Database(filetree);
 
         // Set the menu
         electronMenu.setApplicationMenu(this.buildMenu.bind(this)());

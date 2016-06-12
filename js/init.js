@@ -25,8 +25,11 @@ $(window).load(function() {
 
     var settings = new settings_lib.Settings();
 
+    // Setup filetree
+    var filetree = new filetree_lib.FileTree($('#treeview'));
+
     // Create menu
-    var menu = new menu_lib.Menu(current_state);
+    var menu = new menu_lib.Menu(current_state,filetree);
 
     $(window).on('switchTab', function(e){
         //console.log(e);
@@ -38,8 +41,6 @@ $(window).load(function() {
         current_state.current_editor.readFileIntoEditor(e.detail);
     });
 
-    // Setup filetree
-    var filetree = new filetree_lib.FileTree($('#treeview'));
 
     $(window).on('dirToOpen', function (e) {
         filetree.addDirectoryToTree(e.detail);
