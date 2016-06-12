@@ -18,6 +18,13 @@ class Database{
 			$("#database-dialog-contentholder").append(div);
 		}
 
+		//let input = document.createElement("input");
+		//input.type = "submit";
+		//input.value = "Open Database of this project";
+		//input.style.bottom = 50;
+		//$("#database-dialog-contentholder").append(input);
+		
+
         $('#database-dialog').animate({scrollTop:$('#database-dialog-contentholder').height()}, 0);
 	}
 
