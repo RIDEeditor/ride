@@ -1,18 +1,23 @@
 'use strict';
 
 const electron = require('electron');
+const {ipcMain} = require('electron');
 // Module to control application life.
 const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 const tty = require('tty.js');
+const childProcess = require("child_process");
+const treekill = require('treekill');
 var termProc;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let railsdbWindow;
+let rails_db_prc;
 
-function createWindow () {
+function createMainWindow () {
     // Create the browser window.
     mainWindow = new BrowserWindow({
         'minHeight': 600,
@@ -20,7 +25,7 @@ function createWindow () {
         'fullscreenable': true
     });
 
-    bootup();
+    setup_terminal();
 
     // Load the index.html of the app.
     mainWindow.loadURL('file://' + __dirname + '/index.html');
@@ -33,13 +38,66 @@ function createWindow () {
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
+        if (rails_db_prc != null) {
+            rails_db_prc.kill('SIGTERM');
+        }
+        if (railsdbWindow != null) {
+            // Close db window if it's not yet been closed
+            railsdbWindow.close();
+        }
+        if (termProc !=null) {
+            termProc.destroy();
+        }
+        railsdbWindow = null;
         mainWindow = null;
-        termProc.destroy();
+        app.quit();
     });
-
 }
 
-function bootup() {
+function createRailsdbWindow () {
+    railsdbWindow = new BrowserWindow({
+        width: 800,
+        height: 600,
+        show: false
+    });
+
+    railsdbWindow.loadURL('file://' + __dirname + '/js/rails_db/rails_db.html');
+    railsdbWindow.on('closed', function() {
+        // Dereference the window object
+        railsdbWindow = null;
+    });
+    //railsdbWindow.setMenu(null);
+    ipcMain.on('launch-rails-db', function(event, arg) {
+        // Start rails_db
+        rails_db_prc = launch_rails_db(arg);
+
+        rails_db_prc.stdout.on('data', function(data){
+            console.log(data.toString());
+        });
+
+        rails_db_prc.stderr.on('data', function(data){
+            console.log(data.toString());
+        });
+
+        //railsdbWindow.setMenu(null);
+        railsdbWindow.show();
+    });
+}
+
+
+function launch_rails_db(projectLocation) {
+    var prc = childProcess.spawn("railsdb", {stdio: "pipe", cwd: projectLocation}, function(error, stdout, stderr) {
+        if (error == null) {
+            console.log(stdout.toString());
+        } else {
+            console.log(error)
+        }
+    });
+    return prc;
+}
+
+
+function setup_terminal() {
     var http = require('http')
       , express = require('express')
       , io = require('socket.io')
@@ -161,14 +219,19 @@ function bootup() {
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
-app.on('ready', createWindow);
+app.on('ready', function() {
+    createMainWindow();
+    createRailsdbWindow();
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin') {
-        termProc.destroy();
+        if (termProc != null) {
+            termProc.destroy();
+        }
         app.quit();
     }
 });
@@ -177,7 +240,7 @@ app.on('activate', function () {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (mainWindow === null) {
-        createWindow();
+        createMainWindow();
     }
 });
 

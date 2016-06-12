@@ -11,6 +11,7 @@ const terminal_lib = require('./js/terminal');
 const settings_lib = require('./js/settings');
 const editor_lib = require('./js/editor');
 const state_lib = require('./js/state');
+const {ipcRenderer} = require('electron');
 
 
 var tab_bar; // Represents the top tab bar
@@ -115,14 +116,11 @@ $(window).load(function() {
     // Setup popup dialog
     $("#database-dialog").dialog({autoOpen: false, title: "Database dialog", height: 200, width: 600});
     $("#opendb").click(function(){
-
-        
-
-        let pathToDirectorySelected = $( "#selector option:selected" ).text();
-        console.log(pathToDirectorySelected);
-
-
+        let pathToDirectorySelected = $("#selector option:selected").text();
         // run the rails command 
+        ipcRenderer.send('launch-rails-db', pathToDirectorySelected);
+        // Close dialog
+        $("#database-dialog").dialog('close');
     });
 
 
@@ -133,7 +131,7 @@ $(window).load(function() {
             var my_term = new terminal_lib.Code_Terminal(terminal_div, "http://localhost:8000");
         }
         toggleTerminal();
-    })
+    });
 
     $(window).bind("resize", function() {
         $(".panel-right-top").height($(".panel-right").height());
