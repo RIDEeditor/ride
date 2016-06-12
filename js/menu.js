@@ -9,6 +9,8 @@ const editor_lib = require('./editor');
 
 const RailsUI_lib = require('./rails_ui');
 
+const database_lib = require('./database');
+
 
 class Menu {
     constructor(current_state) {
@@ -23,6 +25,8 @@ class Menu {
         this.current_state = current_state;
 
         this.rails_ui = new RailsUI_lib.RailsUI();
+
+        this.database = new database_lib.Database();
 
         // Set the menu
         electronMenu.setApplicationMenu(this.buildMenu.bind(this)());
@@ -88,6 +92,15 @@ class Menu {
               {
                 label: 'New controller',
                 click: this.rails_ui.generateNewController.bind(this.rails_ui)
+              }
+            ]
+          },
+          {
+            label: 'Database',
+            submenu: [
+              {
+                label: 'Select database to open',
+                click: this.database.showDatabaseDialog.bind(this.database)
               }
             ]
           },

@@ -111,6 +111,10 @@ $(window).load(function() {
         $('#dialog').animate({scrollTop:$('#dialog-contentholder').height()}, 0);
     });
 
+    // Setup popup dialog
+    $("#database-dialog").dialog({autoOpen: false, title: "Database dialog", height: 500, width: 600});
+
+
     $(window).on('toggleTerminal', function (e) {
         if (!terminal_loaded) {
             // Setup terminal
