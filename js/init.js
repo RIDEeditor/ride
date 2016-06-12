@@ -114,6 +114,9 @@ $(window).load(function() {
 
     // Setup popup dialog
     $("#database-dialog").dialog({autoOpen: false, title: "Database dialog", height: 200, width: 250});
+    $("#opendb").click(function(){
+        // run the rails command 
+    });
 
 
     $(window).on('toggleTerminal', function (e) {
