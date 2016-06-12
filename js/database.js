@@ -14,7 +14,7 @@ class Database{
 
 		for(let i=0;i<this.filetree.open_dirs.length;i++){
 			let option = document.createElement("option");
-			option.innerHTML = path.basename(this.filetree.open_dirs[i]);
+			option.innerHTML =this.filetree.open_dirs[i];
 			if(i === 0){
 				option.selected = "selected";
 			}

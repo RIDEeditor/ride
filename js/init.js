@@ -113,8 +113,15 @@ $(window).load(function() {
     });
 
     // Setup popup dialog
-    $("#database-dialog").dialog({autoOpen: false, title: "Database dialog", height: 200, width: 250});
+    $("#database-dialog").dialog({autoOpen: false, title: "Database dialog", height: 200, width: 600});
     $("#opendb").click(function(){
+
+        
+
+        let pathToDirectorySelected = $( "#selector option:selected" ).text();
+        console.log(pathToDirectorySelected);
+
+
         // run the rails command 
     });
 
