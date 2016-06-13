@@ -8,7 +8,6 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const tty = require('tty.js');
 const childProcess = require("child_process");
-const treekill = require('treekill');
 var termProc;
 
 // Keep a global reference of the window object, if you don't, the window will
