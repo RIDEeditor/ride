@@ -8,7 +8,12 @@ class Database{
 	}
 
 	showDatabaseDialog(){
-		$("#database-dialog-contentholder").text("");
+		// set the content to nothing
+		//$("#database-dialog-contentholder").text("");
+
+		// delete all the option elements for selector
+		document.getElementById('selector').innerHTML = "";
+
 		$('#database-dialog').dialog('open');
 
 
