@@ -24,11 +24,13 @@ class RailsUI{
 
             this.clearDialog();
 
-            // Read from childprocess stdout
-            // TODO handle stderr as well
-            proc.stdout.on('data', (function(data){
-                this.appendToDialogContents(data);
-    	    }).bind(this));
+            if (proc != null) {
+                // Read from childprocess stdout
+                // TODO handle stderr as well
+                proc.stdout.on('data', (function(data){
+                    this.appendToDialogContents(data);
+                }).bind(this));
+            }
         }
 
         generateNewController() {
