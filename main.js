@@ -32,6 +32,24 @@ function createMainWindow () {
     // Maximize the window
     mainWindow.maximize();
 
+
+    ipcMain.on('launch-rails-db', function(event, arg) {
+        // Start rails_db
+        rails_db_prc = launch_rails_db(arg);
+
+        rails_db_prc.stdout.on('data', function(data){
+            console.log(data.toString());
+        });
+
+        rails_db_prc.stderr.on('data', function(data){
+            console.log(data.toString());
+        });
+
+        createRailsdbWindow();
+        railsdbWindow.show();
+    });
+
+
     // Emitted when the window is closed.
     mainWindow.on('closed', function() {
         // Dereference the window object, usually you would store windows
@@ -62,24 +80,11 @@ function createRailsdbWindow () {
 
     railsdbWindow.loadURL('file://' + __dirname + '/js/rails_db/rails_db.html');
     railsdbWindow.on('closed', function() {
+        if (rails_db_prc != null) {
+            rails_db_prc.kill('SIGTERM');
+        }
         // Dereference the window object
         railsdbWindow = null;
-    });
-    //railsdbWindow.setMenu(null);
-    ipcMain.on('launch-rails-db', function(event, arg) {
-        // Start rails_db
-        rails_db_prc = launch_rails_db(arg);
-
-        rails_db_prc.stdout.on('data', function(data){
-            console.log(data.toString());
-        });
-
-        rails_db_prc.stderr.on('data', function(data){
-            console.log(data.toString());
-        });
-
-        //railsdbWindow.setMenu(null);
-        railsdbWindow.show();
     });
 }
 
@@ -220,7 +225,6 @@ function setup_terminal() {
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
     createMainWindow();
-    createRailsdbWindow();
 });
 
 // Quit when all windows are closed.
