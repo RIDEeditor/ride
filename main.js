@@ -16,6 +16,9 @@ let mainWindow;
 let railsdbWindow;
 let rails_db_prc;
 
+const http = require("http");
+const request = require("request");
+
 function createMainWindow () {
     // Create the browser window.
     mainWindow = new BrowserWindow({
@@ -47,6 +50,21 @@ function createMainWindow () {
 
         createRailsdbWindow();
         railsdbWindow.show();
+
+        invokeAndProcessResponse();
+
+        function invokeAndProcessResponse (){
+            request('http://0.0.0.0:12345/rails/db', function (error, response, body) {
+
+              if (!error && response.statusCode == 200) {
+                railsdbWindow.reload();
+                console.log("SUCCESSFULL");
+              } else {
+                invokeAndProcessResponse();
+              }
+            })
+        }
+
     });
 
 
