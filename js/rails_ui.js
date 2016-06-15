@@ -1,4 +1,5 @@
- 
+const dialog = require('electron').remote.dialog;
+const path = require('path')
 const rails = require('./rails-js'); // Note: This path is relative to where we are importing from
 // See: https://stackoverflow.com/questions/16652620/node-js-require-cannot-find-custom-module/16652662#16652662
  
@@ -11,12 +12,16 @@ class RailsUI{
 
      generateNewRailsProject() {
             // TODO open dialog prompting user for project options
-            this.setStatusIndicatorText("Generating new Rails project");
+            let dir = dialog.showOpenDialog({properties: ['openDirectory'], title: "Choose directory to generate rails application in"});
+            if (!dir) {
+                return;
+            }
+            this.setStatusIndicatorText("Generating new Rails project '" + path.basename(dir) + "'");
             this.setStatusIconVisibility(true);
             this.setStatusIcon("busy");
-            var proc = this.railsWrapper.newProject("asd", "asd", (function(stdout, stderr) {
+            var proc = this.railsWrapper.newProject(dir, "options_go_here", (function(stdout, stderr) {
                 // Open new project in file tree
-                var evt = new CustomEvent('dirToOpen', { detail: "asd" });
+                var evt = new CustomEvent('dirToOpen', { detail: dir });
                 window.dispatchEvent(evt);
                 this.setStatusIcon("done");
                 this.setStatusIndicatorText("Done");
@@ -33,7 +38,22 @@ class RailsUI{
 
         generateNewController() {
             // TODO open dialog prompting user for options
-            this.railsWrapper.newController("mycontroller");
+            this.clearDialog();
+            this.setStatusIndicatorText("Generating controller");
+            this.setStatusIconVisibility(true);
+            this.setStatusIcon("busy");
+            var proc = this.railsWrapper.newController("mycontroller", "options_go_here", (function(stdout, stderr) {
+                // TODO update filetree to show new file generated
+                this.setStatusIcon("done");
+                this.setStatusIndicatorText("Done");
+            }).bind(this));
+            if (proc != null) {
+                // Read from childprocess stdout
+                // TODO handle stderr as well
+                proc.stdout.on('data', (function(data){
+                    this.appendToDialogContents(data);
+                }).bind(this));
+            }
         }
 
         setStatusIndicatorText(text) {
