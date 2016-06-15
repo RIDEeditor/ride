@@ -26,6 +26,10 @@ class FileTree {
         // Setup callback that handles when a file is selected in the tree
         this.tree_element.on("dblclick.jstree", (function (event) {
             let node = this.tree_element.jstree("get_node", event.target.id);
+            if(!node) {
+                // Double clicked on something not a node, ignore event
+                return;
+            }
             if (node.original.type == "file") {
                 var path = node.data;
                 // Dispatch file open event
