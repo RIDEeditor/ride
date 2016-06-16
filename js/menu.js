@@ -17,15 +17,8 @@ class Menu {
        
         this.arrayOfThemeNames = [];
         this.current_theme = null;
-        var ThemeList = ace.require("ace/ext/themelist");
-        for (var i = 0; i < ThemeList.themes.length ; i++) {
-            this.arrayOfThemeNames[i] = ThemeList.themes[i].name;
-        }
-
         this.current_state = current_state;
-
         this.rails_ui = new RailsUI_lib.RailsUI();
-
         this.database = new database_lib.Database(filetree);
 
         // Set the menu
@@ -241,9 +234,39 @@ class Menu {
           });
         }
 
+        let ThemeList = ace.require("ace/ext/themelist");
+        for (var i = 0; i < ThemeList.themes.length ; i++) {
+            this.arrayOfThemeNames[i] = ThemeList.themes[i].name;
+            this.addThemes(menu_template, this.arrayOfThemeNames[i]);
+        }
         var menu = electronMenu.buildFromTemplate(menu_template);
         return menu;
     }
+
+
+    addThemes(menu_template, label) {
+
+
+        function findMenuIndex(menuLabel) {
+            for (var i = 0; i < menu_template.length; i++) {
+                if(menu_template[i].label === menuLabel){
+                    return i;
+                }
+            }
+        }
+
+
+        menu_template[findMenuIndex("Preferences")].submenu[0].submenu.push(
+        {
+        label: label,
+            click: function() {
+                // A single editor instance is used, so only need to set theme on it
+                editor.setTheme("ace/theme/" + label);
+            }
+        }
+        );
+    }
+
 
 
     /**
