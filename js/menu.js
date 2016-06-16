@@ -7,7 +7,7 @@ const dialog = require('electron').remote.dialog;
 
 const editor_lib = require('./editor');
 
-const RailsUI_lib = require('./rails_ui');
+const RailsUI_lib = require('./rails_ui/rails_ui');
 
 const database_lib = require('./database');
 
