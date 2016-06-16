@@ -8,6 +8,8 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const tty = require('tty.js');
 const childProcess = require("child_process");
+const path = require('path');
+const appDir = path.dirname(require.main.filename);
 var termProc;
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -40,6 +42,13 @@ function createMainWindow () {
         // Start rails_db
         rails_db_prc = launch_rails_db(arg);
 
+        rails_db_prc.on('error', function(err) {
+            if (err.code === "ENOENT") {
+                // Rails_db command not found - should warn user
+                electron.dialog.showErrorBox("title", "rails_db not found");
+            }
+        });
+
         rails_db_prc.stdout.on('data', function(data){
             console.log(data.toString());
         });
@@ -51,7 +60,7 @@ function createMainWindow () {
         createRailsdbWindow();
         railsdbWindow.show();
 
-        invokeAndProcessResponse();
+        setTimeout(invokeAndProcessResponse, 5000);
 
         function invokeAndProcessResponse (){
             request('http://0.0.0.0:12345/rails/db', function (error, response, body) {
@@ -60,7 +69,8 @@ function createMainWindow () {
                 railsdbWindow.reload();
                 console.log("SUCCESSFULL");
               } else {
-                invokeAndProcessResponse();
+                console.log("ping");
+                setTimeout(invokeAndProcessResponse, 1000);
               }
             })
         }
