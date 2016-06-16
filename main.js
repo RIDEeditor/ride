@@ -118,7 +118,7 @@ function createRailsdbWindow () {
 
 
 function launch_rails_db(projectLocation) {
-    var prc = childProcess.spawn("railsdb", {stdio: "pipe", cwd: projectLocation}, function(error, stdout, stderr) {
+    var prc = childProcess.spawn(path.join(appDir, "rails_db", "bin", "rails_db"), {stdio: "pipe", cwd: projectLocation}, function(error, stdout, stderr) {
         if (error == null) {
             console.log(stdout.toString());
         } else {
