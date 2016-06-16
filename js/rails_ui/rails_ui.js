@@ -17,7 +17,7 @@ class RailsUI{
             // create dialog box and get stuff
 
             // TODO open dialog prompting user for project options
-            let dir = dialog.showOpenDialog({properties: ['openDirectory'], title: "Choose directory to generate rails application in"});
+            let dir = dialog.showOpenDialog({properties: ['openDirectory','createDirectory'], title: "Choose directory to generate rails application in"});
             if (!dir) {
                 return;
             }
