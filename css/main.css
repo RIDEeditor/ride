@@ -128,4 +128,27 @@ button.new {
     bottom:   10px;
 }
 
+#create-rails-dialog{
+    position: relative;
+}
 
+#createProject{
+    margin: 0 auto;
+    position: absolute;
+    left:    225px;
+    bottom:   10px;
+}
+
+#selectDirectory{
+    margin: 0 auto;
+    display: block;
+    margin-top: 5px;
+}
+
+#enterName{
+    margin-left: 10px;
+}
+
+#railsv{
+    margin-left: 10px;
+}

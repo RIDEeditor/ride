@@ -46,9 +46,10 @@ class railsWrapper {
         return prc;
     }
 
-    newProject(name, options_list, callback) {
+    newProject(name,version, options_list, callback) {
         if (this.findRails()) {
-            return this.runCommand(this.rails_path + " new " + name, callback);
+            ///return this.runCommand( + " new " + name, callback);
+            return this.runCommand("rails _" + version + "_  new " + name, callback);
         }
     }
 
