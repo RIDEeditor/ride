@@ -18,7 +18,7 @@ class Menu {
         this.arrayOfThemeNames = [];
         this.current_theme = null;
         this.current_state = current_state;
-        this.rails_ui = new RailsUI_lib.RailsUI();
+        this.rails_ui = new RailsUI_lib.RailsUI(current_state,filetree);
         this.database = new database_lib.Database(filetree);
 
         // Set the menu
@@ -85,6 +85,15 @@ class Menu {
               {
                 label: 'New controller',
                 click: this.rails_ui.generateNewController.bind(this.rails_ui)
+              }
+            ]
+          },
+          {
+            label: 'Bundle',
+            submenu: [
+              {
+                label: 'Bundle install',
+                click: this.rails_ui.bundleInstall.bind(this.rails_ui)
               }
             ]
           },

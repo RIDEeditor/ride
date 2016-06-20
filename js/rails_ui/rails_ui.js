@@ -9,9 +9,13 @@ var childProcess = require("child_process")
  
 class RailsUI{
 
-    constructor(){
+    constructor(current_state,filetree){
          this.railsWrapper = new rails.railsWrapper();
-                     // run the sync to find rails versions
+
+         this.current_state = current_state;
+         this.filetree = filetree;
+            
+            // run the sync to find rails versions
             let railsVersions = String(childProcess.execSync("gem list '^rails$' --local"));
             let found = railsVersions.match(/\(([^)]+)\)/)[1];
             let versions = found.split(",");
@@ -72,6 +76,66 @@ class RailsUI{
                 }
 
             }); 
+        }
+
+        bundleInstall(){
+            // this gets the file path to the currently open file
+            //console.log(current_state.current_editor.fileEntry);
+            //console.log(this.filetree.open_dirs);
+
+            // run bundle install --gemfile=path/To/Gemfile
+
+            // go up the directory and check if it has gemfile. if it does then 
+            // do the bundle install there, else keep moving up
+
+            // for loop all open directories and then if they are a substring of the current file entry
+            // do the bundle install on that open dir
+
+
+            let fileOpenPath = current_state.current_editor.fileEntry;
+
+            let fileToCallBundle = "" ;
+
+            if(fileOpenPath !== null){
+
+                for (let i = 0; i < this.filetree.open_dirs.length; i++) {
+                       let n = fileOpenPath.includes(this.filetree.open_dirs[i]);
+                       if(n){
+                        //console.log(this.filetree.open_dirs[i]);
+                        fileToCallBundle = this.filetree.open_dirs[i];
+                       }
+                }
+
+            }
+
+            if(fileToCallBundle === ""){
+                return 
+            }
+
+            fileToCallBundle = fileToCallBundle + path.sep + "Gemfile";
+
+            this.setStatusIndicatorText("Bundling Rails project '" + fileToCallBundle + "'");
+            this.setStatusIconVisibility(true);
+            this.setStatusIcon("busy");
+            var proc = this.railsWrapper.bundle(fileToCallBundle, (function(stdout, stderr) {
+                // Open new project in file tree
+                this.setStatusIcon("done");
+                this.setStatusIndicatorText("Done");
+            }).bind(this));
+
+            this.clearDialog();
+
+            if (proc != null) {
+                // Read from childprocess stdout
+                // TODO handle stderr as well
+                proc.stdout.on('data', (function(data){
+                this.appendToDialogContents(data);
+                }).bind(this));
+            }
+
+            
+
+
         }
 
         generateNewController() {
