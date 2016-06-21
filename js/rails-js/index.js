@@ -53,6 +53,14 @@ class railsWrapper {
         }
     }
 
+    bundleWithOptions(pathFinal,options,callback){
+
+        if(this.findRails()){
+            return this.runCommand("bundle install --gemfile=" + pathFinal + " " + options,callback);
+        }
+
+    }
+
     newProject(name,version, options_list, callback) {
         if (this.findRails()) {
             ///return this.runCommand( + " new " + name, callback);

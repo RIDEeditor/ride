@@ -5,11 +5,14 @@ const path = require('path');
 
 class CreateDialog{
 
-	constructor(versions){
+	constructor(versions,filetree){
 		this.versions = versions;
 		this.directory = "";
 		this.projectName = "";
 		this.versionChosen = "";
+		this.filetree = filetree;
+		this.bundleOptions = "";
+		this.projectChosenToBundle = "";
 	}
 
 	showDialog(){
@@ -37,9 +40,6 @@ class CreateDialog{
 		this.directory = d;
 
 		document.getElementById('dirChosen').innerHTML = "Directory: " + this.directory;
-
-
-
 	}
 
 	getNameAndVersion(){
@@ -55,6 +55,30 @@ class CreateDialog{
 
 		this.versionChosen = $( "#railsv option:selected" ).text();
 
+	}
+
+	bundle(){
+
+		document.getElementById('bundle').innerHTML = "";
+
+		for(let i=0;i<this.filetree.open_dirs.length;i++){
+			let option = document.createElement("option");
+			option.innerHTML =this.filetree.open_dirs[i];
+			if(i === 0){
+				option.selected = "selected";
+			}
+			$("#bundle").append(option);
+		}
+
+		$("#create-bundle-dialog").dialog('open');
+	}
+
+	runBundleWithOptions(){
+
+		console.log("bundling with options");
+
+		this.bundleOptions = document.getElementById('enterOptions').value;
+		this.projectChosenToBundle = $( "#bundle option:selected" ).text();
 	}
 
 

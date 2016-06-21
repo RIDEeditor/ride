@@ -127,7 +127,8 @@ $(window).load(function() {
         // Setup rails dialog
     $("#create-rails-dialog").dialog({autoOpen: false, title: "Create Project", height: 250, width: 600});
 
-
+    // setup bundle dialog
+    $("#create-bundle-dialog").dialog({autoOpen: false, title: "Bundle Project", height: 200, width: 600});
 
     $(window).on('toggleTerminal', function (e) {
         if (!terminal_loaded) {

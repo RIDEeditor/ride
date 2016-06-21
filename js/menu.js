@@ -94,6 +94,10 @@ class Menu {
               {
                 label: 'Bundle install',
                 click: this.rails_ui.bundleInstall.bind(this.rails_ui)
+              },
+              {
+                label: 'Bundle Install with options',
+                click: this.rails_ui.bundleInstallOptions.bind(this.rails_ui)
               }
             ]
           },

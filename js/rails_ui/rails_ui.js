@@ -22,7 +22,7 @@ class RailsUI{
             //console.log(versions);
 
             // create dialog box and get stuff
-            this.createdDialog = new createDialog.CreateDialog(versions);
+            this.createdDialog = new createDialog.CreateDialog(versions,filetree);
     }
 
 
@@ -133,9 +133,49 @@ class RailsUI{
                 }).bind(this));
             }
 
+        }
+
+        bundleInstallOptions(){
+
+            let createdDialog = this.createdDialog;
+
+            // this just allows it to close. It does nothing else as the state is stored in this class as variables
+            $("#bundleProject").click(function(){
+                createdDialog.runBundleWithOptions();
+                $("#create-bundle-dialog").dialog('close');
+            });
             
+            // create the bundle dialog
+            this.createdDialog.bundle();
+
+            $("#create-bundle-dialog").on('dialogclose', (event) => {
+
+                let folderToBundle = this.createdDialog.projectChosenToBundle;
+                let options = this.createdDialog.bundleOptions;
+
+                let finalPathToBundle = folderToBundle + path.sep + "Gemfile";
+
+                this.setStatusIndicatorText("Bundling Rails project with options '" + finalPathToBundle + "'");
+                this.setStatusIconVisibility(true);
+                this.setStatusIcon("busy");
+                var proc = this.railsWrapper.bundleWithOptions(finalPathToBundle,options, (function(stdout, stderr) {
+                    // Open new project in file tree
+                    this.setStatusIcon("done");
+                    this.setStatusIndicatorText("Done");
+                }).bind(this));
+
+                this.clearDialog();
+
+                if (proc != null) {
+                    // Read from childprocess stdout
+                    // TODO handle stderr as well
+                    proc.stdout.on('data', (function(data){
+                    this.appendToDialogContents(data);
+                    }).bind(this));
+                }
 
 
+            }); 
         }
 
         generateNewController() {
