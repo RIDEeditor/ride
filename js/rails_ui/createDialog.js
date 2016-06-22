@@ -13,6 +13,7 @@ class CreateDialog{
 		this.filetree = filetree;
 		this.bundleOptions = "";
 		this.projectChosenToBundle = "";
+		this.projectToScaffold = "" ;
 	}
 
 	// for creating new rails project
@@ -91,6 +92,9 @@ class CreateDialog{
 
 		document.getElementById('scaffold').innerHTML = "";
 
+		document.getElementById('attributes').innerHTML = "";
+		this.addNewAction();
+
 		for(let i=0;i<this.filetree.open_dirs.length;i++){
 			let option = document.createElement("option");
 			option.innerHTML =this.filetree.open_dirs[i];
@@ -100,9 +104,9 @@ class CreateDialog{
 			$("#scaffold").append(option);
 		}
 
-		$("#addAction").click(()=>{
-			this.addNewAction();
-		});
+		//$("#addAction").click(()=>{
+		//	this.addNewAction();
+		//});
 
 		$("#create-scaffold-dialog").dialog('open');
 
@@ -111,7 +115,7 @@ class CreateDialog{
 	addNewAction(){
 		//get last of the div element attributes
 		let lastElement = $("#attributes div:last");
-		//console.log(lastElement);
+		
 
 		//console.log(lastElement[0].id);
 
@@ -120,7 +124,12 @@ class CreateDialog{
 		// remove the button from wherever it is
 		$("#addAction").remove();
 
-		let lastElementId = parseInt(lastElement[0].id.slice(-1));
+		let lastElementId = 0;
+
+		if($("#attributes div:last").length !== 0){
+			lastElementId = parseInt(lastElement[0].id.slice(-1));
+		}
+		
 		//console.log(lastElementId);
 
 		// add 2 br elements
@@ -175,7 +184,19 @@ class CreateDialog{
 			this.addNewAction();
 		});
 
-		
+	}
+
+	scaffold(){
+
+		// get the chosen project
+		//this.projectToScaffold = $( "#scaffold option:selected" ).text();
+
+		// get the inputs and the types
+
+			// number of children of the attributes div
+
+			//console.log($("#attributes > div").length);
+
 
 	}
 
