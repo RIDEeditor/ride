@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron main.js",
-    "preinstall" : "cd ./rails_db/; gem build rails_db.gemspec; cd .."
+    "preinstall": "cd ./rails_db/; gem build rails_db.gemspec; cd ../railroady/; gem build railroady.gemspec; cd .."
   },
   "repository": {
     "type": "git",
@@ -35,6 +35,8 @@
     "term.js": ">= 0.0.5",
     "pty.js": "latest",
     "mkdirp": ">=0.5.1",
-    "request": "latest"
+    "request": "latest",
+    "dagre": "latest",
+    "dagre-d3": "latest"
   }
 }
