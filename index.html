@@ -104,6 +104,39 @@
            <input id="bundleProject" type="submit" value="bundle rails project">
         </div>
 
+        <div id="create-scaffold-dialog">
+           <code id="create-scaffold-dialog-contentholder">
+
+                Select Rails project: <select name="rails_chosen" id="scaffold"></select>
+                
+                <br>
+                <br>
+
+                <div id="attributes">
+                    <div id="attribute_1">
+                        <label>Attribute:</label><input id="attribute_1_name" type="text" name="attributeName">
+                        <label>Type:</label><input id="attribute_1_type" type="text" name="attributeType">
+                    </div>
+
+                    <br>
+                    <br>
+
+                    <div id="attribute_2">
+                        <label>Attribute:</label><input id="attribute_2_name" type="text" name="attributeName">
+                        <label>Type:</label><input id="attribute_2_type" type="text" name="attributeType">
+                        <button id="addAction" type="button">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <br>
+                <br>
+
+           </code>
+           <input id="createScaffold" type="submit" value="create rails scaffold">
+        </div>
+
         <footer>
             <div id="statusBar">
                 <img id="statusIndicatorImage" style="display: none; float: left; height:15px; width: 15px; padding: 2px;" src="css/throbber2.gif">

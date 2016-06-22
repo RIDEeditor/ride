@@ -178,6 +178,22 @@ class RailsUI{
             }); 
         }
 
+        generateScaffold(){
+
+            let createdDialog = this.createdDialog;
+
+            // this just allows it to close. It does nothing else as the state is stored in this class as variables
+            $("#createScaffold").click(function(){
+                createdDialog.scaffold();
+                $("#create-scaffold-dialog").dialog('close');
+            });
+            
+            // create the bundle dialog
+            this.createdDialog.setupScaffold();
+
+            $("#create-scaffold-dialog").dialog('open');
+        }
+
         generateNewController() {
             // TODO open dialog prompting user for options
             this.clearDialog();
