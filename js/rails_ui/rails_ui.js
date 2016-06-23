@@ -31,22 +31,9 @@ class RailsUI{
             let createdDialog = this.createdDialog;
 
             // this just allows it to close. It does nothing else as the state is stored in this class as variables
-            $("#createProject").click(function(){
+            $("#createProject").click(()=>{
                 createdDialog.getNameAndVersion();
-                $("#create-rails-dialog").dialog('close');
-            });
 
-            $("#selectDirectory").click(function(){
-                createdDialog.showDir();
-            });
-
-            createdDialog.showDialog();
-
-            // TODO open dialog prompting user for project options
-            //let dir = dialog.showOpenDialog({properties: ['openDirectory','createDirectory'], title: "Choose directory to generate rails application in"});
-            
-            // everything happens after this dialog box closes 
-            $("#create-rails-dialog").on('dialogclose', (event) => {
                 //console.log("closed");
                 
                 let dir = createdDialog.directory;
@@ -74,8 +61,23 @@ class RailsUI{
                         this.appendToDialogContents(data);
                     }).bind(this));
                 }
+                $("#create-rails-dialog").dialog('close');
+            });
 
-            }); 
+            $("#selectDirectory").click(function(){
+                createdDialog.showDir();
+            });
+
+            createdDialog.showDialog();
+
+            // TODO open dialog prompting user for project options
+            //let dir = dialog.showOpenDialog({properties: ['openDirectory','createDirectory'], title: "Choose directory to generate rails application in"});
+            
+            // everything happens after this dialog box closes 
+            //$("#create-rails-dialog").on('dialogclose', (event) => {
+
+
+            //}); 
         }
 
         bundleInstall(){
@@ -140,15 +142,8 @@ class RailsUI{
             let createdDialog = this.createdDialog;
 
             // this just allows it to close. It does nothing else as the state is stored in this class as variables
-            $("#bundleProject").click(function(){
+            $("#bundleProject").click(()=>{
                 createdDialog.runBundleWithOptions();
-                $("#create-bundle-dialog").dialog('close');
-            });
-            
-            // create the bundle dialog
-            this.createdDialog.bundle();
-
-            $("#create-bundle-dialog").on('dialogclose', (event) => {
 
                 let folderToBundle = this.createdDialog.projectChosenToBundle;
                 let options = this.createdDialog.bundleOptions;
@@ -173,9 +168,16 @@ class RailsUI{
                     this.appendToDialogContents(data);
                     }).bind(this));
                 }
+                $("#create-bundle-dialog").dialog('close');
+            });
+            
+            // create the bundle dialog
+            this.createdDialog.bundle();
+
+            //$("#create-bundle-dialog").on('dialogclose', (event) => {
 
 
-            }); 
+            //}); 
         }
 
         generateScaffold(){
@@ -183,16 +185,8 @@ class RailsUI{
             let createdDialog = this.createdDialog;
 
             // this just allows it to close. It does nothing else as the state is stored in this class as variables
-            $("#createScaffold").click(function(){
+            $("#createScaffold").click(()=>{
                 createdDialog.scaffold();
-                $("#create-scaffold-dialog").dialog('close');
-            });
-            
-            // create the bundle dialog
-            this.createdDialog.setupScaffold();
-
-
-            $("#create-scaffold-dialog").on('dialogclose', (event) => {
 
                 let resourceName = $("#resource_name_input").val();
                 let options = this.createdDialog.scaffoldOptions;
@@ -217,10 +211,15 @@ class RailsUI{
                     this.appendToDialogContents(data);
                     }).bind(this));
                 }
-
-
-
+                $("#create-scaffold-dialog").dialog('close');
             });
+            
+            // create the bundle dialog
+            this.createdDialog.setupScaffold();
+
+
+           // $("#create-scaffold-dialog").on('dialogclose', (event) => {
+            //});
             
         }
 
