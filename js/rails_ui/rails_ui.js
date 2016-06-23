@@ -6,6 +6,8 @@ const rails = require('../rails-js'); // Note: This path is relative to where we
 const createDialog = require("./createDialog");
 
 var childProcess = require("child_process")
+
+const openurl = require("openurl");
  
 class RailsUI{
 
@@ -270,6 +272,10 @@ class RailsUI{
             }
 
 
+        }
+
+        railsServer(){
+            openurl.open("http://localhost:3000/");
         }
 
         generateNewController() {

@@ -107,9 +107,19 @@ class Menu {
                 label: 'bundle exec rake db:migrate',
                 click: this.rails_ui.bundleMigrate.bind(this.rails_ui)
               }
-
-             
             ]
+          },
+          { 
+            label:'Rails',
+            submenu: 
+            [
+              {
+                label:'Rails server',
+                click: this.rails_ui.railsServer.bind(this.rails_ui)
+              }
+
+            ]
+
           },
           {
             label: 'Database',
