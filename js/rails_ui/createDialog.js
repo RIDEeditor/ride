@@ -41,7 +41,9 @@ class CreateDialog{
 	showDir(){
 		let d = dialog.showOpenDialog({properties: ['openDirectory','createDirectory'], title: "Choose directory to generate rails application in"});
 
-		this.directory = d;
+		//console.log(d);
+
+		this.directory = d[0];
 
 		document.getElementById('dirChosen').innerHTML = "Directory: " + this.directory;
 	}
@@ -206,10 +208,6 @@ class CreateDialog{
 			let attribute_type = $("#attribute_" + index + "_type").val();
 			this.scaffoldOptions = this.scaffoldOptions + " " + attribute_value + ":" + attribute_type;
 		}
-
-
-		console.log(this.scaffoldOptions);
-
 
 	}
 

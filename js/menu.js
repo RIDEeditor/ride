@@ -96,13 +96,18 @@ class Menu {
             label: 'Bundle',
             submenu: [
               {
-                label: 'Bundle install',
+                label: 'bundle install',
                 click: this.rails_ui.bundleInstall.bind(this.rails_ui)
               },
               {
-                label: 'Bundle Install with options',
+                label: 'bundle Install with options',
                 click: this.rails_ui.bundleInstallOptions.bind(this.rails_ui)
+              },
+              {
+                label: 'bundle exec rake db:migrate'
               }
+
+             
             ]
           },
           {

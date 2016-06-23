@@ -46,7 +46,7 @@ class railsWrapper {
         return prc;
     }
 
-    runScaffold(args,cwd, callback){
+    runCommandWithCwd(args,cwd, callback){
          var prc = childProcess.exec(args, {"stdio": "pipe",cwd:cwd}, function(error, stdout, stderr) {
             if (error == null) {
                 console.log("Finished running: " + args);
@@ -79,7 +79,7 @@ class railsWrapper {
     buildScaffold(pathFinal,resourceName,options,callback){
 
         if(this.findRails()){
-            return this.runScaffold("rails generate scaffold " + resourceName + " " + options,pathFinal,callback);
+            return this.runCommandWithCwd("rails generate scaffold " + resourceName + " " + options,pathFinal,callback);
         }
     }
 
