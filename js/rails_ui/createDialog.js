@@ -14,6 +14,7 @@ class CreateDialog{
 		this.bundleOptions = "";
 		this.projectChosenToBundle = "";
 		this.projectToScaffold = "" ;
+		this.scaffoldOptions = "";
 	}
 
 	// for creating new rails project
@@ -188,14 +189,26 @@ class CreateDialog{
 
 	scaffold(){
 
+		this.scaffoldOptions = "";
 		// get the chosen project
-		//this.projectToScaffold = $( "#scaffold option:selected" ).text();
+		this.projectToScaffold = $( "#scaffold option:selected" ).text();
 
 		// get the inputs and the types
 
 			// number of children of the attributes div
-
 			//console.log($("#attributes > div").length);
+
+		let numberOfAttributes = $("#attributes > div").length;
+
+		for(var i = 0;i<numberOfAttributes;i++){
+			let index = i+1;
+			let attribute_value = $("#attribute_" + index + "_name").val();
+			let attribute_type = $("#attribute_" + index + "_type").val();
+			this.scaffoldOptions = this.scaffoldOptions + " " + attribute_value + ":" + attribute_type;
+		}
+
+
+		console.log(this.scaffoldOptions);
 
 
 	}

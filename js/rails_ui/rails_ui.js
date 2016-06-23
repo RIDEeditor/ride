@@ -191,7 +191,37 @@ class RailsUI{
             // create the bundle dialog
             this.createdDialog.setupScaffold();
 
-            $("#create-scaffold-dialog").dialog('open');
+
+            $("#create-scaffold-dialog").on('dialogclose', (event) => {
+
+                let resourceName = $("#resource_name_input").val();
+                let options = this.createdDialog.scaffoldOptions;
+
+                let project = $( "#scaffold option:selected" ).text();
+
+                this.setStatusIndicatorText("Building Rails scaffold");
+                this.setStatusIconVisibility(true);
+                this.setStatusIcon("busy");
+                var proc = this.railsWrapper.buildScaffold(project,resourceName,options, (function(stdout, stderr) {
+                    // Open new project in file tree
+                    this.setStatusIcon("done");
+                    this.setStatusIndicatorText("Done");
+                }).bind(this));
+
+                this.clearDialog();
+
+                if (proc != null) {
+                    // Read from childprocess stdout
+                    // TODO handle stderr as well
+                    proc.stdout.on('data', (function(data){
+                    this.appendToDialogContents(data);
+                    }).bind(this));
+                }
+
+
+
+            });
+            
         }
 
         generateNewController() {
