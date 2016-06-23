@@ -186,6 +186,7 @@ class RailsUI{
 
             // this just allows it to close. It does nothing else as the state is stored in this class as variables
             $("#createScaffold").click(()=>{
+
                 createdDialog.scaffold();
 
                 let resourceName = $("#resource_name_input").val();
@@ -221,6 +222,54 @@ class RailsUI{
            // $("#create-scaffold-dialog").on('dialogclose', (event) => {
             //});
             
+        }
+
+
+        bundleMigrate(){
+
+
+            let fileOpenPath = current_state.current_editor.fileEntry;
+
+            let fileToCallBundle = "" ;
+
+            if(fileOpenPath !== null){
+
+                for (let i = 0; i < this.filetree.open_dirs.length; i++) {
+                       let n = fileOpenPath.includes(this.filetree.open_dirs[i]);
+                       if(n){
+                        //console.log(this.filetree.open_dirs[i]);
+                        fileToCallBundle = this.filetree.open_dirs[i];
+                       }
+                }
+
+            }
+
+            if(fileToCallBundle === ""){
+                return 
+            }
+
+            fileToCallBundle = fileToCallBundle + path.sep;
+
+            this.setStatusIndicatorText("Bundle exec rake db:migrate Rails project '" + fileToCallBundle + "'");
+            this.setStatusIconVisibility(true);
+            this.setStatusIcon("busy");
+            var proc = this.railsWrapper.bundleMigrate(fileToCallBundle, (function(stdout, stderr) {
+                // Open new project in file tree
+                this.setStatusIcon("done");
+                this.setStatusIndicatorText("Done");
+            }).bind(this));
+
+            this.clearDialog();
+
+            if (proc != null) {
+                // Read from childprocess stdout
+                // TODO handle stderr as well
+                proc.stdout.on('data', (function(data){
+                this.appendToDialogContents(data);
+                }).bind(this));
+            }
+
+
         }
 
         generateNewController() {

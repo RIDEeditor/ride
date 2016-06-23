@@ -104,7 +104,8 @@ class Menu {
                 click: this.rails_ui.bundleInstallOptions.bind(this.rails_ui)
               },
               {
-                label: 'bundle exec rake db:migrate'
+                label: 'bundle exec rake db:migrate',
+                click: this.rails_ui.bundleMigrate.bind(this.rails_ui)
               }
 
              

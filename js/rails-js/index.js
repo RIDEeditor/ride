@@ -83,6 +83,12 @@ class railsWrapper {
         }
     }
 
+    bundleMigrate(file,callback){
+        if(this.findRails()){
+            return this.runCommandWithCwd("bundle exec rake db:migrate",file,callback);
+        }
+    }
+
     newProject(name,version, options_list, callback) {
         if (this.findRails()) {
             ///return this.runCommand( + " new " + name, callback);
