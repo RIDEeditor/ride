@@ -161,6 +161,17 @@ button.new {
     bottom:   10px;
 }
 
+#create-railsServer-dialog{
+    position: relative;
+}
+
+#railsServer{
+    margin: 0 auto;
+    position: absolute;
+    left:    275px;
+    bottom:   10px;
+}
+
 #selectDirectory{
     margin: 0 auto;
     display: block;

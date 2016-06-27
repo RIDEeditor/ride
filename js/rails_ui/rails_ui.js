@@ -281,7 +281,31 @@ class RailsUI{
         }
 
         railsServer(){
-            openurl.open("http://localhost:3000/");
+
+            let createdDialog = this.createdDialog;
+
+            $("#railsServer").click(()=>{
+               
+                // get the port from the dialog
+
+                // get the project path
+
+                // run the rails server command 
+
+                // open the local host using openurl
+
+                // call the ipc and pass the process object 
+
+
+            });
+
+             createdDialog.setupRailsServer();
+
+            
+
+
+
+            //openurl.open("http://localhost:3000/");
         }
 
         generateNewController() {

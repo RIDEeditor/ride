@@ -147,6 +147,18 @@
            <input id="createScaffold" type="submit" value="create rails scaffold">
         </div>
 
+        <div id="create-railsServer-dialog">
+           <code id="create-railsServer-dialog-contentholder">
+            
+            <label>Select port number:</label><input id="railsServerPort" type="text" name="portNumber">
+            <br/>
+            <br/>
+            <label>Select project:</label><select name="project_chosen_railsServer" id="projectRun"></select>
+
+           </code>
+           <input id="railsServer" type="submit" value="run rails">
+        </div>
+
         <footer>
             <div id="statusBar">
                 <img id="statusIndicatorImage" style="display: none; float: left; height:15px; width: 15px; padding: 2px;" src="css/throbber2.gif">

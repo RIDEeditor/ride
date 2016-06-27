@@ -211,6 +211,22 @@ class CreateDialog{
 
 	}
 
+	setupRailsServer(){
+
+		document.getElementById('projectRun').innerHTML = "";
+
+		for(let i=0;i<this.filetree.open_dirs.length;i++){
+			let option = document.createElement("option");
+			option.innerHTML =this.filetree.open_dirs[i];
+			if(i === 0){
+				option.selected = "selected";
+			}
+			$("#projectRun").append(option);
+		}
+
+		$("#create-railsServer-dialog").dialog('open');
+	}
+
 
 }
 

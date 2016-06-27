@@ -134,6 +134,10 @@ $(window).load(function() {
     // create scaffold dialog
     $("#create-scaffold-dialog").dialog({autoOpen: false, title: "Create Scaffold", height: "auto", width: 620});
 
+    
+    // create the rails server dialog
+    $("#create-railsServer-dialog").dialog({autoOpen: false, title: "Rails Server", height: 200, width: 600});
+
     $(window).on('toggleTerminal', function (e) {
         if (!terminal_loaded) {
             // Setup terminal
