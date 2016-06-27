@@ -19,6 +19,12 @@ class RailsUI{
             
             // run the sync to find rails versions
             let railsVersions = String(childProcess.execSync("gem list '^rails$' --local"));
+
+            if(railsVersions === null){
+                alert("Ruby on Rails is not installed. Please install to continue.");
+                return;
+            }
+
             let found = railsVersions.match(/\(([^)]+)\)/)[1];
             let versions = found.split(",");
             //console.log(versions);
