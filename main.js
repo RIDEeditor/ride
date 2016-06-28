@@ -77,6 +77,9 @@ function createMainWindow () {
 
     });
 
+    ipcMain.on('run-rails-server',function(event,port,project){
+      console.log( port + " " + project);
+    });
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function() {

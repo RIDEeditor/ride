@@ -8,6 +8,8 @@ const createDialog = require("./createDialog");
 var childProcess = require("child_process")
 
 const openurl = require("openurl");
+
+const {ipcRenderer} = require('electron');
  
 class RailsUI{
 
@@ -284,20 +286,10 @@ class RailsUI{
 
             let createdDialog = this.createdDialog;
 
-            $("#railsServer").click(()=>{
-               
-                // get the port from the dialog
+           // $("#railsServer").click(()=>{
+            
 
-                // get the project path
-
-                // run the rails server command 
-
-                // open the local host using openurl
-
-                // call the ipc and pass the process object 
-
-
-            });
+            //});
 
              createdDialog.setupRailsServer();
 

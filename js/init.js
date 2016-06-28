@@ -138,6 +138,23 @@ $(window).load(function() {
     // create the rails server dialog
     $("#create-railsServer-dialog").dialog({autoOpen: false, title: "Rails Server", height: 200, width: 600});
 
+    $("#railsServer").click(function(){
+                        // get the port from the dialog
+                let port = document.getElementById('railsServerPort').value;
+
+                // get the project path
+                let projectToRun = $( "#projectRun option:selected" ).text();
+
+                // call the ipc and pass the project selected and the port. The 
+                // main process can then spawn the rails server command with the appropriate inputs
+
+                ipcRenderer.send('run-rails-server',port,projectToRun);
+
+                // open the local host using openurl
+
+                $("#create-railsServer-dialog").dialog('close');
+    });
+
     $(window).on('toggleTerminal', function (e) {
         if (!terminal_loaded) {
             // Setup terminal
