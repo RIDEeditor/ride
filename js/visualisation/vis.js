@@ -66,7 +66,10 @@ $(window).load(function() {
     .translate([(svg.attr("width") - g.graph().width * initialScale) / 2, 20])
     .scale(initialScale)
     .event(svg);
-  svg.attr('height', g.graph().height * initialScale + 40);
+  svg.attr('height', g.graph().height * initialScale + 40);/**/
+
+
+  $("#svg-dialog").dialog({autoOpen: true, title: "Class Diagram", height: 500, width: 600});
   
 
 });

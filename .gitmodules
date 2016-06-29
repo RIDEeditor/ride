@@ -4,3 +4,6 @@
 [submodule "rails_db"]
 	path = rails_db
 	url = https://github.com/RIDEeditor/rails_db
+[submodule "railroady"]
+	path = railroady
+	url = https://github.com/RIDEeditor/railroady

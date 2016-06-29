@@ -11,7 +11,6 @@ const terminal_lib = require('./js/terminal');
 const settings_lib = require('./js/settings');
 const editor_lib = require('./js/editor');
 const state_lib = require('./js/state');
-const vis_lib = require('./js/visualisation/vis.js');
 const {ipcRenderer} = require('electron');
 
 

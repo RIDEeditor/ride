@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron main.js",
-    "preinstall": "cd ./rails_db/; gem build rails_db.gemspec; cd ../railroady/; gem build railroady.gemspec; cd .."
+    "preinstall": "cd ./rails_db/; gem build rails_db.gemspec; cd ../railroady/; gem build railroady.gemspec; gem install railroady-1.4.2.gem; cd .."
   },
   "repository": {
     "type": "git",
@@ -27,16 +27,16 @@
     "electron-prebuilt": "1.0.2"
   },
   "dependencies": {
-    "jquery": "^2.2.3",
-    "tty.js": "0.2.15",
-    "fs-walk": "0.0.1",
     "express": "3.1.0",
-    "socket.io": "0.9.16",
-    "term.js": ">= 0.0.5",
-    "pty.js": "latest",
+    "fs-walk": "0.0.1",
+    "jquery": "^2.2.3",
     "mkdirp": ">=0.5.1",
+    "pty.js": "latest",
     "request": "latest",
-    "dagre": "latest",
-    "dagre-d3": "latest"
+    "socket.io": "0.9.16",
+    "svg-pan-zoom": "^3.2.9",
+    "term.js": ">= 0.0.5",
+    "tty.js": "0.2.15",
+    "viz.js": "^1.3.0"
   }
 }
