@@ -8,6 +8,14 @@ class railroadyWrapper {
 
   constructor(filetree) {
     this.filetree = filetree;
+
+    // Setup onclick event for needed buttons
+    $("#gen-model").click((function() {
+      let pathToDirectorySelected = $("#model-project-selector option:selected").text();
+      this.generateModelDiagram(pathToDirectorySelected, null, null);
+      // Close dialog
+      $("#visualisation-dialog").dialog('close');
+    }).bind(this));
   }
 
 
@@ -52,11 +60,21 @@ class railroadyWrapper {
     var panZoomTiger = svgPanZoom("#svg-diagram");
 
     // Show dialog
-    $("#svg-dialog").dialog({autoOpen: true, title: "Model Diagram", height: 600, width: 800});
+    $("#svg-dialog").dialog({autoOpen: true, title: "Model Diagram", height: 600, width: 1000});
   }
 
   showModelDialog() {
-
+    // TODO update status icon and status text to show progress
+    $("#model-project-selector").empty();
+    for(let i = 0; i < this.filetree.open_dirs.length; i++) {
+      let option = document.createElement("option");
+      option.innerHTML =this.filetree.open_dirs[i];
+      if(i === 0) {
+        option.selected = "selected";
+      }
+      $("#model-project-selector").append(option);
+    }
+    $("#visualisation-dialog").dialog({autoOpen: true, title: "Generate Model", height: 200, width: 600});
   }
 
 

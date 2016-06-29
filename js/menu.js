@@ -22,7 +22,7 @@ class Menu {
         this.current_state = current_state;
         this.rails_ui = new RailsUI_lib.RailsUI();
         this.database = new database_lib.Database(filetree);
-        this.railroady = new railroady_lib.railroadyWrapper();
+        this.railroady = new railroady_lib.railroadyWrapper(filetree);
 
         // Set the menu
         electronMenu.setApplicationMenu(this.buildMenu.bind(this)());
@@ -88,10 +88,15 @@ class Menu {
               {
                 label: 'New controller',
                 click: this.rails_ui.generateNewController.bind(this.rails_ui)
-              },
+              }
+            ]
+          },
+          {
+            label: 'Visualisation',
+            submenu: [
               {
-                label: 'Diagram',
-                click: this.railroady.generateModelDiagram.bind(this.railroady)
+                label: 'Generate Model Diagram',
+                click: this.railroady.showModelDialog.bind(this.railroady)
               }
             ]
           },
