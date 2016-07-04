@@ -115,7 +115,11 @@ class Menu {
             [
               {
                 label:'Rails server',
-                click: this.rails_ui.railsServer.bind(this.rails_ui)
+                click: this.rails_ui.startRailsServer.bind(this.rails_ui)
+              },
+              {
+                label: 'Rails Servers Running',
+                click: this.rails_ui.showRunningServers.bind(this.rails_ui)
               }
 
             ]

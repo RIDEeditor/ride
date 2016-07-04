@@ -10,6 +10,8 @@ var childProcess = require("child_process")
 const openurl = require("openurl");
 
 const {ipcRenderer} = require('electron');
+
+let running_processes = new Map();
  
 class RailsUI{
 
@@ -282,22 +284,135 @@ class RailsUI{
 
         }
 
-        railsServer(){
+        startRailsServer(){
 
             let createdDialog = this.createdDialog;
 
-           // $("#railsServer").click(()=>{
-            
+            createdDialog.setupRailsServer();
 
-            //});
+            $("#railsServer").one('click',()=>{
 
-             createdDialog.setupRailsServer();
+                $("#create-railsServer-dialog").dialog('close');
+                $("#rails-server-running").dialog('open');
 
-            
+                // get the port from the dialog
+                let port = document.getElementById('railsServerPort').value;
 
+                // get the project path
+                let projectToRun = $("#projectRun option:selected").text() + path.sep;
+
+                // gives undefined : console.log(running_processes.get('hey'));
+
+                let lastDir = path.basename(projectToRun);
+
+                if(running_processes.get(lastDir) !== undefined){
+                    alert("Project already running");
+                    return;
+                }
+
+                let rails_process = this.startServer(port,projectToRun);
+
+                rails_process.on('error', function(err) {
+                      if (err.code === "ENOENT") {
+                          // Rails_db command not found - should warn user
+                          console.log(err);
+                          electron.dialog.showErrorBox("title", "rails server not found");
+                      }
+                    });
+
+
+                rails_process.stdout.on('data', function(data){
+                      console.log(data.toString());
+                });
+
+                rails_process.stderr.on('data', function(data){
+                      console.log(data.toString());
+                });
+
+                //console.log(path.basename(projectToRun));
+
+                
+
+                // add process to a global array for this class
+                running_processes.set(lastDir,rails_process);
+
+
+                  // create a div with a stop button and then add it to the rails server running window
+                  // listener on stop button so it sends sig kill to the process related to it.
+
+                let process_div = document.createElement('div');
+                process_div.id = lastDir;
+
+                let l = document.createElement("label");
+                l.innerHTML = "<b>" + lastDir + "</b> (Port: " + port + ")";
+                //l.style.marginRight = "50px";
+
+                let b = document.createElement("button");
+                b.id = "kill_" + process_div.id;
+                b.type="button";
+                var t = document.createTextNode("Stop");       // Create a text node
+                b.appendChild(t);                                // Append the text to <button>
+                
+                b.style.float = "right";
+                //b.innerHTML = "Kill " + projectToRun;
+
+                $("#allProcesses").append("<br>");
+                $("#allProcesses").append("<br>");
+
+                $("#allProcesses").append(process_div);
+
+                $("#" + process_div.id).append(l);
+                $("#" + process_div.id).append(b);
+
+                //console.log(b.id);
+
+                /*$("#" + b.id).on('click',function(){
+                    console.log("happened");
+                    let prc_found = running_processes.get((b.id).substring(5));
+                    prc_found.kill('SIGTERM');
+                    running_processes.delete((b.id).substring(5));
+                });
+
+                */
+
+               
+                b.onclick = function(){
+                    //console.log("happened");
+                    let prc_found = running_processes.get((b.id).substring(5));
+                    // kill the process
+                    prc_found.kill('SIGTERM');
+
+                    // delete from process array
+                    running_processes.delete((b.id).substring(5));
+
+                    let divId = (b.id).substring(5);
+                    console.log(divId);
+                    $("#" + divId).remove();
+
+                    // remove the div from the "allProcesses" element
+                };
+
+                  
+
+            });
 
 
             //openurl.open("http://localhost:3000/");
+        }
+
+        startServer(port,projectToRun){
+            let prc = childProcess.exec('rails server -p ' + port, {stdio:"pipe",cwd: projectToRun}, function(error, stdout, stderr) {
+                if (error == null) {
+                    console.log(stdout.toString());
+                } else {
+                    console.log(error)
+                }
+            });
+            return prc;
+        }
+
+        showRunningServers(){
+             $("#rails-server-running").dialog('open');
         }
 
         generateNewController() {

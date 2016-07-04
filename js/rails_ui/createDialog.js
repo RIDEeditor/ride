@@ -223,6 +223,12 @@ class CreateDialog{
 			}
 			$("#projectRun").append(option);
 		}
+            
+        /*$("#railsServer").click(function(){
+            $("#create-railsServer-dialog").dialog('close');
+            $("#rails-server-running").dialog('open');
+        });*/
+
 
 		$("#create-railsServer-dialog").dialog('open');
 	}

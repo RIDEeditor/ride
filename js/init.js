@@ -12,6 +12,7 @@ const settings_lib = require('./js/settings');
 const editor_lib = require('./js/editor');
 const state_lib = require('./js/state');
 const {ipcRenderer} = require('electron');
+const path = require('path');
 
 
 var tab_bar; // Represents the top tab bar
@@ -138,22 +139,24 @@ $(window).load(function() {
     // create the rails server dialog
     $("#create-railsServer-dialog").dialog({autoOpen: false, title: "Rails Server", height: 200, width: 600});
 
-    $("#railsServer").click(function(){
+    //$("#railsServer").click(function(){
                         // get the port from the dialog
-                let port = document.getElementById('railsServerPort').value;
+                //let port = document.getElementById('railsServerPort').value;
 
                 // get the project path
-                let projectToRun = $( "#projectRun option:selected" ).text();
+                //let projectToRun = $( "#projectRun option:selected" ).text() + path.sep;
 
                 // call the ipc and pass the project selected and the port. The 
                 // main process can then spawn the rails server command with the appropriate inputs
 
-                ipcRenderer.send('run-rails-server',port,projectToRun);
+                //ipcRenderer.send('run-rails-server',port,projectToRun);
 
                 // open the local host using openurl
 
-                $("#create-railsServer-dialog").dialog('close');
-    });
+                //$("#create-railsServer-dialog").dialog('close');
+    //});
+
+    $("#rails-server-running").dialog({autoOpen: false, title: "Rails Servers Running", height: 200, width: 600});
 
     $(window).on('toggleTerminal', function (e) {
         if (!terminal_loaded) {

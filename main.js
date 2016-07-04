@@ -18,6 +18,10 @@ let mainWindow;
 let railsdbWindow;
 let rails_db_prc;
 
+let rails_server_prc;
+
+let railsServerWindow;
+
 const http = require("http");
 const request = require("request");
 
@@ -79,6 +83,42 @@ function createMainWindow () {
 
     ipcMain.on('run-rails-server',function(event,port,project){
       console.log( port + " " + project);
+
+      // start the rails server
+      rails_server_prc = launch_rails_server(port,project);
+
+      rails_server_prc.on('error', function(err) {
+          if (err.code === "ENOENT") {
+              // Rails_db command not found - should warn user
+              console.log(err);
+              electron.dialog.showErrorBox("title", "rails server not found");
+          }
+        });
+
+
+      rails_server_prc.stdout.on('data', function(data){
+          console.log(data.toString());
+      });
+
+      rails_server_prc.stderr.on('data', function(data){
+          console.log(data.toString());
+      });
+
+      
+
+      
+      let window_rails = createRailsServerWindow();
+
+      wait(window_rails);
+
+      function wait(rails_server_window) {
+        if ( rails_server_window !== null) {
+            rails_server_window.show();
+        } else {
+            setTimeout( wait, 500 );
+        }
+      }
+
     });
 
     // Emitted when the window is closed.
@@ -117,6 +157,37 @@ function createRailsdbWindow () {
         // Dereference the window object
         railsdbWindow = null;
     });
+}
+
+function createRailsServerWindow(){
+      railsServerWindow = new BrowserWindow({
+        width: 800,
+        height: 600,
+        show: false
+    });
+
+  railsServerWindow.loadURL('file://' + __dirname + '/rails_server.html');
+  railsServerWindow.on('closed', function() {
+        if (rails_server_prc != null) {
+            rails_server_prc.kill('SIGTERM');
+        }
+        // Dereference the window object
+        railsServerWindow = null;
+    });
+
+  return railsServerWindow;
+
+}
+
+function launch_rails_server(port,projectToRun){
+    let prc = childProcess.exec('rails server -p ' + port, {stdio:"pipe",cwd: projectToRun}, function(error, stdout, stderr) {
+        if (error == null) {
+            console.log(stdout.toString());
+        } else {
+            console.log(error)
+        }
+    });
+    return prc;
 }
 
 
