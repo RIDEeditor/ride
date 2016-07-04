@@ -392,7 +392,7 @@ class RailsUI{
                     // remove the div from the "allProcesses" element
                 };
 
-                  
+                openurl.open("http://localhost:" + port + "/");
 
             });
 
