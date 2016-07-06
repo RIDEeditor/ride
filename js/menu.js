@@ -87,7 +87,7 @@ class Menu {
                 click: this.rails_ui.generateScaffold.bind(this.rails_ui)
               },
               {
-                label: 'New controller',
+                label: 'New rails controller',
                 click: this.rails_ui.generateNewController.bind(this.rails_ui)
               }
             ]

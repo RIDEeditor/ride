@@ -233,6 +233,22 @@ class CreateDialog{
 		$("#create-railsServer-dialog").dialog('open');
 	}
 
+	setupGenerateController(){
+		document.getElementById('projectController').innerHTML = "";
+
+		for(let i=0;i<this.filetree.open_dirs.length;i++){
+			let option = document.createElement("option");
+			option.innerHTML =this.filetree.open_dirs[i];
+			if(i === 0){
+				option.selected = "selected";
+			}
+			$("#projectController").append(option);
+		}
+
+		$("#create-rails-controller").dialog('open');
+
+	}
+
 
 }
 

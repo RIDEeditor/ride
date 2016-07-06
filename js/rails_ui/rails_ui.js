@@ -306,7 +306,7 @@ class RailsUI{
                 let lastDir = path.basename(projectToRun);
 
                 if(running_processes.get(lastDir) !== undefined){
-                    alert("Project already running");
+                    alert("Sorry, " + lastDir + " already running a rails server. Please choose another project to run.");
                     return;
                 }
 
@@ -416,23 +416,30 @@ class RailsUI{
         }
 
         generateNewController() {
-            // TODO open dialog prompting user for options
-            this.clearDialog();
-            this.setStatusIndicatorText("Generating controller");
-            this.setStatusIconVisibility(true);
-            this.setStatusIcon("busy");
-            var proc = this.railsWrapper.newController("mycontroller", "options_go_here", (function(stdout, stderr) {
-                // TODO update filetree to show new file generated
-                this.setStatusIcon("done");
-                this.setStatusIndicatorText("Done");
-            }).bind(this));
-            if (proc != null) {
-                // Read from childprocess stdout
-                // TODO handle stderr as well
-                proc.stdout.on('data', (function(data){
-                    this.appendToDialogContents(data);
+            let createdDialog = this.createdDialog;
+
+            createdDialog.setupGenerateController();
+            
+            $("#generateController").click(()=>{
+
+                // TODO open dialog prompting user for options
+                this.clearDialog();
+                this.setStatusIndicatorText("Generating controller");
+                this.setStatusIconVisibility(true);
+                this.setStatusIcon("busy");
+                var proc = this.railsWrapper.newController("mycontroller", "options_go_here", (function(stdout, stderr) {
+                    // TODO update filetree to show new file generated
+                    this.setStatusIcon("done");
+                    this.setStatusIndicatorText("Done");
                 }).bind(this));
-            }
+                if (proc != null) {
+                    // Read from childprocess stdout
+                    // TODO handle stderr as well
+                    proc.stdout.on('data', (function(data){
+                        this.appendToDialogContents(data);
+                    }).bind(this));
+                }
+            });
         }
 
         setStatusIndicatorText(text) {

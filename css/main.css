@@ -185,3 +185,16 @@ button.new {
 #railsv{
     margin-left: 10px;
 }
+
+
+
+#create-rails-controller{
+    position: relative;
+}
+
+#generateController{
+    margin: 0 auto;
+    position: absolute;
+    left:    225px;
+    bottom:   10px;
+}
