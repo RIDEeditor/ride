@@ -96,9 +96,9 @@ class railsWrapper {
         }
     }
 
-    newController(name, options_list, callback) {
+    newController(project,controllerName,actions, callback) {
         if (this.findRails()) {
-            return this.runCommand(this.rails_path + " generate controller " + name, callback);
+            return this.runCommandWithCwd(this.rails_path + " generate controller " + controllerName + " " + actions,project, callback);
         }
     }
 

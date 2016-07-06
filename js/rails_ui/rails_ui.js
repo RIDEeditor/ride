@@ -422,12 +422,24 @@ class RailsUI{
             
             $("#generateController").click(()=>{
 
+                let actions = (document.getElementById('enterActions').value).split(',');
+
+                let project = $("#projectController option:selected").text() + path.sep;
+
+                let controllerName = document.getElementById('controllerName').value;
+
+                let actionString = "";
+
+                for(let i=0;i<actions.length;i++){
+                    actionString = actionString + actions[i] + " ";
+                }
+
                 // TODO open dialog prompting user for options
                 this.clearDialog();
                 this.setStatusIndicatorText("Generating controller");
                 this.setStatusIconVisibility(true);
                 this.setStatusIcon("busy");
-                var proc = this.railsWrapper.newController("mycontroller", "options_go_here", (function(stdout, stderr) {
+                var proc = this.railsWrapper.newController(project,controllerName, actionString, (function(stdout, stderr) {
                     // TODO update filetree to show new file generated
                     this.setStatusIcon("done");
                     this.setStatusIndicatorText("Done");
@@ -439,6 +451,8 @@ class RailsUI{
                         this.appendToDialogContents(data);
                     }).bind(this));
                 }
+
+                $("#create-rails-controller").dialog('close');
             });
         }
 
