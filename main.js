@@ -18,10 +18,6 @@ let mainWindow;
 let railsdbWindow;
 let rails_db_prc;
 
-let rails_server_prc;
-
-let railsServerWindow;
-
 const http = require("http");
 const request = require("request");
 
