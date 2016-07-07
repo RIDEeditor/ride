@@ -54,6 +54,7 @@ class Menu {
           },
           {
             label: "Open Directory",
+            accelerator: 'CmdOrCtrl+Shift+o',
             click: this.handleDirectoryOpenClicked.bind(this)
           },
           {
