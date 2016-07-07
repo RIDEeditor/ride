@@ -17,6 +17,7 @@
         <script src="ace-builds/src/ext-themelist.js"></script>
         <script src="ace-builds/src/ext-modelist.js"></script>
         <script src="ace-builds/src/ext-statusbar.js"></script>
+        
         <!--Do initial setup-->
         <script src="js/init.js"></script>
 
@@ -72,6 +73,119 @@
             
 
            <input id="opendb" type="submit" value="Open database of selected folder">
+        </div>
+
+        <div id="create-rails-dialog">
+           <code id="create-rails-dialog-contentholder">
+            
+                <input id="selectDirectory" type="submit" value="Select Directory">
+
+                <p id="dirChosen">Directory:</p>
+
+                Name of Rails project:<input id="enterName" type="text" name="projectName">
+                    
+                <br>
+                <br>
+
+                Select Rails version: <select name="rails_chosen" id="railsv"></select>
+
+           </code>
+           <input id="createProject" type="submit" value="create new rails project">
+        </div>
+
+        <div id="create-rails-controller">
+            <code id="create-rails-controller-dialog-contentholder">
+                
+            Select Rails project: <select name="railsProjectChosenController" id="projectController"></select>
+                
+            <br>
+            <br>
+
+            Controller name:  <input id="controllerName" type="text" name="controller">
+
+            <br>
+            <br>
+
+            Enter actions (comma seperated): <input id="enterActions" type="text" name="Actions">
+            
+
+            </code>
+            <input id="generateController" type="submit" value="generate rails controller">
+        </div>
+
+        <div id="create-bundle-dialog">
+           <code id="create-bundle-dialog-contentholder">
+
+                Select Rails project: <select name="rails_chosen" id="bundle"></select>
+                <br>
+                <br>
+                Options: <input id="enterOptions" type="text" name="bundleOptions">
+
+           </code>
+           <input id="bundleProject" type="submit" value="bundle rails project">
+        </div>
+
+        <div id="create-scaffold-dialog">
+           <code id="create-scaffold-dialog-contentholder">
+
+                Select Rails project: <select name="rails_chosen" id="scaffold"></select>
+                
+                <br>
+                <br>
+
+                <div>
+                    <label id="resourceName">Resource Name:</label>
+                    <input id="resource_name_input" type="text" name="resource">
+                </div>
+
+                <br>
+
+                <div id="attributes">
+                    <div id="attribute_1">
+                        <label>Attribute:</label><input id="attribute_1_name" type="text" name="attributeName">
+                        <label>Type:</label><input id="attribute_1_type" type="text" name="attributeType">
+                    </div>
+
+                    <br>
+                    <br>
+                    
+                    <!--
+                    <div id="attribute_2">
+                        <label>Attribute:</label><input id="attribute_2_name" type="text" name="attributeName">
+                        <label>Type:</label><input id="attribute_2_type" type="text" name="attributeType">
+                        <button id="addAction" type="button">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </div>
+                    -->
+                </div>
+
+                <br>
+                <br>
+
+           </code>
+           <input id="createScaffold" type="submit" value="create rails scaffold">
+        </div>
+
+        <div id="create-railsServer-dialog">
+           <code id="create-railsServer-dialog-contentholder">
+            
+            <label>Select port number:</label><input id="railsServerPort" type="text" name="portNumber">
+            <br/>
+            <br/>
+            <label>Select project:</label><select name="project_chosen_railsServer" id="projectRun"></select>
+
+           </code>
+           <input id="railsServer" type="submit" value="run rails">
+        </div>
+
+        <div id="rails-server-running">
+            <code id="rails-server-running-dialog-contentholder">
+                <label>Running Rails Servers</label>
+                <div id="allProcesses">
+                </div>
+                
+           </code>
         </div>
 
         <footer>

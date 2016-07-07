@@ -46,15 +46,59 @@ class railsWrapper {
         return prc;
     }
 
-    newProject(name, options_list, callback) {
+    runCommandWithCwd(args,cwd, callback){
+         var prc = childProcess.exec(args, {"stdio": "pipe",cwd:cwd}, function(error, stdout, stderr) {
+            if (error == null) {
+                console.log("Finished running: " + args);
+                if (callback != null) {
+                    callback(stdout, stderr);
+                }
+                return stdout.toString();
+            } else {
+                console.log(error)
+            }
+        });
+        return prc;
+    }
+
+    bundle(pathToBundle,callback){
         if (this.findRails()) {
-            return this.runCommand(this.rails_path + " new " + name, callback);
+            ///return this.runCommand( + " new " + name, callback);
+            return this.runCommand("bundle install --gemfile=" + pathToBundle, callback);
         }
     }
 
-    newController(name, options_list, callback) {
+    bundleWithOptions(pathFinal,options,callback){
+
+        if(this.findRails()){
+            return this.runCommand("bundle install --gemfile=" + pathFinal + " " + options,callback);
+        }
+
+    }
+
+    buildScaffold(pathFinal,resourceName,options,callback){
+
+        if(this.findRails()){
+            return this.runCommandWithCwd("rails generate scaffold " + resourceName + " " + options,pathFinal,callback);
+        }
+    }
+
+    bundleMigrate(file,callback){
+        if(this.findRails()){
+            return this.runCommandWithCwd("bundle exec rake db:migrate",file,callback);
+        }
+    }
+
+    newProject(name,version, options_list, callback) {
         if (this.findRails()) {
-            return this.runCommand(this.rails_path + " generate controller " + name, callback);
+            ///return this.runCommand( + " new " + name, callback);
+            return this.runCommand("rails _" + version + "_  new " + name, callback);
+        }
+    }
+
+    newController(project,controllerName,actions, callback) {
+        if (this.findRails()) {
+            return this.runCommandWithCwd(this.rails_path + " generate controller " + controllerName + " " + actions,project, callback);
         }
     }
 

@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint",
     "start": "electron main.js",
-    "preinstall" : "cd ./rails_db/; gem build rails_db.gemspec; cd .."
+    "preinstall": "cd ./rails_db/; gem build rails_db.gemspec; cd .."
   },
   "repository": {
     "type": "git",
@@ -40,6 +40,7 @@
     "socket.io": "0.9.16",
     "term.js": ">= 0.0.5",
     "mkdirp": ">=0.5.1",
-    "request": "latest"
+    "request": "latest",
+    "openurl": "1.1.1"
   }
 }

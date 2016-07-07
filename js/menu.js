@@ -18,7 +18,7 @@ class Menu {
         this.arrayOfThemeNames = [];
         this.current_theme = null;
         this.current_state = current_state;
-        this.rails_ui = new RailsUI_lib.RailsUI();
+        this.rails_ui = new RailsUI_lib.RailsUI(current_state,filetree);
         this.database = new database_lib.Database(filetree);
 
         // Set the menu
@@ -83,10 +83,47 @@ class Menu {
                 click: this.rails_ui.generateNewRailsProject.bind(this.rails_ui)
               },
               {
-                label: 'New controller',
+                label: 'New rails scaffold',
+                click: this.rails_ui.generateScaffold.bind(this.rails_ui)
+              },
+              {
+                label: 'New rails controller',
                 click: this.rails_ui.generateNewController.bind(this.rails_ui)
               }
             ]
+          },
+          {
+            label: 'Bundle',
+            submenu: [
+              {
+                label: 'bundle install',
+                click: this.rails_ui.bundleInstall.bind(this.rails_ui)
+              },
+              {
+                label: 'bundle Install with options',
+                click: this.rails_ui.bundleInstallOptions.bind(this.rails_ui)
+              },
+              {
+                label: 'bundle exec rake db:migrate',
+                click: this.rails_ui.bundleMigrate.bind(this.rails_ui)
+              }
+            ]
+          },
+          { 
+            label:'Rails',
+            submenu: 
+            [
+              {
+                label:'Rails server',
+                click: this.rails_ui.startRailsServer.bind(this.rails_ui)
+              },
+              {
+                label: 'Rails Servers Running',
+                click: this.rails_ui.showRunningServers.bind(this.rails_ui)
+              }
+
+            ]
+
           },
           {
             label: 'Database',
