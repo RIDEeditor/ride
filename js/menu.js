@@ -11,6 +11,8 @@ const RailsUI_lib = require('./rails_ui/rails_ui');
 
 const database_lib = require('./database');
 
+const railroady_lib = require('./visualisation/railroady_wrapper');
+
 
 class Menu {
     constructor(current_state,filetree) {
@@ -20,6 +22,7 @@ class Menu {
         this.current_state = current_state;
         this.rails_ui = new RailsUI_lib.RailsUI(current_state,filetree);
         this.database = new database_lib.Database(filetree);
+        this.railroady = new railroady_lib.railroadyWrapper(filetree);
 
         // Set the menu
         electronMenu.setApplicationMenu(this.buildMenu.bind(this)());
@@ -121,9 +124,20 @@ class Menu {
                 label: 'Rails Servers Running',
                 click: this.rails_ui.showRunningServers.bind(this.rails_ui)
               }
-
             ]
-
+            },
+            {
+              label: 'Visualisation',
+              submenu: [
+                {
+                  label: 'Generate Model Diagram',
+                  click: this.railroady.showModelDialog.bind(this.railroady)
+                },
+                {
+                  label: 'Generate Controller Diagram',
+                  click: this.railroady.showControllerDialog.bind(this.railroady)
+                }
+              ]
           },
           {
             label: 'Database',
