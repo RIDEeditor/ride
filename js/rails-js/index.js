@@ -86,6 +86,7 @@ class railsWrapper {
     bundleMigrate(file,callback){
         if(this.findRails()){
             return this.runCommandWithCwd("bundle exec rake db:migrate",file,callback);
+            //return this.runCommandWithCwd(this.rails_path + " db:migrate",file,callback);
         }
     }
 
