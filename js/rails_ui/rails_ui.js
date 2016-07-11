@@ -456,6 +456,14 @@ class RailsUI{
             });
         }
 
+        generateNewModel(){
+            let createdDialog = this.createdDialog;
+
+            createdDialog.setupGenerateModel();
+
+
+        }
+
         setStatusIndicatorText(text) {
             $("#statusIndicatorText").text(text);
         }

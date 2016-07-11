@@ -89,6 +89,10 @@ class Menu {
               {
                 label: 'New rails controller',
                 click: this.rails_ui.generateNewController.bind(this.rails_ui)
+              },
+              {
+                label: 'New rails model',
+                click: this.rails_ui.generateNewModel.bind(this.rails_ui)
               }
             ]
           },

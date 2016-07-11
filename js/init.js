@@ -131,8 +131,11 @@ $(window).load(function() {
     // setup bundle dialog
     $("#create-bundle-dialog").dialog({autoOpen: false, title: "Bundle Project", height: 200, width: 600});
 
-    // controller generate dialog
+    // controller generate controller
     $("#create-rails-controller").dialog({autoOpen: false, title: "Generate Controller", height: 250, width: 600});
+
+    // controller generate model
+    $("#create-rails-model").dialog({autoOpen: false, title: "Generate Model", height: 250, width: 600});
 
     // create scaffold dialog
     $("#create-scaffold-dialog").dialog({autoOpen: false, title: "Create Scaffold", height: "auto", width: 620});
