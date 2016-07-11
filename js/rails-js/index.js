@@ -102,6 +102,12 @@ class railsWrapper {
         }
     }
 
+    newModel(project,modelName, attributesString,callback){
+        if (this.findRails()) {
+            return this.runCommandWithCwd(this.rails_path + " generate model " + modelName + " " + attributesString,project, callback);
+        }
+    }
+
 }
 
 

@@ -461,6 +461,44 @@ class RailsUI{
 
             createdDialog.setupGenerateModel();
 
+            $("#generateModel").click(()=>{
+
+                let attributes = (document.getElementById('enterAttributes').value).split(',');
+
+                let project = $("#projectModel option:selected").text() + path.sep;
+
+                let modelName = document.getElementById('modelName').value;
+
+                let attributesString = "";
+
+                for(let i=0;i<attributes.length;i++){
+                    attributesString = attributesString + attributes[i] + " ";
+                }
+
+                //console.log(attributesString);
+
+                // TODO open dialog prompting user for options
+                this.clearDialog();
+                this.setStatusIndicatorText("Generating model");
+                this.setStatusIconVisibility(true);
+                this.setStatusIcon("busy");
+                var proc = this.railsWrapper.newModel(project,modelName, attributesString, (function(stdout, stderr) {
+                    // TODO update filetree to show new file generated
+                    this.setStatusIcon("done");
+                    this.setStatusIndicatorText("Done");
+                }).bind(this));
+                if (proc != null) {
+                    // Read from childprocess stdout
+                    // TODO handle stderr as well
+                    proc.stdout.on('data', (function(data){
+                        this.appendToDialogContents(data);
+                    }).bind(this));
+                }
+
+
+                $("#create-rails-model").dialog('close');
+
+            });
 
         }
 
