@@ -123,6 +123,9 @@ $(window).load(function() {
   // setup bundle dialog
   $("#create-bundle-dialog").dialog({autoOpen: false, title: "Bundle Project", height: 200, width: 600});
 
+  // setup visualisation dialog
+  $("#visualisation-dialog").dialog({autoOpen: false, title: "Generate Model", height: 500, width: 600});
+
   // controller generate dialog
   $("#create-rails-controller").dialog({autoOpen: false, title: "Generate Controller", height: 250, width: 600});
 
