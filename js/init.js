@@ -4,38 +4,38 @@
  *
  */
 
-const filetree_lib = require("./js/filetree");
-const menu_lib = require("./js/menu");
-const terminal_lib = require("./js/terminal");
-const settings_lib = require("./js/settings");
-const editor_lib = require("./js/editor");
-const state_lib = require("./js/state");
+const filetreeLib = require("./js/filetree");
+const menuLib = require("./js/menu");
+const terminalLib = require("./js/terminal");
+const settingsLib = require("./js/settings");
+const editorLib = require("./js/editor");
+const stateLib = require("./js/state");
 const {ipcRenderer} = require("electron");
 
-var tab_bar; // Represents the top tab bar
+var tabBar; // Represents the top tab bar
 var editor; // 'Global' editor. New editor sessions are created for each tab
-var terminal_maximised = false;
-var terminal_loaded = false;
-var terminal_height = 200;
+var terminalIsMaximised = false;
+var terminalIsLoaded = false;
+var terminalHeight = 200;
 
-var current_state = new state_lib.State();
+var currentState = new stateLib.State();
 
 $(window).load(function() {
-  var settings = new settings_lib.Settings();
+  var settings = new settingsLib.Settings();
 
   // Setup filetree
-  var filetree = new filetree_lib.FileTree($("#treeview"));
+  var filetree = new filetreeLib.FileTree($("#treeview"));
 
   // Create menu
-  var menu = new menu_lib.Menu(current_state, filetree);
+  var menu = new menuLib.Menu(currentState, filetree);
 
   $(window).on("switchTab", function(e) {
     switchTab(e.detail);
   });
 
   $(window).on("fileToOpen", function(e) {
-    new editor_lib.Editor("Untitled", current_state);
-    current_state.current_editor.readFileIntoEditor(e.detail);
+    new editorLib.Editor("Untitled", currentState);
+    currentState.currentEditor.readFileIntoEditor(e.detail);
   });
 
   $(window).on("dirToOpen", function(e) {
@@ -43,7 +43,7 @@ $(window).load(function() {
   });
 
   // Setup the tabs bar
-  tab_bar = new Tabs({
+  tabBar = new Tabs({
     shell: $(".tabs-shell"),
     minWidth: 45,
     maxWidth: 180
@@ -56,26 +56,26 @@ $(window).load(function() {
 
   // Define what the 'new tab' button does
   $(".new").on("click", function(ev) {
-    new editor_lib.Editor("Untitled", current_state);
+    new editorLib.Editor("Untitled", currentState);
   });
 
   // Read settings from disk
   // Open files from last session
   for (var i = 0; i < settings.openFiles.length; i++) {
     var file = settings.openFiles[i];
-    new editor_lib.Editor("Untitled", current_state);
+    new editorLib.Editor("Untitled", currentState);
     if (file) {
-      current_state.current_editor.readFileIntoEditor(settings.openFiles[i]);
+      currentState.currentEditor.readFileIntoEditor(settings.openFiles[i]);
     }
   }
 
-  if (settings.openFiles.length == 0) {
+  if (settings.openFiles.length === 0) {
     // Create a tab if no files from last session
-    new editor_lib.Editor("Untitled", current_state);
+    new editorLib.Editor("Untitled", currentState);
   }
 
   // Open directories from previous session in tree
-  for (var i = 0; i < settings.openDirectories.length; i++) {
+  for (let i = 0; i < settings.openDirectories.length; i++) {
     filetree.addDirectoryToTree(settings.openDirectories[i], false);
   }
 
@@ -135,10 +135,10 @@ $(window).load(function() {
   $("#rails-server-running").dialog({autoOpen: false, title: "Rails Servers Running", height: 200, width: 600});
 
   $(window).on("toggleTerminal", function(e) {
-    if (!terminal_loaded) {
+    if (!terminalIsLoaded) {
       // Setup terminal
-      var terminal_div = document.getElementById("console");
-      var my_term = new terminal_lib.Code_Terminal(terminal_div, "http://localhost:8000");
+      var terminalDiv = document.getElementById("console");
+      var myTerm = new terminalLib.CodeTerminal(terminalDiv, "http://localhost:8000");
     }
     toggleTerminal();
   });
@@ -160,11 +160,11 @@ $(window).load(function() {
 
     // Update settings
     settings.openFiles = [];
-    for (var key in current_state.TabsList) {
-      settings.openFiles.push(current_state.TabsList[key].fileEntry);
+    for (var key in currentState.TabsList) {
+      settings.openFiles.push(currentState.TabsList[key].fileEntry);
     }
 
-    settings.openDirectories = filetree.open_dirs;
+    settings.openDirectories = filetree.openDirs;
 
     settings.saveSettingsToDisk();
   };
@@ -174,27 +174,27 @@ $(window).load(function() {
 * Switches focus to the tab with the given id
 */
 var switchTab = function(id) {
-  var doc = current_state.TabsList[id];
+  var doc = currentState.TabsList[id];
   editor.setSession(doc.aceSession);
   editor.focus();
-  current_state.current_editor = doc;
+  currentState.currentEditor = doc;
 };
 
 function toggleTerminal() {
-  if (terminal_maximised) {
-    terminal_height = $(".terminal").outerHeight() + 18;
+  if (terminalIsMaximised) {
+    terminalHeight = $(".terminal").outerHeight() + 18;
     $(".panel-right-top").height($(".panel-right").height());
     editor.resize();
-    terminal_maximised = false;
+    terminalIsMaximised = false;
     // Set focus to editor
     $(".ace_text-input").focus();
   } else {
     // Resize editor
-    $(".panel-right-top").height($(".panel-right-top").height() - terminal_height);
+    $(".panel-right-top").height($(".panel-right-top").height() - terminalHeight);
     editor.resize();
     // Resize terminal
     $("#console").height($(window).height() - $(".panel-right-top").height() - 40);
-    terminal_maximised = true;
+    terminalIsMaximised = true;
     // Set focus to terminal
     $(".terminal").focus();
   }

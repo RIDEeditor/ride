@@ -60,9 +60,9 @@ class CreateDialog {
   bundle() {
     document.getElementById("bundle").innerHTML = "";
 
-    for (let i = 0; i < this.filetree.open_dirs.length; i++) {
+    for (let i = 0; i < this.filetree.openDirs.length; i++) {
       let option = document.createElement("option");
-      option.innerHTML = this.filetree.open_dirs[i];
+      option.innerHTML = this.filetree.openDirs[i];
       if (i === 0) {
         option.selected = "selected";
       }
@@ -86,9 +86,9 @@ class CreateDialog {
     document.getElementById("attributes").innerHTML = "";
     this.addNewAction();
 
-    for (let i = 0; i < this.filetree.open_dirs.length; i++) {
+    for (let i = 0; i < this.filetree.openDirs.length; i++) {
       let option = document.createElement("option");
-      option.innerHTML = this.filetree.open_dirs[i];
+      option.innerHTML = this.filetree.openDirs[i];
       if (i === 0) {
         option.selected = "selected";
       }
@@ -108,7 +108,7 @@ class CreateDialog {
     let lastElementId = 0;
 
     if ($("#attributes div:last").length !== 0) {
-      lastElementId = parseInt(lastElement[0].id.slice(-1));
+      lastElementId = parseInt(lastElement[0].id.slice(-1), 10);
     }
 
     // add 2 br elements
@@ -117,7 +117,7 @@ class CreateDialog {
 
     // add a new attribute div with the plus button
     let attribute = document.createElement("div");
-    let newId = lastElementId = lastElementId + 1;
+    let newId = lastElementId + 1;
     attribute.id = "attribute_" + newId;
 
     let lbl = document.createElement("label");
@@ -172,18 +172,18 @@ class CreateDialog {
 
     for (var i = 0; i < numberOfAttributes; i++) {
       let index = i + 1;
-      let attribute_value = $("#attribute_" + index + "_name").val();
-      let attribute_type = $("#attribute_" + index + "_type").val();
-      this.scaffoldOptions = this.scaffoldOptions + " " + attribute_value + ":" + attribute_type;
+      let attributeValue = $("#attribute_" + index + "_name").val();
+      let attributeType = $("#attribute_" + index + "_type").val();
+      this.scaffoldOptions = this.scaffoldOptions + " " + attributeValue + ":" + attributeType;
     }
   }
 
   setupRailsServer() {
     document.getElementById("projectRun").innerHTML = "";
 
-    for (let i = 0; i < this.filetree.open_dirs.length; i++) {
+    for (let i = 0; i < this.filetree.openDirs.length; i++) {
       let option = document.createElement("option");
-      option.innerHTML = this.filetree.open_dirs[i];
+      option.innerHTML = this.filetree.openDirs[i];
       if (i === 0) {
         option.selected = "selected";
       }
@@ -196,9 +196,9 @@ class CreateDialog {
   setupGenerateController() {
     document.getElementById("projectController").innerHTML = "";
 
-    for (let i = 0; i < this.filetree.open_dirs.length; i++) {
+    for (let i = 0; i < this.filetree.openDirs.length; i++) {
       let option = document.createElement("option");
-      option.innerHTML = this.filetree.open_dirs[i];
+      option.innerHTML = this.filetree.openDirs[i];
       if (i === 0) {
         option.selected = "selected";
       }

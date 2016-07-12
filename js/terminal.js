@@ -1,8 +1,8 @@
 "use strict";
 
-class Code_Terminal {
-  constructor(terminal_div, url) {
-    this.element = terminal_div;
+class CodeTerminal {
+  constructor(terminalDiv, url) {
+    this.element = terminalDiv;
     this.cell = this.createCell(this.element);
     this.url = url;
     this.socket = io.connect(this.url);
@@ -76,7 +76,7 @@ class Code_Terminal {
 
     cell.innerHTML = "&nbsp";
     cell.style.position = "absolute";
-        // TODO font parameters should be set dynamically
+    // TODO font parameters should be set dynamically
     cell.style.fontSize = "11px";
     cell.style.fontFamily = "DejaVu Sans Mono, Liberation Mono, monospace";
     cell.style.top = "-1000px";
@@ -87,4 +87,4 @@ class Code_Terminal {
   }
 }
 
-exports.Code_Terminal = Code_Terminal;
+exports.CodeTerminal = CodeTerminal;

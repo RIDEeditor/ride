@@ -122,6 +122,10 @@ button.new {
     position: relative;
 }
 
+#visualisation-dialog {
+    position: relative;
+}
+
 #opendb{
     position: absolute;
     left:    10px;

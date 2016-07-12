@@ -7,17 +7,14 @@ class Database {
   }
 
   showDatabaseDialog() {
-		// set the content to nothing
-		// $("#database-dialog-contentholder").text("");
-
-		// delete all the option elements for selector
+	// delete all the option elements for selector
     document.getElementById("selector").innerHTML = "";
 
     $("#database-dialog").dialog("open");
 
-    for (let i = 0; i < this.filetree.open_dirs.length; i++) {
+    for (let i = 0; i < this.filetree.openDirs.length; i++) {
       let option = document.createElement("option");
-      option.innerHTML = this.filetree.open_dirs[i];
+      option.innerHTML = this.filetree.openDirs[i];
       if (i === 0) {
         option.selected = "selected";
       }

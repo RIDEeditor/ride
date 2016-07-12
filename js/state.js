@@ -3,7 +3,7 @@
 class State {
 
   constructor() {
-    this.current_editor = null;
+    this.currentEditor = null;
     this.TabsList = {}; // Holds all tabs that have been created
   }
 

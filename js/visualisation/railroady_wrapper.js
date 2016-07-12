@@ -4,7 +4,7 @@ const childProcess = require("child_process");
 const Viz = require("viz.js");
 require("svg-pan-zoom");
 
-class railroadyWrapper {
+class RailroadyWrapper {
 
   constructor(filetree) {
     this.filetree = filetree;
@@ -78,9 +78,9 @@ class railroadyWrapper {
   showModelDialog() {
     // TODO update status icon and status text to show progress
     $("#model-project-selector").empty();
-    for (let i = 0; i < this.filetree.open_dirs.length; i++) {
+    for (let i = 0; i < this.filetree.openDirs.length; i++) {
       let option = document.createElement("option");
-      option.innerHTML = this.filetree.open_dirs[i];
+      option.innerHTML = this.filetree.openDirs[i];
       if (i === 0) {
         option.selected = "selected";
       }
@@ -165,9 +165,9 @@ class railroadyWrapper {
   showControllerDialog() {
     // TODO update status icon and status text to show progress
     $("#model-project-selector").empty();
-    for (let i = 0; i < this.filetree.open_dirs.length; i++) {
+    for (let i = 0; i < this.filetree.openDirs.length; i++) {
       let option = document.createElement("option");
-      option.innerHTML = this.filetree.open_dirs[i];
+      option.innerHTML = this.filetree.openDirs[i];
       if (i === 0) {
         option.selected = "selected";
       }
@@ -220,4 +220,4 @@ class railroadyWrapper {
 
 }
 
-exports.railroadyWrapper = railroadyWrapper;
+exports.RailroadyWrapper = RailroadyWrapper;

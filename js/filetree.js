@@ -7,11 +7,11 @@ const path = require("path");
 const fs = require("fs");
 
 class FileTree {
-  constructor(tree_element) {
-    this.tree_element = tree_element;
-    this.open_dirs = [];
+  constructor(treeElement) {
+    this.treeElement = treeElement;
+    this.openDirs = [];
     // Create tree
-    tree_element.jstree({
+    treeElement.jstree({
       core: {
         check_callback: true
       },
@@ -24,8 +24,8 @@ class FileTree {
     });
 
     // Setup callback that handles when a file is selected in the tree
-    this.tree_element.on("dblclick.jstree", (function(event) {
-      let node = this.tree_element.jstree("get_node", event.target.id);
+    this.treeElement.on("dblclick.jstree", (function(event) {
+      let node = this.treeElement.jstree("get_node", event.target.id);
       if (!node) {
         // Double clicked on something not a node, ignore event
         return;
@@ -39,8 +39,8 @@ class FileTree {
     }).bind(this));
 
     // Setup tooltips to show full file path when hovered over
-    this.tree_element.on("hover_node.jstree", function(e, data) {
-      $("#" + data.node.id).prop("title", data.node.original.full_path);
+    this.treeElement.on("hover_node.jstree", function(e, data) {
+      $("#" + data.node.id).prop("title", data.node.original.fullPath);
     });
   }
 
@@ -51,10 +51,10 @@ class FileTree {
         remove: {
           label: "Remove from workspace",
           action: (function() {
-            this.tree_element.jstree("delete_node", node);
-            // Find index of this dir in open_dirs and remove it
-            let index = this.open_dirs.indexOf(node.data);
-            this.open_dirs.splice(index, 1);
+            this.treeElement.jstree("delete_node", node);
+            // Find index of this dir in openDirs and remove it
+            let index = this.openDirs.indexOf(node.data);
+            this.openDirs.splice(index, 1);
           }).bind(this)
         }
       };
@@ -66,32 +66,32 @@ class FileTree {
 
   addDirectoryToTree(dirname, expanded) {
     if (typeof expanded === "undefined") { expanded = true; }
-    this.open_dirs.push(dirname);
+    this.openDirs.push(dirname);
     var node = this.buildNode(path.basename(dirname.toString()), dirname.toString(), "directory");
     node.state = {opened: expanded};
-    var root_node_id = $("#treeview").jstree("create_node", "#", node, "last");
-    this.recurseTree(root_node_id, dirname);
+    var rootNodeId = $("#treeview").jstree("create_node", "#", node, "last");
+    this.recurseTree(rootNodeId, dirname);
   }
 
   /**
    * Recurses through a directory, adding files and subdirectories to the file tree
    *
-   * @param {String} root_node
+   * @param {String} rootNode
    * @param {String} directory
    */
-  recurseTree(root_node, directory) {
+  recurseTree(rootNode, directory) {
     walk.walk(directory.toString(), (function(basedir, filename, stat, next) {
       // Check if is a file or directory
-      var full_path = path.join(basedir, filename);
-      var stats = fs.lstatSync(full_path);
+      var fullPath = path.join(basedir, filename);
+      var stats = fs.lstatSync(fullPath);
       if (stats.isDirectory()) {
         // Add directory to the tree
-        var root_node_id = $("#treeview").jstree("create_node", root_node, this.buildNode(filename, full_path, "directory"), "last");
+        var rootNodeId = $("#treeview").jstree("create_node", rootNode, this.buildNode(filename, fullPath, "directory"), "last");
         // Recurse into directory
-        this.recurseTree(root_node_id, full_path);
+        this.recurseTree(rootNodeId, fullPath);
       } else {
         // Add file to the tree
-        var root_node_id = $("#treeview").jstree("create_node", root_node, this.buildNode(filename, full_path, "file"), "last");
+        var rootNodeId = $("#treeview").jstree("create_node", rootNode, this.buildNode(filename, fullPath, "file"), "last");
       }
     }).bind(this), function(err) {
       if (err) {
@@ -100,7 +100,7 @@ class FileTree {
     });
   }
 
-  buildNode(name_string, full_path, type) {
+  buildNode(nameString, fullPath, type) {
     var icon = "";
     if (type === "file") {
       icon = "glyphicon glyphicon-file";
@@ -108,9 +108,9 @@ class FileTree {
       icon = "glyphicon glyphicon-folder-close";
     }
     var node = {
-      text: name_string,
-      data: full_path,
-      full_path: full_path,
+      text: nameString,
+      data: fullPath,
+      fullPath: fullPath,
       type: type,
       icon: icon
     };

@@ -5,19 +5,19 @@ const electronMenu = remote.Menu;
 const path = require("path");
 const dialog = require("electron").remote.dialog;
 
-const editor_lib = require("./editor");
-const RailsUI_lib = require("./rails_ui/rails_ui");
-const database_lib = require("./database");
-const railroady_lib = require("./visualisation/railroady_wrapper");
+const editorLib = require("./editor");
+const RailsUiLib = require("./rails_ui/rails_ui");
+const databaseLib = require("./database");
+const railroadyLib = require("./visualisation/railroady_wrapper");
 
 class Menu {
-  constructor(current_state, filetree) {
+  constructor(currentState, filetree) {
     this.arrayOfThemeNames = [];
-    this.current_theme = null;
-    this.current_state = current_state;
-    this.rails_ui = new RailsUI_lib.RailsUI(current_state, filetree);
-    this.database = new database_lib.Database(filetree);
-    this.railroady = new railroady_lib.railroadyWrapper(filetree);
+    this.currentTheme = null;
+    this.currentState = currentState;
+    this.RailsUI = new RailsUiLib.RailsUI(currentState, filetree);
+    this.database = new databaseLib.Database(filetree);
+    this.railroady = new railroadyLib.RailroadyWrapper(filetree);
 
     // Set the menu
     electronMenu.setApplicationMenu(this.buildMenu.bind(this)());
@@ -25,14 +25,14 @@ class Menu {
 
   buildMenu() {
     // Defines the menu structure
-    var menu_template = [
+    var menuTemplate = [
       {
         label: "File",
         submenu: [
           {
             label: "New file",
             accelerator: "CmdOrCtrl+n",
-            click: (function() {new editor_lib.Editor("Untitled", this.current_state);}).bind(this)
+            click: (function() {new editorLib.Editor("Untitled", this.currentState);}).bind(this)
           },
           {
             label: "Save",
@@ -54,7 +54,7 @@ class Menu {
           },
           {
             label: "Open Directory",
-            accelerator: 'CmdOrCtrl+Shift+o',
+            accelerator: "CmdOrCtrl+Shift+o",
             click: this.handleDirectoryOpenClicked.bind(this)
           },
           {
@@ -79,15 +79,15 @@ class Menu {
         submenu: [
           {
             label: "New rails project",
-            click: this.rails_ui.generateNewRailsProject.bind(this.rails_ui)
+            click: this.RailsUI.generateNewRailsProject.bind(this.RailsUI)
           },
           {
             label: "New rails scaffold",
-            click: this.rails_ui.generateScaffold.bind(this.rails_ui)
+            click: this.RailsUI.generateScaffold.bind(this.RailsUI)
           },
           {
             label: "New rails controller",
-            click: this.rails_ui.generateNewController.bind(this.rails_ui)
+            click: this.RailsUI.generateNewController.bind(this.RailsUI)
           }
         ]
       },
@@ -96,15 +96,15 @@ class Menu {
         submenu: [
           {
             label: "bundle install",
-            click: this.rails_ui.bundleInstall.bind(this.rails_ui)
+            click: this.RailsUI.bundleInstall.bind(this.RailsUI)
           },
           {
             label: "bundle Install with options",
-            click: this.rails_ui.bundleInstallOptions.bind(this.rails_ui)
+            click: this.RailsUI.bundleInstallOptions.bind(this.RailsUI)
           },
           {
             label: "bundle exec rake db:migrate",
-            click: this.rails_ui.bundleMigrate.bind(this.rails_ui)
+            click: this.RailsUI.bundleMigrate.bind(this.RailsUI)
           }
         ]
       },
@@ -114,11 +114,11 @@ class Menu {
         [
           {
             label: "Rails server",
-            click: this.rails_ui.startRailsServer.bind(this.rails_ui)
+            click: this.RailsUI.startRailsServer.bind(this.RailsUI)
           },
           {
             label: "Rails Servers Running",
-            click: this.rails_ui.showRunningServers.bind(this.rails_ui)
+            click: this.RailsUI.showRunningServers.bind(this.RailsUI)
           }
         ]
       },
@@ -239,7 +239,7 @@ class Menu {
     // Mac OSX menu integration
     if (process.platform === "darwin") {
       var name = require("electron").remote.app.getName();
-      menu_template.unshift({
+      menuTemplate.unshift({
         label: name,
         submenu: [
           {
@@ -281,22 +281,22 @@ class Menu {
     let ThemeList = ace.require("ace/ext/themelist");
     for (var i = 0; i < ThemeList.themes.length; i++) {
       this.arrayOfThemeNames[i] = ThemeList.themes[i].name;
-      this.addThemes(menu_template, this.arrayOfThemeNames[i]);
+      this.addThemes(menuTemplate, this.arrayOfThemeNames[i]);
     }
-    var menu = electronMenu.buildFromTemplate(menu_template);
+    var menu = electronMenu.buildFromTemplate(menuTemplate);
     return menu;
   }
 
-  addThemes(menu_template, label) {
+  addThemes(menuTemplate, label) {
     function findMenuIndex(menuLabel) {
-      for (var i = 0; i < menu_template.length; i++) {
-        if (menu_template[i].label === menuLabel) {
+      for (var i = 0; i < menuTemplate.length; i++) {
+        if (menuTemplate[i].label === menuLabel) {
           return i;
         }
       }
     }
 
-    menu_template[findMenuIndex("Preferences")].submenu[0].submenu.push(
+    menuTemplate[findMenuIndex("Preferences")].submenu[0].submenu.push(
       {
         label: label,
         click: function() {
@@ -343,15 +343,15 @@ class Menu {
    * Opens dialog allowing user to choose file to save to
    */
   handleFileSaveAsClicked() {
-    if (Object.keys(this.current_state.TabsList).length < 1) {
+    if (Object.keys(this.currentState.TabsList).length < 1) {
       // No editors are open, so nothing to save
       return;
     }
     dialog.showSaveDialog({title: "Choose where to save file"}, (function(filename) {
       if (filename) {
-        this.current_state.current_editor.fileEntry = filename;
+        this.currentState.currentEditor.fileEntry = filename;
         // If a file was selected, save file to it
-        this.current_state.current_editor.writeEditorDataToFile();
+        this.currentState.currentEditor.writeEditorDataToFile();
         // Set tab title to filename
         this.setCurrentTabTitle(path.basename(filename));
       }
@@ -366,22 +366,22 @@ class Menu {
   /**
    * Sets the title of the currently selected tab to the provided string
    *
-   * @param {String} title
+   * @param {String} newTitle
    */
-  setCurrentTabTitle(new_title) {
-    tab_bar.updateTab(this.current_state.current_editor.tab, {title: new_title});
+  setCurrentTabTitle(newTitle) {
+    tabBar.updateTab(this.currentState.currentEditor.tab, {title: newTitle});
   }
 
   /**
    * Saves the file currently in editor
    */
   handleSaveClicked() {
-    if (Object.keys(this.current_state.TabsList).length < 1) {
+    if (Object.keys(this.currentState.TabsList).length < 1) {
       // No editors are open, so nothing to save
       return;
     }
-    if (this.current_state.current_editor.fileEntry) {
-      this.current_state.current_editor.writeEditorDataToFile();
+    if (this.currentState.currentEditor.fileEntry) {
+      this.currentState.currentEditor.writeEditorDataToFile();
     } else {
       // Handle case where this is a new file and so a file on disk must be chosen before saving
       this.handleFileSaveAsClicked();

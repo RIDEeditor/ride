@@ -3,13 +3,13 @@
 var childProcess = require("child_process");
 
 /* Wrapper around ruby on rails commands*/
-class railsWrapper {
+class RailsWrapper {
 
-  constructor(rails_path) {
-    if (typeof rails_path === "undefined") {
-      rails_path = null;
+  constructor(railsPath) {
+    if (typeof railsPath === "undefined") {
+      railsPath = null;
     }
-    this.rails_path = rails_path;
+    this.railsPath = railsPath;
     this.searched = false;
   }
 
@@ -23,7 +23,7 @@ class railsWrapper {
       // Found rails path
       console.log("Found rails path");
       // Need to remove trailing newline
-      this.rails_path = output.toString("utf-8", 0, output.length - 1);
+      this.railsPath = output.toString("utf-8", 0, output.length - 1);
       return true;
     } catch (error) {
       console.log("Failed to find rails path");
@@ -87,7 +87,7 @@ class railsWrapper {
     }
   }
 
-  newProject(name, version, options_list, callback) {
+  newProject(name, version, optionsList, callback) {
     if (this.findRails()) {
       return this.runCommand("rails _" + version + "_  new " + name, callback);
     }
@@ -95,11 +95,11 @@ class railsWrapper {
 
   newController(project, controllerName, actions, callback) {
     if (this.findRails()) {
-      return this.runCommandWithCwd(this.rails_path + " generate controller " + controllerName + " " + actions, project, callback);
+      return this.runCommandWithCwd(this.railsPath + " generate controller " + controllerName + " " + actions, project, callback);
     }
   }
 
 }
 
-exports.railsWrapper = railsWrapper;
+exports.RailsWrapper = RailsWrapper;
 

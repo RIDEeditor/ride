@@ -1,20 +1,21 @@
 "use strict";
 
 const path = require("path");
+const dialog = require("electron").remote.dialog
 const rails = require("../rails-js"); // Note: This path is relative to where we are importing from
 // See: https://stackoverflow.com/questions/16652620/node-js-require-cannot-find-custom-module/16652662#16652662
 const createDialog = require("./createDialog");
 const childProcess = require("child_process");
 const openurl = require("openurl");
 
-let running_processes = new Map();
+let runningProcesses = new Map();
 
 class RailsUI {
 
-  constructor(current_state, filetree) {
-    this.railsWrapper = new rails.railsWrapper();
+  constructor(currentState, filetree) {
+    this.RailsWrapper = new rails.RailsWrapper();
 
-    this.current_state = current_state;
+    this.currentState = currentState;
     this.filetree = filetree;
 
     // run the sync to find rails versions
@@ -46,7 +47,7 @@ class RailsUI {
       this.setStatusIndicatorText("Generating new Rails project '" + path.basename(dir) + "'");
       this.setStatusIconVisibility(true);
       this.setStatusIcon("busy");
-      var proc = this.railsWrapper.newProject(dir, version, "options_go_here", (function(stdout, stderr) {
+      var proc = this.RailsWrapper.newProject(dir, version, "options_go_here", (function(stdout, stderr) {
         // Open new project in file tree
         var evt = new CustomEvent("dirToOpen", {detail: dir});
         window.dispatchEvent(evt);
@@ -83,8 +84,8 @@ class RailsUI {
 
   bundleInstall() {
     // this gets the file path to the currently open file
-    // console.log(current_state.current_editor.fileEntry);
-    // console.log(this.filetree.open_dirs);
+    // console.log(currentState.currentEditor.fileEntry);
+    // console.log(this.filetree.openDirs);
 
     // run bundle install --gemfile=path/To/Gemfile
 
@@ -94,15 +95,15 @@ class RailsUI {
     // for loop all open directories and then if they are a substring of the current file entry
     // do the bundle install on that open dir
 
-    let fileOpenPath = current_state.current_editor.fileEntry;
+    let fileOpenPath = this.currentState.currentEditor.fileEntry;
 
     let fileToCallBundle = "";
 
     if (fileOpenPath !== null) {
-      for (let i = 0; i < this.filetree.open_dirs.length; i++) {
-        let n = fileOpenPath.includes(this.filetree.open_dirs[i]);
+      for (let i = 0; i < this.filetree.openDirs.length; i++) {
+        let n = fileOpenPath.includes(this.filetree.openDirs[i]);
         if (n) {
-          fileToCallBundle = this.filetree.open_dirs[i];
+          fileToCallBundle = this.filetree.openDirs[i];
         }
       }
     }
@@ -116,7 +117,7 @@ class RailsUI {
     this.setStatusIndicatorText("Bundling Rails project '" + fileToCallBundle + "'");
     this.setStatusIconVisibility(true);
     this.setStatusIcon("busy");
-    var proc = this.railsWrapper.bundle(fileToCallBundle, (function(stdout, stderr) {
+    var proc = this.RailsWrapper.bundle(fileToCallBundle, (function(stdout, stderr) {
       // Open new project in file tree
       this.setStatusIcon("done");
       this.setStatusIndicatorText("Done");
@@ -148,7 +149,7 @@ class RailsUI {
       this.setStatusIndicatorText("Bundling Rails project with options '" + finalPathToBundle + "'");
       this.setStatusIconVisibility(true);
       this.setStatusIcon("busy");
-      var proc = this.railsWrapper.bundleWithOptions(finalPathToBundle, options, (function(stdout, stderr) {
+      var proc = this.RailsWrapper.bundleWithOptions(finalPathToBundle, options, (function(stdout, stderr) {
         // Open new project in file tree
         this.setStatusIcon("done");
         this.setStatusIndicatorText("Done");
@@ -185,7 +186,7 @@ class RailsUI {
       this.setStatusIndicatorText("Building Rails scaffold");
       this.setStatusIconVisibility(true);
       this.setStatusIcon("busy");
-      var proc = this.railsWrapper.buildScaffold(project, resourceName, options, (function(stdout, stderr) {
+      var proc = this.RailsWrapper.buildScaffold(project, resourceName, options, (function(stdout, stderr) {
         // Open new project in file tree
         this.setStatusIcon("done");
         this.setStatusIndicatorText("Done");
@@ -208,15 +209,15 @@ class RailsUI {
   }
 
   bundleMigrate() {
-    let fileOpenPath = current_state.current_editor.fileEntry;
+    let fileOpenPath = this.currentState.currentEditor.fileEntry;
 
     let fileToCallBundle = "";
 
     if (fileOpenPath !== null) {
-      for (let i = 0; i < this.filetree.open_dirs.length; i++) {
-        let n = fileOpenPath.includes(this.filetree.open_dirs[i]);
+      for (let i = 0; i < this.filetree.openDirs.length; i++) {
+        let n = fileOpenPath.includes(this.filetree.openDirs[i]);
         if (n) {
-          fileToCallBundle = this.filetree.open_dirs[i];
+          fileToCallBundle = this.filetree.openDirs[i];
         }
       }
     }
@@ -225,12 +226,12 @@ class RailsUI {
       return;
     }
 
-    fileToCallBundle = fileToCallBundle + path.sep;
+    fileToCallBundle += path.sep;
 
     this.setStatusIndicatorText("Bundle exec rake db:migrate Rails project '" + fileToCallBundle + "'");
     this.setStatusIconVisibility(true);
     this.setStatusIcon("busy");
-    var proc = this.railsWrapper.bundleMigrate(fileToCallBundle, (function(stdout, stderr) {
+    var proc = this.RailsWrapper.bundleMigrate(fileToCallBundle, (function(stdout, stderr) {
       // Open new project in file tree
       this.setStatusIcon("done");
       this.setStatusIndicatorText("Done");
@@ -264,42 +265,42 @@ class RailsUI {
 
       let lastDir = path.basename(projectToRun);
 
-      if (running_processes.get(lastDir) !== undefined) {
+      if (runningProcesses.get(lastDir) !== undefined) {
         alert("Sorry, " + lastDir + " already running a rails server. Please choose another project to run.");
         return;
       }
 
-      let rails_process = this.startServer(port, projectToRun);
+      let railsProcess = this.startServer(port, projectToRun);
 
-      rails_process.on("error", function(err) {
+      railsProcess.on("error", function(err) {
         if (err.code === "ENOENT") {
           // Rails_db command not found - should warn user
           console.log(err);
-          electron.dialog.showErrorBox("title", "rails server not found");
+          dialog.showErrorBox("title", "rails server not found");
         }
       });
 
-      rails_process.stdout.on("data", function(data) {
+      railsProcess.stdout.on("data", function(data) {
         console.log(data.toString());
       });
 
-      rails_process.stderr.on("data", function(data) {
+      railsProcess.stderr.on("data", function(data) {
         console.log(data.toString());
       });
 
       // add process to a global array for this class
-      running_processes.set(lastDir, rails_process);
+      runningProcesses.set(lastDir, railsProcess);
 
       // create a div with a stop button and then add it to the rails server running window
       // listener on stop button so it sends sig kill to the process related to it.
-      let process_div = document.createElement("div");
-      process_div.id = lastDir;
+      let processDiv = document.createElement("div");
+      processDiv.id = lastDir;
 
       let l = document.createElement("label");
       l.innerHTML = "<b>" + lastDir + "</b> (Port: " + port + ")";
 
       let b = document.createElement("button");
-      b.id = "kill_" + process_div.id;
+      b.id = "kill_" + processDiv.id;
       b.type = "button";
       var t = document.createTextNode("Stop"); // Create a text node
       b.appendChild(t); // Append the text to <button>
@@ -309,18 +310,18 @@ class RailsUI {
       $("#allProcesses").append("<br>");
       $("#allProcesses").append("<br>");
 
-      $("#allProcesses").append(process_div);
+      $("#allProcesses").append(processDiv);
 
-      $("#" + process_div.id).append(l);
-      $("#" + process_div.id).append(b);
+      $("#" + processDiv.id).append(l);
+      $("#" + processDiv.id).append(b);
 
       b.onclick = function() {
-        let prc_found = running_processes.get((b.id).substring(5));
+        let prcFound = runningProcesses.get((b.id).substring(5));
         // kill the process
-        prc_found.kill("SIGTERM");
+        prcFound.kill("SIGTERM");
 
         // delete from process array
-        running_processes.delete((b.id).substring(5));
+        runningProcesses.delete((b.id).substring(5));
 
         let divId = (b.id).substring(5);
         console.log(divId);
@@ -371,7 +372,7 @@ class RailsUI {
       this.setStatusIndicatorText("Generating controller");
       this.setStatusIconVisibility(true);
       this.setStatusIcon("busy");
-      var proc = this.railsWrapper.newController(project, controllerName, actionString, (function(stdout, stderr) {
+      var proc = this.RailsWrapper.newController(project, controllerName, actionString, (function(stdout, stderr) {
         // TODO update filetree to show new file generated
         this.setStatusIcon("done");
         this.setStatusIndicatorText("Done");
@@ -405,7 +406,7 @@ class RailsUI {
   }
 
   appendToDialogContents(text) {
-    $("#dialog-contentholder").append(this.nl2br_js(text));
+    $("#dialog-contentholder").append(this.newlineToBreak(text));
     $("#dialog").animate({scrollTop: $("#dialog-contentholder").height()}, 0);
   }
 
@@ -413,7 +414,7 @@ class RailsUI {
     $("#dialog-contentholder").text("");
   }
 
-  nl2br_js(myString) {
+  newlineToBreak(myString) {
     return myString.replace(/\n/g, "<br />\n");
   }
 

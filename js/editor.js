@@ -14,8 +14,8 @@ const fs = require("fs");
  */
 class Editor {
 
-  constructor(tab_title, current_state) {
-    this.current_state = current_state;
+  constructor(tabTitle, currentState) {
+    this.currentState = currentState;
 
     var self = this;
     var id = "document-" + _.uniqueId(); // Unique id for this tab
@@ -23,23 +23,23 @@ class Editor {
     this.fileEntry = null; // Contains the path of the file currently open in the editor
 
     // Create actual tab and add it to the tab bar
-    this.tab = tab_bar.add({title: tab_title});
+    this.tab = tabBar.add({title: tabTitle});
 
     this.tab.data("id", id);
 
-    this.current_state.current_editor = self;
+    this.currentState.currentEditor = self;
 
     // Define what happens when this tab is activated
     this.tab.on("activate", (function() {
       var evt = new CustomEvent("switchTab", {detail: this.id});
       window.dispatchEvent(evt);
-      this.current_state.current_editor = self;
+      this.currentState.currentEditor = self;
     }).bind(this));
 
     // Define what happens when this tab is closed
     this.tab.on("close", (function() {
-      delete this.current_state.TabsList[self.id]; // Remove this tab from list
-      tab_bar.closeTab(self.tab); // Remove tab from tab bar
+      delete this.currentState.TabsList[self.id]; // Remove this tab from list
+      tabBar.closeTab(self.tab); // Remove tab from tab bar
     }).bind(this));
 
     // Create new ace document
@@ -51,7 +51,7 @@ class Editor {
     this.aceSession.setUndoManager(new UndoManager.UndoManager());
 
         // Add this tabs id to the list of tabs
-    this.current_state.TabsList[this.id] = this;
+    this.currentState.TabsList[this.id] = this;
 
         // Switch focus to this tab
     var evt = new CustomEvent("switchTab", {detail: this.id});
@@ -94,7 +94,7 @@ class Editor {
       // Set the editor's contents to that of the file
       this.aceSession.setValue(String(data));
       // Set tab title to filename
-      tab_bar.updateTab(this.tab, {title: path.basename(filePath)});
+      tabBar.updateTab(this.tab, {title: path.basename(filePath)});
       this.fileEntry = filePath;
     }).bind(this));
   }
