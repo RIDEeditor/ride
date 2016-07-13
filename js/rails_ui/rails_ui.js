@@ -20,14 +20,13 @@ class RailsUI {
 
     // run the sync to find rails versions
     let railsVersions = String(childProcess.execSync("gem list '^rails$' --local"));
-
-    if (railsVersions === null) {
-      alert("Ruby on Rails is not installed. Please install to continue.");
-      return;
+    let versions = "";
+    let found = railsVersions.match(/((\d(\.)?){3,}(, )?)+/g);
+    if (found === null) {
+      dialog.showErrorBox("Missing Rails", "Ruby on Rails is not installed. Please install it to continue.");
+    } else {
+      versions = found.toString().split(",");
     }
-
-    let found = railsVersions.match(/\(([^)]+)\)/)[1];
-    let versions = found.split(",");
     // create dialog box and get stuff
     this.createdDialog = new createDialog.CreateDialog(versions, filetree);
   }
@@ -266,7 +265,7 @@ class RailsUI {
       let lastDir = path.basename(projectToRun);
 
       if (runningProcesses.get(lastDir) !== undefined) {
-        alert("Sorry, " + lastDir + " already running a rails server. Please choose another project to run.");
+        dialog.showErrorBox("Port in use", "Sorry, " + lastDir + " already running a rails server. Please choose another project to run.");
         return;
       }
 
