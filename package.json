@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint",
     "start": "electron main.js",
-    "preinstall": "cd ./rails_db/; gem build rails_db.gemspec; cd ../railroady/; gem build railroady.gemspec; gem install railroady-1.5.1.gem; cd .."
+    "preinstall": "cd ./rails_db/; bundle install; gem build rails_db.gemspec; cd ../railroady/; bundle install; gem build railroady.gemspec; gem install railroady-1.5.1.gem; cd .."
   },
   "repository": {
     "type": "git",
