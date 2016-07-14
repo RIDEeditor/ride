@@ -18,7 +18,7 @@ class CreateDialog {
     this.scaffoldOptions = "";
   }
 
-	// for creating new rails project
+  // for creating new rails project
   showDialog() {
     document.getElementById("railsv").innerHTML = "";
 
@@ -35,14 +35,17 @@ class CreateDialog {
     $("#create-rails-dialog").dialog("open");
   }
 
-	// for creating new rails project
+  // for creating new rails project
   showDir() {
-    let d = dialog.showOpenDialog({properties: ["openDirectory", "createDirectory"], title: "Choose directory to generate rails application in"});
+    let d = dialog.showOpenDialog({
+      properties: ["openDirectory", "createDirectory"],
+      title: "Choose directory to generate rails application in"
+    });
     this.directory = d[0];
     document.getElementById("dirChosen").innerHTML = "Directory: " + this.directory;
   }
 
-	// for creating new rails project
+  // for creating new rails project
   getNameAndVersion() {
     this.projectName = document.getElementById("enterName").value;
     let dir = this.directory + path.sep + this.projectName;
@@ -56,7 +59,7 @@ class CreateDialog {
     this.versionChosen = $("#railsv option:selected").text();
   }
 
-	// for bundle with options
+  // for bundle with options
   bundle() {
     document.getElementById("bundle").innerHTML = "";
 
@@ -72,188 +75,176 @@ class CreateDialog {
     $("#create-bundle-dialog").dialog("open");
   }
 
-	// for bundle with options
-	runBundleWithOptions(){
+  // for bundle with options
+  runBundleWithOptions() {
+    console.log("bundling with options");
 
-		console.log("bundling with options");
+    this.bundleOptions = document.getElementById("enterOptions").value;
+    this.projectChosenToBundle = $("#bundle option:selected").text();
+  }
 
-		this.bundleOptions = document.getElementById('enterOptions').value;
-		this.projectChosenToBundle = $( "#bundle option:selected" ).text();
-	}
+  // for creating a scaffold
+  setupScaffold() {
+    document.getElementById("scaffold").innerHTML = "";
 
-	// for creating a scaffold 
-	setupScaffold(){
+    document.getElementById("attributes").innerHTML = "";
+    this.addNewAction();
 
-		document.getElementById('scaffold').innerHTML = "";
+    for (let i = 0; i < this.filetree.openDirs.length; i++) {
+      let option = document.createElement("option");
+      option.innerHTML = this.filetree.openDirs[i];
+      if (i === 0) {
+        option.selected = "selected";
+      }
+      $("#scaffold").append(option);
+    }
 
-		document.getElementById('attributes').innerHTML = "";
-		this.addNewAction();
+        // $("#addAction").click(()=>{
+        //	this.addNewAction();
+        // });
 
-		for(let i=0;i<this.filetree.open_dirs.length;i++){
-			let option = document.createElement("option");
-			option.innerHTML =this.filetree.open_dirs[i];
-			if(i === 0){
-				option.selected = "selected";
-			}
-			$("#scaffold").append(option);
-		}
+    $("#create-scaffold-dialog").dialog("open");
+  }
 
-		//$("#addAction").click(()=>{
-		//	this.addNewAction();
-		//});
+  addNewAction() {
+    // get last of the div element attributes
+    let lastElement = $("#attributes div:last");
 
-		$("#create-scaffold-dialog").dialog('open');
+    // console.log(lastElement[0].id);
 
-	}
+    // let buttonElement = $("#addAction");
 
-	addNewAction(){
-		//get last of the div element attributes
-		let lastElement = $("#attributes div:last");
-		
+    // remove the button from wherever it is
+    $("#addAction").remove();
 
-		//console.log(lastElement[0].id);
+    let lastElementId = 0;
 
-		//let buttonElement = $("#addAction");
+    if ($("#attributes div:last").length !== 0) {
+      lastElementId = parseInt(lastElement[0].id.slice(-1), 10);
+    }
 
-		// remove the button from wherever it is
-		$("#addAction").remove();
+    // console.log(lastElementId);
 
-		let lastElementId = 0;
+    // add 2 br elements
+    $("#attributes").append("<br>");
+    $("#attributes").append("<br>");
 
-		if($("#attributes div:last").length !== 0){
-			lastElementId = parseInt(lastElement[0].id.slice(-1));
-		}
-		
-		//console.log(lastElementId);
+        // add a new attribute div with the plus button
+    let attribute = document.createElement("div");
+    let newId = lastElementId + 1;
+    attribute.id = "attribute_" + newId;
 
-		// add 2 br elements
-		$("#attributes").append("<br>");
-		$("#attributes").append("<br>");
+    let lbl = document.createElement("label");
+    lbl.innerHTML = "Attribute:";
 
-		// add a new attribute div with the plus button 
-		let attribute = document.createElement("div");
-		let newId = lastElementId = lastElementId + 1;
-		attribute.id = "attribute_" + newId;
+    let lbl2 = document.createElement("label");
+    lbl2.innerHTML = "Type:";
 
-		let lbl = document.createElement("label");
-		lbl.innerHTML = "Attribute:";
+    let b = document.createElement("button");
+    b.id = "addAction";
+    b.type = "button";
 
+    let s = document.createElement("span");
+    s.className = "glyphicon glyphicon-plus";
 
-		let lbl2 = document.createElement("label");
-		lbl2.innerHTML = "Type:";
+    b.appendChild(s);
 
-		let b = document.createElement("button");
-		b.id = "addAction";
-		b.type="button";
+    let inputName = document.createElement("input");
+    inputName.id = attribute.id + "_name";
+    inputName.type = "text";
+    inputName.name = "attributeName";
 
-		let s = document.createElement("span");
-		s.className = "glyphicon glyphicon-plus";
+    let inputType = document.createElement("input");
+    inputType.id = attribute.id + "_type";
+    inputType.type = "text";
+    inputType.name = "attributeType";
 
-		b.appendChild(s);
+    // alert("#" + attribute.id);
 
-		let inputName = document.createElement("input");
-		inputName.id = attribute.id + "_name";
-		inputName.type = "text";
-		inputName.name = "attributeName";
+    $("#attributes").append(attribute);
 
+    $("#" + attribute.id).append(lbl);
+    $("#" + attribute.id).append(inputName);
+    $("#" + attribute.id).append(" ");
+    $("#" + attribute.id).append(lbl2);
+    $("#" + attribute.id).append(inputType);
+    $("#" + attribute.id).append(" ");
+    $("#" + attribute.id).append(b);
 
-		let inputType = document.createElement("input");
-		inputType.id = attribute.id + "_type";
-		inputType.type = "text";
-		inputType.name = "attributeType";
+    $("#addAction").click(() => {
+      this.addNewAction();
+    });
+  }
 
-		//alert("#" + attribute.id);
+  scaffold() {
+    this.scaffoldOptions = "";
+    // get the chosen project
+    this.projectToScaffold = $("#scaffold option:selected").text();
 
-		$("#attributes").append(attribute);
+    // get the inputs and the types
 
-		$("#" + attribute.id).append(lbl);
-		$("#" + attribute.id).append(inputName);
-		$("#" + attribute.id).append(" ");
-		$("#" + attribute.id).append(lbl2);
-		$("#" + attribute.id).append(inputType);
-		$("#" + attribute.id).append(" ");
-		$("#" + attribute.id).append(b);
+    // number of children of the attributes div
+    // console.log($("#attributes > div").length);
 
-		$("#addAction").click(()=>{
-			this.addNewAction();
-		});
+    let numberOfAttributes = $("#attributes > div").length;
 
-	}
+    for (var i = 0; i < numberOfAttributes; i++) {
+      let index = i + 1;
+      let attributeValue = $("#attribute_" + index + "_name").val();
+      let attributeType = $("#attribute_" + index + "_type").val();
+      this.scaffoldOptions = this.scaffoldOptions + " " + attributeValue + ":" + attributeType;
+    }
+  }
 
-	scaffold(){
+  setupRailsServer() {
+    document.getElementById("projectRun").innerHTML = "";
 
-		this.scaffoldOptions = "";
-		// get the chosen project
-		this.projectToScaffold = $( "#scaffold option:selected" ).text();
+    for (let i = 0; i < this.filetree.openDirs.length; i++) {
+      let option = document.createElement("option");
+      option.innerHTML = this.filetree.openDirs[i];
+      if (i === 0) {
+        option.selected = "selected";
+      }
+      $("#projectRun").append(option);
+    }
 
-		// get the inputs and the types
-
-			// number of children of the attributes div
-			//console.log($("#attributes > div").length);
-
-		let numberOfAttributes = $("#attributes > div").length;
-
-		for(var i = 0;i<numberOfAttributes;i++){
-			let index = i+1;
-			let attribute_value = $("#attribute_" + index + "_name").val();
-			let attribute_type = $("#attribute_" + index + "_type").val();
-			this.scaffoldOptions = this.scaffoldOptions + " " + attribute_value + ":" + attribute_type;
-		}
-
-	}
-
-	setupRailsServer(){
-
-		document.getElementById('projectRun').innerHTML = "";
-
-		for(let i=0;i<this.filetree.open_dirs.length;i++){
-			let option = document.createElement("option");
-			option.innerHTML =this.filetree.open_dirs[i];
-			if(i === 0){
-				option.selected = "selected";
-			}
-			$("#projectRun").append(option);
-		}
-            
-        /*$("#railsServer").click(function(){
+        /* $("#railsServer").click(function(){
             $("#create-railsServer-dialog").dialog('close');
             $("#rails-server-running").dialog('open');
         });*/
 
+    $("#create-railsServer-dialog").dialog("open");
+  }
 
-		$("#create-railsServer-dialog").dialog('open');
-	}
+  setupGenerateController() {
+    document.getElementById("projectController").innerHTML = "";
 
-	setupGenerateController(){
-		document.getElementById('projectController').innerHTML = "";
+    for (let i = 0; i < this.filetree.openDirs.length; i++) {
+      let option = document.createElement("option");
+      option.innerHTML = this.filetree.openDirs[i];
+      if (i === 0) {
+        option.selected = "selected";
+      }
+      $("#projectController").append(option);
+    }
 
-		for(let i=0;i<this.filetree.open_dirs.length;i++){
-			let option = document.createElement("option");
-			option.innerHTML =this.filetree.open_dirs[i];
-			if(i === 0){
-				option.selected = "selected";
-			}
-			$("#projectController").append(option);
-		}
+    $("#create-rails-controller").dialog("open");
+  }
 
-		$("#create-rails-controller").dialog('open');
+  setupGenerateModel() {
+    document.getElementById("projectModel").innerHTML = "";
 
-	}
+    for (let i = 0; i < this.filetree.openDirs.length; i++) {
+      let option = document.createElement("option");
+      option.innerHTML = this.filetree.openDirs[i];
+      if (i === 0) {
+        option.selected = "selected";
+      }
+      $("#projectModel").append(option);
+    }
 
-	setupGenerateModel(){
-		document.getElementById('projectModel').innerHTML = "";
-
-		for(let i=0;i<this.filetree.openDirs.length;i++){
-			let option = document.createElement("option");
-			option.innerHTML =this.filetree.openDirs[i];
-			if(i === 0){
-				option.selected = "selected";
-			}
-			$("#projectModel").append(option);
-		}
-		
-		$("#create-rails-model").dialog('open');
-	}
+    $("#create-rails-model").dialog("open");
+  }
 
 }
 
