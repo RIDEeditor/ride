@@ -1,85 +1,76 @@
+"use strict";
 
-const dialog = require('electron').remote.dialog;
-var fs = require('fs');
-const path = require('path');
+const dialog = require("electron").remote.dialog;
+var fs = require("fs");
+const path = require("path");
 
-class CreateDialog{
+class CreateDialog {
 
-	constructor(versions,filetree){
-		this.versions = versions;
-		this.directory = "";
-		this.projectName = "";
-		this.versionChosen = "";
-		this.filetree = filetree;
-		this.bundleOptions = "";
-		this.projectChosenToBundle = "";
-		this.projectToScaffold = "" ;
-		this.scaffoldOptions = "";
-	}
-
-	// for creating new rails project
-	showDialog(){
-
-		document.getElementById('railsv').innerHTML = "";
-
-		// create the form 
-		for(let i=0;i<this.versions.length;i++){
-
-			let option = document.createElement("option");
-			option.innerHTML =this.versions[i];
-			if(i === 0){
-				option.selected = "selected";
-			}
-			$("#railsv").append(option);
-		}
-
-
-		$("#create-rails-dialog").dialog('open');
-	}
+  constructor(versions, filetree) {
+    this.versions = versions;
+    this.directory = "";
+    this.projectName = "";
+    this.versionChosen = "";
+    this.filetree = filetree;
+    this.bundleOptions = "";
+    this.projectChosenToBundle = "";
+    this.projectToScaffold = "";
+    this.scaffoldOptions = "";
+  }
 
 	// for creating new rails project
-	showDir(){
-		let d = dialog.showOpenDialog({properties: ['openDirectory','createDirectory'], title: "Choose directory to generate rails application in"});
+  showDialog() {
+    document.getElementById("railsv").innerHTML = "";
 
-		//console.log(d);
+    // create the form
+    for (let i in this.versions) {
+      let option = document.createElement("option");
+      option.innerHTML = this.versions[i];
+      if (i === 0) {
+        option.selected = "selected";
+      }
+      $("#railsv").append(option);
+    }
 
-		this.directory = d[0];
-
-		document.getElementById('dirChosen').innerHTML = "Directory: " + this.directory;
-	}
+    $("#create-rails-dialog").dialog("open");
+  }
 
 	// for creating new rails project
-	getNameAndVersion(){
-		this.projectName = document.getElementById('enterName').value;
-		let dir = this.directory + path.sep + this.projectName;
-		if (!fs.existsSync(dir)){
-		    fs.mkdirSync(dir);
+  showDir() {
+    let d = dialog.showOpenDialog({properties: ["openDirectory", "createDirectory"], title: "Choose directory to generate rails application in"});
+    this.directory = d[0];
+    document.getElementById("dirChosen").innerHTML = "Directory: " + this.directory;
+  }
 
-		    // make this dir the same as the dir in the getName function so when things are created in rails_ui.js they are put in the folder 
-		    // of the proejct name
-		    this.directory = dir;
-		}
+	// for creating new rails project
+  getNameAndVersion() {
+    this.projectName = document.getElementById("enterName").value;
+    let dir = this.directory + path.sep + this.projectName;
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+      // make this dir the same as the dir in the getName function so when things are created in rails_ui.js they are put in the folder
+      // of the proejct name
+      this.directory = dir;
+    }
 
-		this.versionChosen = $( "#railsv option:selected" ).text();
-
-	}
+    this.versionChosen = $("#railsv option:selected").text();
+  }
 
 	// for bundle with options
-	bundle(){
+  bundle() {
+    document.getElementById("bundle").innerHTML = "";
 
-		document.getElementById('bundle').innerHTML = "";
+    for (let i = 0; i < this.filetree.openDirs.length; i++) {
+      let option = document.createElement("option");
+      option.innerHTML = this.filetree.openDirs[i];
+      if (i === 0) {
+        option.selected = "selected";
+      }
+      $("#bundle").append(option);
+    }
 
-		for(let i=0;i<this.filetree.open_dirs.length;i++){
-			let option = document.createElement("option");
-			option.innerHTML =this.filetree.open_dirs[i];
-			if(i === 0){
-				option.selected = "selected";
-			}
-			$("#bundle").append(option);
-		}
-
-		$("#create-bundle-dialog").dialog('open');
-	}
+    $("#create-bundle-dialog").dialog("open");
+  }
 
 	// for bundle with options
 	runBundleWithOptions(){
@@ -252,9 +243,9 @@ class CreateDialog{
 	setupGenerateModel(){
 		document.getElementById('projectModel').innerHTML = "";
 
-		for(let i=0;i<this.filetree.open_dirs.length;i++){
+		for(let i=0;i<this.filetree.openDirs.length;i++){
 			let option = document.createElement("option");
-			option.innerHTML =this.filetree.open_dirs[i];
+			option.innerHTML =this.filetree.openDirs[i];
 			if(i === 0){
 				option.selected = "selected";
 			}
@@ -264,8 +255,6 @@ class CreateDialog{
 		$("#create-rails-model").dialog('open');
 	}
 
-
 }
-
 
 exports.CreateDialog = CreateDialog;

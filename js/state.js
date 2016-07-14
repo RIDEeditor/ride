@@ -1,11 +1,11 @@
+"use strict";
 
+class State {
 
-class State{
-
-	constructor(){
-		this.current_editor = null;
-		this.TabsList = {}; // Holds all tabs that have been created
-	}
+  constructor() {
+    this.currentEditor = null;
+    this.TabsList = {}; // Holds all tabs that have been created
+  }
 
 }
 
