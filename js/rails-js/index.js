@@ -107,6 +107,14 @@ class RailsWrapper {
         }
     }
 
+    destroy(command,project,callback){
+
+        if(this.findRails()){
+            return this.runCommandWithCwd("rails destroy " + command,project,callback);
+        }
+
+    }
+
 }
 
 exports.RailsWrapper = RailsWrapper;

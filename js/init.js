@@ -132,6 +132,10 @@ $(window).load(function() {
   // controller generate model
   $("#create-rails-model").dialog({autoOpen: false, title: "Generate Model", height: 250, width: 600});
 
+   // rails destroy
+  $("#rails-destroy").dialog({autoOpen: false, title: "Rails Destroy", height: 200, width: 600});
+
+
   // create scaffold dialog
   $("#create-scaffold-dialog").dialog({autoOpen: false, title: "Create Scaffold", height: "auto", width: 620});
 
@@ -169,9 +173,8 @@ $(window).load(function() {
     for (var key in currentState.TabsList) {
       settings.openFiles.push(currentState.TabsList[key].fileEntry);
     }
-
+    
     settings.openDirectories = filetree.openDirs;
-
     settings.saveSettingsToDisk();
   };
 });

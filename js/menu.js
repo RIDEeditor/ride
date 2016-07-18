@@ -123,6 +123,10 @@ class Menu {
           {
             label: "Rails Servers Running",
             click: this.RailsUI.showRunningServers.bind(this.RailsUI)
+          },
+          {
+                label: 'Rails Destroy',
+                click: this.RailsUI.railsDestroy.bind(this.RailsUI)
           }
         ]
       },
@@ -163,7 +167,6 @@ class Menu {
             label: "Show Terminal",
             accelerator: "Shift+CmdOrCtrl+t",
             click: this.toggleTerminal
-
           },
           {
             label: "Toggle Full Screen",

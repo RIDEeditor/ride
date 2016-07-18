@@ -435,9 +435,49 @@ generateNewModel(){
 
   }
 
-  setStatusIndicatorText(text) {
-    $("#statusIndicatorText").text(text);
-  }
+
+        railsDestroy(){
+            let createdDialog = this.createdDialog;
+
+            createdDialog.setupRailsDestory();
+
+            $("#railsDestroy").click(()=>{
+
+                
+
+                let project = $("#projectDestroy option:selected").text() + path.sep;
+
+                let command = document.getElementById('destroyCommand').value;
+                
+                this.clearDialog();
+                this.setStatusIndicatorText("Destroying");
+                this.setStatusIconVisibility(true);
+                this.setStatusIcon("busy");
+                var proc = this.RailsWrapper.destroy(command,project, (function(stdout, stderr) {
+                    // TODO update filetree to show new file generated
+                    this.setStatusIcon("done");
+                    this.setStatusIndicatorText("Done");
+                }).bind(this));
+                if (proc != null) {
+                    // Read from childprocess stdout
+                    // TODO handle stderr as well
+                    proc.stdout.on('data', (function(data){
+                        this.appendToDialogContents(data);
+                    }).bind(this));
+                }
+
+
+                $("#rails-destroy").dialog('close');
+
+
+            });
+
+        }
+
+
+        setStatusIndicatorText(text) {
+            $("#statusIndicatorText").text(text);
+        }
 
   setStatusIconVisibility(shouldShow) {
     $("#statusIndicatorImage").toggle(shouldShow);

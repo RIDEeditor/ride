@@ -214,3 +214,16 @@ button.new {
     left:    225px;
     bottom:   10px;
 }
+
+#rails-destroy{
+    position: relative;
+}
+
+#railsDestroy{
+    margin: 0 auto;
+    position: absolute;
+    left:    225px;
+    bottom:   10px;
+}
+
+
