@@ -16,6 +16,7 @@ class CreateDialog {
     this.projectChosenToBundle = "";
     this.projectToScaffold = "";
     this.scaffoldOptions = "";
+    this.directoryToCloneInto = "";
   }
 
   // for creating new rails project
@@ -261,6 +262,21 @@ class CreateDialog {
 
 		$("#rails-destroy").dialog('open');
 	}
+
+  showClone(){
+    $("#gitClone").dialog('open');
+    $("#authentication").hide();
+  }
+
+
+  showDirToCloneInto() {
+    let d = dialog.showOpenDialog({
+      properties: ["openDirectory", "createDirectory"],
+      title: "Choose directory to git clone into."
+    });
+    this.directoryToCloneInto = d[0];
+    document.getElementById("dirClone").innerHTML = "Directory: " + this.directoryToCloneInto;
+  }
 
 }
 

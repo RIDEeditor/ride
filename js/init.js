@@ -144,6 +144,9 @@ $(window).load(function() {
 
   $("#rails-server-running").dialog({autoOpen: false, title: "Rails Servers Running", height: 200, width: 600});
 
+  $("#gitClone").dialog({autoOpen: false, title: "Git Clone", height: 400, width: 600});
+
+
   $(window).on("toggleTerminal", function(e) {
     if (!terminalIsLoaded) {
       // Setup terminal

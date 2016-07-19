@@ -187,6 +187,31 @@
             <input id="railsDestroy" type="submit" value="Run rails destroy">
         </div>
 
+        <div id="gitClone">
+            <label>URL of repository to clone:</label><input id="repoClone" type="text" name="clone">
+            <br>
+            <br>
+            <label>Is the repository public or private?</label>
+            <br>
+            <input type="radio" name="privateorpublic" value="private"> Private<br>
+            <input type="radio" name="privateorpublic" value="public"> Public<br>
+            <br>
+            <br>
+            <button id="selectDirToCloneInto" type="button">Select Directory to Clone into</button>
+            <br>
+            <label id="dirClone">Directory:</label>
+            <br>
+            <br>
+            <div id="authentication">
+                <label id="username">Username:</label></label><input id="auth1" type="text"name="usernameInput">
+                <label id="password">Password:</label></label><input id="auth2" type="password"name="passwordInput">
+            </div>
+            <br>
+            <br>
+            <input id="cloneDir" type="submit" value="Git Clone">
+
+        </div>
+
         <footer>
             <div id="statusBar">
                 <img id="statusIndicatorImage" src="css/throbber2.gif" style="display: none; float: left; height:15px; width: 15px; padding: 2px;">

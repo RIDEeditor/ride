@@ -71,6 +71,10 @@ class Menu {
             label: "Select All",
             accelerator: "CmdOrCtrl+A",
             role: "selectall"
+          },
+          {
+            label: "Git Clone",
+            click: this.RailsUI.gitClone.bind(this.RailsUI)
           }
         ]
       },
