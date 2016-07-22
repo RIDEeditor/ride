@@ -1,7 +1,7 @@
 "use strict";
 
 const path = require("path");
-const dialog = require("electron").remote.dialog
+const dialog = require("electron").remote.dialog;
 const rails = require("../rails-js"); // Note: This path is relative to where we are importing from
 // See: https://stackoverflow.com/questions/16652620/node-js-require-cannot-find-custom-module/16652662#16652662
 const createDialog = require("./createDialog");
@@ -390,156 +390,138 @@ class RailsUI {
     });
   }
 
-generateNewModel(){
-  let createdDialog = this.createdDialog;
+  generateNewModel() {
+    let createdDialog = this.createdDialog;
 
-  createdDialog.setupGenerateModel();
+    createdDialog.setupGenerateModel();
 
-  $("#generateModel").click(()=>{
-
-      let attributes = (document.getElementById('enterAttributes').value).split(',');
+    $("#generateModel").click(() => {
+      let attributes = (document.getElementById("enterAttributes").value).split(",");
 
       let project = $("#projectModel option:selected").text() + path.sep;
 
-      let modelName = document.getElementById('modelName').value;
+      let modelName = document.getElementById("modelName").value;
 
       let attributesString = "";
 
-      for(let i=0;i<attributes.length;i++){
-          attributesString = attributesString + attributes[i] + " ";
+      for (let i = 0; i < attributes.length; i++) {
+        attributesString = attributesString + attributes[i] + " ";
       }
 
-      //console.log(attributesString);
+      // console.log(attributesString);
 
       // TODO open dialog prompting user for options
       this.clearDialog();
       this.setStatusIndicatorText("Generating model");
       this.setStatusIconVisibility(true);
       this.setStatusIcon("busy");
-      var proc = this.RailsWrapper.newModel(project,modelName, attributesString, (function(stdout, stderr) {
+      var proc = this.RailsWrapper.newModel(project, modelName, attributesString, (function(stdout, stderr) {
           // TODO update filetree to show new file generated
-          this.setStatusIcon("done");
-          this.setStatusIndicatorText("Done");
+        this.setStatusIcon("done");
+        this.setStatusIndicatorText("Done");
       }).bind(this));
       if (proc != null) {
           // Read from childprocess stdout
           // TODO handle stderr as well
-          proc.stdout.on('data', (function(data){
-              this.appendToDialogContents(data);
-          }).bind(this));
+        proc.stdout.on("data", (function(data) {
+          this.appendToDialogContents(data);
+        }).bind(this));
       }
 
-
-      $("#create-rails-model").dialog('close');
-
-  });
-
+      $("#create-rails-model").dialog("close");
+    });
   }
 
-
-        railsDestroy(){
-            let createdDialog = this.createdDialog;
-
-            createdDialog.setupRailsDestory();
-
-            $("#railsDestroy").click(()=>{
-
-                
-
-                let project = $("#projectDestroy option:selected").text() + path.sep;
-
-                let command = document.getElementById('destroyCommand').value;
-                
-                this.clearDialog();
-                this.setStatusIndicatorText("Destroying");
-                this.setStatusIconVisibility(true);
-                this.setStatusIcon("busy");
-                var proc = this.RailsWrapper.destroy(command,project, (function(stdout, stderr) {
-                    // TODO update filetree to show new file generated
-                    this.setStatusIcon("done");
-                    this.setStatusIndicatorText("Done");
-                }).bind(this));
-                if (proc != null) {
-                    // Read from childprocess stdout
-                    // TODO handle stderr as well
-                    proc.stdout.on('data', (function(data){
-                        this.appendToDialogContents(data);
-                    }).bind(this));
-                }
-
-
-                $("#rails-destroy").dialog('close');
-
-
-            });
-
-        }
-
-
-  gitClone(){
+  railsDestroy() {
     let createdDialog = this.createdDialog;
 
-        $('input:radio[name="privateorpublic"]').change(
-        function(){
-        if ($(this).is(':checked') && $(this).val() === 'private') {
-            //toggle the div with the password and username on
+    createdDialog.setupRailsDestory();
+
+    $("#railsDestroy").click(() => {
+      let project = $("#projectDestroy option:selected").text() + path.sep;
+
+      let command = document.getElementById("destroyCommand").value;
+
+      this.clearDialog();
+      this.setStatusIndicatorText("Destroying");
+      this.setStatusIconVisibility(true);
+      this.setStatusIcon("busy");
+      var proc = this.RailsWrapper.destroy(command, project, (function(stdout, stderr) {
+                    // TODO update filetree to show new file generated
+        this.setStatusIcon("done");
+        this.setStatusIndicatorText("Done");
+      }).bind(this));
+      if (proc != null) {
+                    // Read from childprocess stdout
+                    // TODO handle stderr as well
+        proc.stdout.on("data", (function(data) {
+          this.appendToDialogContents(data);
+        }).bind(this));
+      }
+
+      $("#rails-destroy").dialog("close");
+    });
+  }
+
+  gitClone() {
+    let createdDialog = this.createdDialog;
+
+    $("input:radio[name=\"privateorpublic\"]").change(
+        function() {
+          if ($(this).is(":checked") && $(this).val() === "private") {
+            // toggle the div with the password and username on
             $("#authentication").show();
-        }else{
+          } else {
           // toggle off the username and password div
             $("#authentication").hide();
-        }
-    });
+          }
+        });
 
     createdDialog.showClone();
 
-
-
-    $("#selectDirToCloneInto").one("click",function() {
+    $("#selectDirToCloneInto").one("click", function() {
       createdDialog.showDirToCloneInto();
     });
 
     // start to clone the git repo
-    $("#cloneDir").one("click",()=>{
-
-      
-      let cloneUrl = document.getElementById('repoClone').value;
+    $("#cloneDir").one("click", () => {
+      let cloneUrl = document.getElementById("repoClone").value;
       let clonePath = createdDialog.directoryToCloneInto;
       let cloneOptions = {};
       cloneOptions.fetchOpts = {};
 
-      let nameOfFolder = path.basename(cloneUrl,'.git');
+      let nameOfFolder = path.basename(cloneUrl, ".git");
 
-      let finalPath = path.join(clonePath,nameOfFolder);
+      let finalPath = path.join(clonePath, nameOfFolder);
 
       // if the authentication is visible then they have selected the private repo option
-      if($('#authentication').is(':visible')){
-          cloneOptions.fetchOpts = {
+      if ($("#authentication").is(":visible")) {
+        cloneOptions.fetchOpts = {
           callbacks: {
             credentials: function() {
-              let username = document.getElementById('auth1').value;
-              let password = document.getElementById('auth2').value;
+              let username = document.getElementById("auth1").value;
+              let password = document.getElementById("auth2").value;
               return NodeGit.Cred.userpassPlaintextNew(username, password);
             }
           }
         };
       }
 
-      NodeGit.Clone(cloneUrl, finalPath, cloneOptions).then(function(){
+      NodeGit.Clone(cloneUrl, finalPath, cloneOptions).then(function() {
         console.log("then complete");
-      },function(err){
-        if(err === true){
+      }, function(err) {
+        if (err === true) {
           var evt = new CustomEvent("dirToOpen", {detail: finalPath});
           window.dispatchEvent(evt);
-        }else{
-          console.error("Clone was not successfull. \n" + err );
+        } else {
+          console.error("Clone was not successfull. \n" + err);
         }
       });
 
-      //console.log(cloneRepository);
+      // console.log(cloneRepository);
 
-      $("#gitClone").dialog('close');
+      $("#gitClone").dialog("close");
     });
-
   }
 
   setStatusIndicatorText(text) {
