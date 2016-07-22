@@ -7,6 +7,7 @@ const rails = require("../rails-js"); // Note: This path is relative to where we
 const createDialog = require("./createDialog");
 const childProcess = require("child_process");
 const openurl = require("openurl");
+const NodeGit = require("nodegit");
 
 let runningProcesses = new Map();
 
@@ -493,6 +494,41 @@ generateNewModel(){
 
     $("#selectDirToCloneInto").click(function() {
       createdDialog.showDirToCloneInto();
+    });
+
+    // start to clone the git repo
+    $("#cloneDir").click(()=>{
+
+      
+      let cloneUrl = document.getElementById('repoClone').value;
+      let clonePath = createdDialog.directoryToCloneInto;
+      let cloneOptions = {};
+      cloneOptions.fetchOpts = {};
+
+      let nameOfFolder = path.basename(cloneUrl,'.git');
+
+      let finalPath = path.join(clonePath,nameOfFolder);
+
+      // if the authentication is visible then they have selected the private repo option
+      if($('#authentication').is(':visible')){
+          cloneOptions.fetchOpts = {
+          callbacks: {
+            credentials: function() {
+              let username = document.getElementById('auth1').value;
+              let password = document.getElementById('auth2').value;
+              return NodeGit.Cred.userpassPlaintextNew(username, password);
+            }
+          }
+        };
+      }
+
+      let cloneRepository = NodeGit.Clone(cloneUrl, finalPath, cloneOptions).done(function(){
+        console.log("then complete");
+      });
+
+      console.log(cloneRepository);
+
+      $("#gitClone").dialog('close');
     });
 
   }
