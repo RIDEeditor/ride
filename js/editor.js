@@ -67,7 +67,7 @@ class Editor {
     fs.writeFile(this.fileEntry, editorContents, function(err) {
       if (err) {
         console.log("Writing to file failed: " + err);
-        dialog.showErrorBox("Error Saving", "There was an error saving the file");
+        require("electron").dialog.showErrorBox("Error Saving", "There was an error saving the file");
         return;
       }
     });
@@ -88,7 +88,7 @@ class Editor {
     fs.readFile(filePath.toString(), (function(err, data) {
       if (err) {
         console.log("Read failed: " + err);
-        dialog.showErrorBox("Error Opening", "There was an error opening the file " + filePath.toString());
+        require("electron").dialog.showErrorBox("Error Opening", "There was an error opening the file " + filePath.toString());
         return;
       }
       // Set the editor's contents to that of the file
