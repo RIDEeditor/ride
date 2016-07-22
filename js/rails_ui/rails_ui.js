@@ -492,12 +492,12 @@ generateNewModel(){
         }
     });
 
-    $("#selectDirToCloneInto").click(function() {
+    $("#selectDirToCloneInto").one("click",function() {
       createdDialog.showDirToCloneInto();
     });
 
     // start to clone the git repo
-    $("#cloneDir").click(()=>{
+    $("#cloneDir").one("click",()=>{
 
       
       let cloneUrl = document.getElementById('repoClone').value;
