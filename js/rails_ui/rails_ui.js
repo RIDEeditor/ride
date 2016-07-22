@@ -522,11 +522,18 @@ generateNewModel(){
         };
       }
 
-      let cloneRepository = NodeGit.Clone(cloneUrl, finalPath, cloneOptions).done(function(){
+      NodeGit.Clone(cloneUrl, finalPath, cloneOptions).then(function(){
         console.log("then complete");
+      },function(err){
+        if(err === true){
+          var evt = new CustomEvent("dirToOpen", {detail: finalPath});
+          window.dispatchEvent(evt);
+        }else{
+          console.error("Clone was not successfull. \n" + err );
+        }
       });
 
-      console.log(cloneRepository);
+      //console.log(cloneRepository);
 
       $("#gitClone").dialog('close');
     });
