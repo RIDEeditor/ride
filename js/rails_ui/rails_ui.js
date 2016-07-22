@@ -479,10 +479,8 @@ generateNewModel(){
   gitClone(){
     let createdDialog = this.createdDialog;
 
-    createdDialog.showClone();
-
-    $('input:radio[name="privateorpublic"]').change(
-    function(){
+        $('input:radio[name="privateorpublic"]').change(
+        function(){
         if ($(this).is(':checked') && $(this).val() === 'private') {
             //toggle the div with the password and username on
             $("#authentication").show();
@@ -491,6 +489,10 @@ generateNewModel(){
             $("#authentication").hide();
         }
     });
+
+    createdDialog.showClone();
+
+
 
     $("#selectDirToCloneInto").one("click",function() {
       createdDialog.showDirToCloneInto();

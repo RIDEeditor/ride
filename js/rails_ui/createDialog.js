@@ -265,7 +265,10 @@ class CreateDialog {
 
   showClone(){
     $("#gitClone").dialog('open');
-    $("#authentication").hide();
+
+
+
+    //$("#authentication").hide();
   }
 
 
