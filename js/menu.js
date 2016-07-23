@@ -243,6 +243,16 @@ class Menu {
             click: function() {console.log(editor.getFontSize()); editor.setFontSize("14");}
           }
         ]
+      },
+      {
+        label: "Deploy",
+        role: "deploy",
+        submenu: [
+          {
+            label: "Heroku",
+            click: this.RailsUI.heroku.bind(this.RailsUI)
+          }
+        ]
       }
 
     ];

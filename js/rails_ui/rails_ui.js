@@ -524,6 +524,10 @@ class RailsUI {
     });
   }
 
+  heroku(){
+    
+  }
+
   setStatusIndicatorText(text) {
     $("#statusIndicatorText").text(text);
   }
