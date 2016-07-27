@@ -8,6 +8,7 @@ const dialog = require("electron").remote.dialog;
 const editorLib = require("./editor");
 const RailsUiLib = require("./rails_ui/rails_ui");
 const databaseLib = require("./database");
+const chatLib = require("./chat");
 const railroadyLib = require("./visualisation/railroady_wrapper");
 
 class Menu {
@@ -18,6 +19,8 @@ class Menu {
     this.RailsUI = new RailsUiLib.RailsUI(currentState, filetree);
     this.database = new databaseLib.Database(filetree);
     this.railroady = new railroadyLib.RailroadyWrapper(filetree);
+
+    this.chat = new chatLib.Chat();
 
     // Set the menu
     electronMenu.setApplicationMenu(this.buildMenu.bind(this)());
@@ -249,7 +252,8 @@ class Menu {
         role: "peertopeer",
         submenu: [
           {
-            label: "Chat" 
+            label: "Chat",
+            click:  this.chat.sendChatEvent.bind(this.database)
           }
         ]
       }

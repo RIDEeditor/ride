@@ -35,6 +35,10 @@ function createMainWindow() {
   // Maximize the window
   mainWindow.maximize();
 
+  ipcMain.on("launch-chat",function(event,arg){
+    console.log("received event");
+  });
+
   ipcMain.on("launch-rails-db", function(event, arg) {
     // Start rails_db
     railsDbPrc = launchRailsDb(arg);
