@@ -243,6 +243,15 @@ class Menu {
             click: function() {console.log(editor.getFontSize()); editor.setFontSize("14");}
           }
         ]
+      },
+      {
+        label: "P2P",
+        role: "peertopeer",
+        submenu: [
+          {
+            label: "Chat" 
+          }
+        ]
       }
 
     ];
