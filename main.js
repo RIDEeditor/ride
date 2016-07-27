@@ -108,7 +108,7 @@ function createChatWindow(){
     show: false
   });
 
-  //chatWindow.loadURL();
+  chatWindow.loadURL(path.join("file://", __dirname, "/js/p2p/SimpleWebRTC Demo.html"));
   chatWindow.on("closed", function() {
   });
 }
