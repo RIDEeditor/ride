@@ -115,6 +115,18 @@ class RailsWrapper {
 
     }
 
+    setRemote(repoName,project,callback){
+        if(this.findRails()){
+            return this.runCommandWithCwd("heroku git:remote -a " + repoName,project,callback);
+        }
+    }
+
+    pushHeroku(project,callback){
+        if(this.findRails()){
+            return this.runCommandWithCwd("git push heroku master",project,callback);
+        }
+    }
+
 }
 
 exports.RailsWrapper = RailsWrapper;

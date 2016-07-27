@@ -9,7 +9,12 @@ const childProcess = require("child_process");
 const openurl = require("openurl");
 const NodeGit = require("nodegit");
 
+const Heroku = require('heroku-client');
+
+
 let runningProcesses = new Map();
+
+let repoName = "";
 
 class RailsUI {
 
@@ -42,6 +47,7 @@ class RailsUI {
 
       let dir = createdDialog.directory;
       let version = createdDialog.versionChosen;
+      version = $.trim(version);
       if (!dir) {
         return;
       }
@@ -525,7 +531,70 @@ class RailsUI {
   }
 
   heroku(){
-    
+    //openurl.open("https://www.heroku.com/");
+    $("#herokuLogin").dialog('open');
+
+    $("#heroku").one("click", ()=>{
+
+      let api = document.getElementById('apiKey').value;
+
+      heroku = new Heroku({ token: api});
+
+      
+
+      heroku.get('/apps').then(apps => {
+        // do something with apps
+
+        console.log(apps);
+
+        repoName = path.basename(apps[0].git_url,'.git');
+
+        console.log(repoName);
+      });
+
+
+      $("#herokuLogin").dialog('close');
+    });
+
+  }
+
+
+  herokuSetRemote(){
+
+      let project = "/Users/anmoldesai/Desktop/test/seven/";
+      
+      // set the remote to the project they choose
+
+      var proc = this.RailsWrapper.setRemote(repoName,project, (function(stdout, stderr) {
+                    // TODO update filetree to show new file generated
+        this.setStatusIcon("done");
+        this.setStatusIndicatorText("Done");
+      }).bind(this));
+      if (proc != null) {
+                    // Read from childprocess stdout
+                    // TODO handle stderr as well
+        proc.stdout.on("data", (function(data) {
+          this.appendToDialogContents(data);
+        }).bind(this));
+      }
+  }
+
+  pushToHeroku(){
+
+    let project = "/Users/anmoldesai/Desktop/test/seven/";
+          // git push heroku master in the repository they choose
+      var proc = this.RailsWrapper.pushHeroku(project, (function(stdout, stderr) {
+                    // TODO update filetree to show new file generated
+        this.setStatusIcon("done");
+        this.setStatusIndicatorText("Done");
+      }).bind(this));
+      if (proc != null) {
+                    // Read from childprocess stdout
+                    // TODO handle stderr as well
+        proc.stdout.on("data", (function(data) {
+          this.appendToDialogContents(data);
+        }).bind(this));
+      }
   }
 
   setStatusIndicatorText(text) {

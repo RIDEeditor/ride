@@ -251,6 +251,14 @@ class Menu {
           {
             label: "Heroku",
             click: this.RailsUI.heroku.bind(this.RailsUI)
+          },
+          {
+             label: "Set Remote",
+              click: this.RailsUI.herokuSetRemote.bind(this.RailsUI)
+          },
+          {
+             label: "Push To Heroku",
+            click: this.RailsUI.pushToHeroku.bind(this.RailsUI)
           }
         ]
       }

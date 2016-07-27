@@ -12,6 +12,8 @@ const editorLib = require("./js/editor");
 const stateLib = require("./js/state");
 const {ipcRenderer} = require("electron");
 
+let heroku =  "";
+
 var tabBar; // Represents the top tab bar
 var editor; // 'Global' editor. New editor sessions are created for each tab
 var terminalIsMaximised = false;
@@ -145,6 +147,9 @@ $(window).load(function() {
   $("#rails-server-running").dialog({autoOpen: false, title: "Rails Servers Running", height: 200, width: 600});
 
   $("#gitClone").dialog({autoOpen: false, title: "Git Clone", height: 400, width: 600});
+
+  $("#herokuLogin").dialog({autoOpen: false, title: "Git Clone", height: 400, width: 600});
+
 
 
   $(window).on("toggleTerminal", function(e) {
