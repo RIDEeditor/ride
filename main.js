@@ -37,9 +37,8 @@ function createMainWindow() {
   // Maximize the window
   mainWindow.maximize();
 
-  ipcMain.on("launch-chat",function(event,arg){
-    //console.log("received event");
-    createChatWindow();
+  ipcMain.on("launch-chat",function(event, arg){
+    createChatWindow(arg);
     chatWindow.show();
   });
 
@@ -101,14 +100,19 @@ function createMainWindow() {
   });
 }
 
-function createChatWindow(){
+function createChatWindow(isNew){
   chatWindow = new BrowserWindow({
     width: 800,
     height: 600,
     show: false
   });
 
-  chatWindow.loadURL(path.join("file://", __dirname, "/js/p2p/SimpleWebRTC Demo.html"));
+  var end_url = "/js/p2p/index.html";
+  if (isNew) {
+    end_url += "#init";
+  }
+
+  chatWindow.loadURL(path.join("file://", __dirname, end_url));
   chatWindow.on("closed", function() {
   });
 }

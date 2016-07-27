@@ -252,8 +252,12 @@ class Menu {
         role: "peertopeer",
         submenu: [
           {
-            label: "Chat",
-            click:  this.chat.sendChatEvent.bind(this.database)
+            label: "Create new Chat",
+            click:  this.chat.sendNewChatEvent
+          },
+          {
+            label: "Connect to a Chat",
+            click:  this.chat.sendConnectChatEvent
           }
         ]
       }

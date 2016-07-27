@@ -4,8 +4,12 @@ const {ipcRenderer} = require("electron");
 
 class Chat {
 
-  sendChatEvent(){
-  	ipcRenderer.send("launch-chat");
+  sendConnectChatEvent(){
+  	ipcRenderer.send("launch-chat", false);
+  }
+
+   sendNewChatEvent(){
+  	ipcRenderer.send("launch-chat", true);
   }
 
 }
