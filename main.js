@@ -17,6 +17,8 @@ let mainWindow;
 let railsdbWindow;
 let railsDbPrc;
 
+let chatWindow;
+
 const request = require("request");
 
 function createMainWindow() {
@@ -36,7 +38,9 @@ function createMainWindow() {
   mainWindow.maximize();
 
   ipcMain.on("launch-chat",function(event,arg){
-    console.log("received event");
+    //console.log("received event");
+    createChatWindow();
+    chatWindow.show();
   });
 
   ipcMain.on("launch-rails-db", function(event, arg) {
@@ -96,6 +100,20 @@ function createMainWindow() {
     app.quit();
   });
 }
+
+function createChatWindow(){
+  chatWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    show: false
+  });
+
+  //chatWindow.loadURL();
+  chatWindow.on("closed", function() {
+  });
+}
+
+
 
 function createRailsdbWindow() {
   railsdbWindow = new BrowserWindow({
