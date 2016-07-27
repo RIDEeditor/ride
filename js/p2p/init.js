@@ -1,7 +1,7 @@
 var SimplePeer = require('simple-peer');
 
 // get video/voice stream
-navigator.webkitGetUserMedia({ video: true, audio: false }, function(stream) {
+navigator.webkitGetUserMedia({ video: true, audio: true }, function(stream) {
 
     var peer = new SimplePeer({
       initiator: location.hash === '#init',
