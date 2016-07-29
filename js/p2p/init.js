@@ -28,7 +28,7 @@ navigator.webkitGetUserMedia({ video: true, audio: true }, function(stream) {
       document.getElementById('messages').textContent += data + '\n';
     });
 
-    peer.on('stream', function() {
+    peer.on('stream', function(stream) {
       var video = document.createElement('video');
       document.body.appendChild(video);
 
