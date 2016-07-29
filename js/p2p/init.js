@@ -59,15 +59,13 @@ $(function(){
   function handleMessage(data){
     var header_plus_footer_height = 285;
     var base_height = $(document).height() - header_plus_footer_height;
-    var messages_container_height = $('#messages-container').height();
     messages.push(data);
 
     var html = messages_template({'messages' : messages});
     $('#messages').html(html);
 
-    if(messages_container_height >= base_height){
-      $('html, body').animate({ scrollTop: $(document).height() }, 500);
-    }
+    $("#messages-container").animate({scrollTop: $(document).height()}, 0);
+
   }
 
   function sendMessage(){
