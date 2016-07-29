@@ -21,6 +21,7 @@ navigator.webkitGetUserMedia({ video: true, audio: true }, function(stream) {
 
     document.getElementById('send').addEventListener('click', function() {
       var yourMessage = document.getElementById('yourMessage').value;
+      document.getElementById('messages').textContent += yourMessage + '\n';
       peer.send(yourMessage);
     });
 
