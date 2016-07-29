@@ -6,7 +6,12 @@
 
     <!-- Client -side dependencies -->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="http://fastly.ink.sapo.pt/3.1.10/css/ink.css"> <!-- inks css file -->
+<script type="text/javascript" src="http://fastly.ink.sapo.pt/3.1.10/js/ink-all.js"></script> <!-- inks js bundle -->
+
+
     <script src="init.js"></script>
+
     <style>
         body {
           background-color: #F5F5F5;
@@ -117,7 +122,7 @@
               Connected Peer:
               <span id="connected_peer"></span>
             </div>
-            <button id="login">Login</button>
+            <button class="ink-button blue" id="login">Login</button>
           </div>
 
           <div id="chat" class="hidden">
@@ -126,8 +131,8 @@
             </div>
             <div id="message-container">
               <input type="text" name="message" id="message" placeholder="Type message..">
-              <button id="send-message">Send Message</button>
-              <button id="call">Call</button>
+              <button class="ink-button blue" id="send-message">Send Message</button>
+              <button class="ink-button green" id="call">Call</button>
             </div>
           </div>
         </div>
