@@ -16,7 +16,6 @@ navigator.webkitGetUserMedia({ video: true, audio: true }, function(stream) {
     document.getElementById('connect').addEventListener('click', function() {
       var otherId = JSON.parse(document.getElementById('otherId').value)
       peer.signal(otherId);
-
     });
 
     document.getElementById('send').addEventListener('click', function() {

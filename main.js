@@ -107,7 +107,7 @@ function createChatWindow(isNew){
     show: false
   });
 
-  var end_url = "/js/p2p/index.html";
+  var end_url = "/js/p2p/index1.html";
   if (isNew) {
     end_url += "#init";
   }

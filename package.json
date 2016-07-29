@@ -41,6 +41,7 @@
     "openurl": "1.1.1",
     "pty.js": "https://github.com/LaKing/pty.js#e03d1a5e3a37855a62a1444878499425398f3f38",
     "request": "latest",
+    "rtc": "^3.4.0",
     "simple-peer": "^6.0.4",
     "socket.io": "0.9.16",
     "svg-pan-zoom": "^3.2.9",
