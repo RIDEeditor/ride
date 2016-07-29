@@ -107,7 +107,7 @@ function createChatWindow(isNew){
     show: false
   });
 
-  chatWindow.setMenu(null);
+  //chatWindow.setMenu(null);
 
   var end_url = "/js/p2p/index.html";
   if (isNew) {
