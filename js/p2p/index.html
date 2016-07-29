@@ -24,6 +24,7 @@
 
         #messenger-wrapper {
           width: 100%;
+          float: right;
         }
 
         .hidden {
@@ -106,37 +107,31 @@
       </div>
     </div>
 
-  <div id="messenger-wrapper">
-    <div class="container">
-      <h1></h1>
+      <div id="messenger-wrapper">
+        <div class="container">
+          <div id="connect">
+            <h4>ID: <span id="id"></span></h4>
+            <input type="text" name="name" id="name" placeholder="Name">
+            <input type="text" name="peer_id" id="peer_id" placeholder="Peer ID">
+            <div id="connected_peer_container" class="hidden">
+              Connected Peer:
+              <span id="connected_peer"></span>
+            </div>
+            <button id="login">Login</button>
+          </div>
 
-      <!--
-        Display the login form and messaging form.
-        This allows the user to send messages to their peer and make a video call.
-      -->
-      <div id="connect">
-        <h4>ID: <span id="id"></span></h4>
-        <input type="text" name="name" id="name" placeholder="Name">
-        <input type="text" name="peer_id" id="peer_id" placeholder="Peer ID">
-        <div id="connected_peer_container" class="hidden">
-          Connected Peer:
-          <span id="connected_peer"></span>
-        </div>
-        <button id="login">Login</button>
-      </div>
-
-      <div id="chat" class="hidden">
-        <div id="messages-container">
-          <ul id="messages"></ul>
-        </div>
-        <div id="message-container">
-          <input type="text" name="message" id="message" placeholder="Type message..">
-          <button id="send-message">Send Message</button>
-          <button id="call">Call</button>
+          <div id="chat" class="hidden">
+            <div id="messages-container">
+              <ul id="messages"></ul>
+            </div>
+            <div id="message-container">
+              <input type="text" name="message" id="message" placeholder="Type message..">
+              <button id="send-message">Send Message</button>
+              <button id="call">Call</button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
 
     <!-- Handlebars template for constructing the list of messages -->
     <script id="messages-template" type="text/x-handlebars-template">
