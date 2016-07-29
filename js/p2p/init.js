@@ -1,83 +1,112 @@
 const Peer = require("peerjs");
+const Handlebars = require("handlebars");
+$(function(){
 
-// Compatibility shim
-navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+  var messages = [];
+  var peer_id, name, conn;
+  var messages_template = Handlebars.compile($('#messages-template').html());
 
-// PeerJS object
-var peer = new Peer({key: "lwjd5qra8257b9", debug: 3});
+  var peer = new Peer({key: "lwjd5qra8257b9", debug: 3});
 
-peer.on("open", function() {
-  $("#my-id").text(peer.id);
-});
-
-// Receiving a call
-peer.on("call", function(call) {
-    // Answer the call automatically (instead of prompting user) for demo purposes
-  call.answer(window.localStream);
-  step3(call);
-});
-
-peer.on("error", function(err) {
-  alert(err.message);
-  // Return to step 2 if error occurs
-  step2();
-});
-
-// Click handlers setup
-$(function() {
-  $("#make-call").click(function() {
-    // Initiate a call!
-    var call = peer.call($("#callto-id").val(), window.localStream);
-    step3(call);
+  peer.on('open', function(){
+    $('#id').text(peer.id);
   });
 
-  $("#end-call").click(function() {
-    window.existingCall.close();
-    step2();
-  });
- 
-  // Retry if getUserMedia fails
-  $("#step1-retry").click(function() {
-    $("#step1-error").hide();
-    step1();
-  });
+  navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-  // Get things started
-  step1();
-});
-
-function step1() {
-  // Get audio/video stream
-  navigator.getUserMedia({audio: true, video: true}, function(stream) {
-    // Set your video displays
-    $("#my-video").prop("src", URL.createObjectURL(stream));
-    window.localStream = stream;
-    step2();
-  }, function() {
-    $("#step1-error").show();
-  });
-}
-
-function step2() {
-  $("#step1, #step3").hide();
-  $("#step2").show();
-}
-
-function step3(call) {
-  // Hang up on an existing call if present
-  if (window.existingCall) {
-    window.existingCall.close();
+  function getVideo(callback){
+    navigator.getUserMedia({audio: true, video: true}, callback, function(error){
+      console.log(error);
+      alert('An error occured. Please try again');
+    });
   }
 
-  // Wait for stream on the call, then set peer video display
-  call.on("stream", function(stream) {
-    $("#their-video").prop("src", URL.createObjectURL(stream));
+  getVideo(function(stream){
+    window.localStream = stream;
+    onReceiveStream(stream, 'my-camera');
   });
 
-  // UI stuff
-  window.existingCall = call;
-  $("#their-id").text(call.peer);
-  call.on("close", step2);
-  $("#step1, #step2").hide();
-  $("#step3").show();
-}
+  function onReceiveStream(stream, element_id){
+    var video = $('#' + element_id + ' video')[0];
+    video.src = window.URL.createObjectURL(stream);
+    window.peer_stream = stream;
+  }
+
+  $('#login').click(function(){
+    name = $('#name').val();
+    peer_id = $('#peer_id').val();
+    if(peer_id){
+      conn = peer.connect(peer_id, {metadata: {
+        'username': name
+      }});
+      conn.on('data', handleMessage);
+    }
+
+    $('#chat').removeClass('hidden');
+    $('#connect').addClass('hidden');
+  });
+
+  peer.on('connection', function(connection){
+    conn = connection;
+    peer_id = connection.peer;
+    conn.on('data', handleMessage);
+
+    $('#peer_id').addClass('hidden').val(peer_id);
+    $('#connected_peer_container').removeClass('hidden');
+    $('#connected_peer').text(connection.metadata.username);
+  });
+
+  function handleMessage(data){
+    var header_plus_footer_height = 285;
+    var base_height = $(document).height() - header_plus_footer_height;
+    var messages_container_height = $('#messages-container').height();
+    messages.push(data);
+
+    var html = messages_template({'messages' : messages});
+    $('#messages').html(html);
+
+    if(messages_container_height >= base_height){
+      $('html, body').animate({ scrollTop: $(document).height() }, 500);
+    }
+  }
+
+  function sendMessage(){
+    var text = $('#message').val();
+    var data = {'from': name, 'text': text};
+
+    conn.send(data);
+    handleMessage(data);
+    $('#message').val('');
+  }
+
+  $('#message').keypress(function(e){
+    if(e.which == 13){
+      sendMessage();
+    }
+  });
+
+  $('#send-message').click(sendMessage);
+
+  $('#call').click(function(){
+    console.log('now calling: ' + peer_id);
+    console.log(peer);
+    var call = peer.call(peer_id, window.localStream);
+    call.on('stream', function(stream){
+      window.peer_stream = stream;
+      onReceiveStream(stream, 'peer-camera');
+    });
+  });
+
+  peer.on('call', function(call){
+    onReceiveCall(call);
+  });
+
+  function onReceiveCall(call){
+    call.answer(window.localStream);
+    call.on('stream', function(stream){
+      window.peer_stream = stream;
+      onReceiveStream(stream, 'peer-camera');
+    });
+  }
+
+});
