@@ -1,6 +1,7 @@
 "use strict";
 
 const childProcess = require("child_process");
+const path = require("path");
 const Viz = require("viz.js");
 require("svg-pan-zoom");
 
@@ -16,7 +17,7 @@ class RailroadyWrapper {
   }
 
   runCommand(workingDir, args, callback) {
-    console.log("Running: railroady", args);
+    console.log("Running: " + args);
     var prc = childProcess.exec(args, {stdio: "pipe", cwd: workingDir}, function(error, stdout, stderr) {
       if (error === null) {
         console.log("Finished running: " + args);
@@ -41,6 +42,21 @@ class RailroadyWrapper {
     this.runCommand(projectDirectory, "railroady --controllers" + optionsList, (function(stdout, error) {
       this.drawDiagram(stdout, "Controllers Diagram");
     }).bind(this));
+  }
+
+  generateRouteDiagram(projectDirectory, callback) {
+    injectVizRakeTask(projectDirectory);
+    this.runCommand(projectDirectory, "rake viz:visualizer", (function(stdout, stderr) {
+      this.drawDiagram(stdout, "Routes Diagram");
+    }).bind(this));
+  }
+
+  injectVizRakeTask(projectDirectory) {
+    // Add the visualizer rake task to this projects lib/task directory so we can generate routes diagrams
+    if (!path.exists("app/lib/viz.rake") {
+      // Check if we have already 'injected' our task
+      
+    }
   }
 
   drawDiagram(dotSyntax, dialogTitle) {

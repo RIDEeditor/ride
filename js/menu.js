@@ -140,6 +140,10 @@ class Menu {
           {
             label: "Generate Controller Diagram",
             click: this.railroady.showControllerDialog.bind(this.railroady)
+          },
+          {
+            label: "Generate Routes Diagram",
+            click: this.railroady.generateRouteDiagram.bind(this.railroady)
           }
         ]
       },
