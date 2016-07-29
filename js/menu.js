@@ -252,13 +252,9 @@ class Menu {
         role: "peertopeer",
         submenu: [
           {
-            label: "Create new Chat",
+            label: "Chat",
             click:  this.chat.sendNewChatEvent
           },
-          {
-            label: "Connect to a Chat",
-            click:  this.chat.sendConnectChatEvent
-          }
         ]
       }
 
