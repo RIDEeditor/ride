@@ -58,7 +58,6 @@ $(function(){
 
   function handleMessage(data){
     var header_plus_footer_height = 285;
-    var base_height = $(document).height() - header_plus_footer_height;
     messages.push(data);
 
     var html = messages_template({'messages' : messages});

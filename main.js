@@ -37,8 +37,8 @@ function createMainWindow() {
   // Maximize the window
   mainWindow.maximize();
 
-  ipcMain.on("launch-chat",function(event, arg){
-    createChatWindow(arg);
+  ipcMain.on("launch-chat",function(event){
+    createChatWindow();
     chatWindow.show();
   });
 
@@ -110,9 +110,6 @@ function createChatWindow(isNew){
   //chatWindow.setMenu(null);
 
   var end_url = "/js/p2p/index.html";
-  if (isNew) {
-    end_url += "#init";
-  }
 
   chatWindow.loadURL(path.join("file://", __dirname, end_url));
   chatWindow.on("closed", function() {
