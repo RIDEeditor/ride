@@ -107,6 +107,8 @@ function createChatWindow(isNew){
     show: false
   });
 
+  chatWindow.setMenu(null);
+
   var end_url = "/js/p2p/index.html";
   if (isNew) {
     end_url += "#init";
@@ -125,6 +127,8 @@ function createRailsdbWindow() {
     height: 600,
     show: false
   });
+
+  railsdbWindow.setMenu(null);
 
   railsdbWindow.loadURL(path.join("file://", __dirname, "/js/rails_db/rails_db.html"));
   railsdbWindow.on("closed", function() {
