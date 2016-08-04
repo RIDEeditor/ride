@@ -3,6 +3,7 @@
 const Peer = require("peerjs");
 const {desktopCapturer} = require("electron");
 const Handlebars = require("handlebars");
+window.$ = window.jQuery = require("jquery");
 
 $(function() {
   var isCameraInput = true;
