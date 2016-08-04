@@ -2,7 +2,6 @@
 
 const Peer = require("peerjs");
 const {desktopCapturer} = require("electron");
-const Handlebars = require("handlebars");
 window.$ = window.jQuery = require("jquery");
 
 $(function() {
@@ -11,7 +10,6 @@ $(function() {
   var peerID;
   var name;
   var conn;
-  var messagesTemplate = Handlebars.compile($("#messages-template").html());
 
   var peer = new Peer({key: "lwjd5qra8257b9"});
 
@@ -92,8 +90,7 @@ $(function() {
 
   function handleMessage(data) {
     messages.push(data);
-    var html = messagesTemplate({messages: messages});
-    $("#messages").html(html);
+	$("#messages").append('<li><span class="from">' + data.from + ':</span> ' + data.text + '</li>');
     $("#messages-container").animate({scrollTop: $(document).height()}, 0);
   }
 
