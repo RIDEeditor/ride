@@ -1,59 +1,68 @@
 body {
-    overflow: hidden;
-    margin: 0;
+  overflow: hidden;
+  margin: 0;
 }
+
 #editor {
-    /*position: absolute;*/
-    height: 90% !important;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+  /*position: absolute;*/
+  height: 90% !important;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
+
 #statusBar {
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 20px;
-    background-color: rgb(245, 245, 245);
-    color: gray;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 20px;
+  background-color: rgb(245, 245, 245);
+  color: gray;
 }
+
 #modeDiv {
-    margin-right: 100px;
-    float: right;
+  margin-right: 100px;
+  float: right;
 }
+
 #tabs {
-    top: 0 !important;
-    left: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
 }
+
 .ui-tabs {
-    position: absolute !important;
-    height: 100% !important;
-    width: 100% !important;
-    padding: 0 !important;
+  position: absolute !important;
+  height: 100% !important;
+  width: 100% !important;
+  padding: 0 !important;
 }
+
 .ui-widget-content {
-    border: 0 !important;
+  border: 0 !important;
 }
+
 .ui-corner-all {
-    border-bottom-right-radius: 0 !important;
-    border-bottom-left-radius: 0 !important;
-    border-top-right-radius: 0 !important;
-    border-top-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  border-top-left-radius: 0 !important;
 }
+
 .ui-corner-bottom {
-    border-bottom-right-radius: 0 !important;
-    border-bottom-left-radius: 0 !important;
-    border-top-right-radius: 0 !important;
-    border-top-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  border-top-left-radius: 0 !important;
 }
+
 .ui-corner-top {
-    border-bottom-right-radius: 0 !important;
-    border-bottom-left-radius: 0 !important;
-    border-top-right-radius: 0 !important;
-    border-top-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  border-top-left-radius: 0 !important;
 }
 

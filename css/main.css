@@ -1,43 +1,44 @@
-html,body {
-    background-color: #161712;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    overflow: auto;
+html,
+body {
+  background-color: #161712;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: auto;
 }
 
-footer{
-    float: bottom;
-    height: 2%;
+footer {
+  float: bottom;
+  height: 2%;
 }
 
 .tabs-shell {
-    width: 100%;
+  width: 100%;
 }
 
 #code {
-    height: calc(100% - 30px);
-    /*min-height: 200px;*/
-    width: 100%;
+  height: calc(100% - 30px);
+  /*min-height: 200px;*/
+  width: 100%;
 }
 
 #statusBar {
-    background-color: #323232;
-    position: fixed;
-    bottom: 0;
-    height: 20px;
-    width: 100%;
+  background-color: #323232;
+  position: fixed;
+  bottom: 0;
+  height: 20px;
+  width: 100%;
 }
 
-.ace_status-indicator{
-    float: right;
-    padding-right: 50px;
-    color: white;
+.ace_status-indicator {
+  float: right;
+  padding-right: 50px;
+  color: white;
 }
 
 #treecontainer {
-    height: 100%;
-    overflow: auto;
+  height: 100%;
+  overflow: auto;
 }
 
 button.new {
@@ -54,193 +55,190 @@ button.new {
 /* horizontal panel*/
 
 .panel-container {
-    display: flex;
-    flex-direction: row;
-    overflow: hidden;
-    height: calc(100% - 20px);
-    /* avoid browser level touch actions */
-    xtouch-action: none;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  height: calc(100% - 20px);
+  /* avoid browser level touch actions */
+  xtouch-action: none;
 }
 
 .ui-resizable-e {
-    width: 19px;
-    right: -19px;
-    z-index: 101 !important;
+  width: 19px;
+  right: -19px;
+  z-index: 101 !important;
 }
 
 .ui-resizable-s {
-    height: 19px;
-    bottom: -19px;
-    z-index: 101 !important;
+  height: 19px;
+  bottom: -19px;
+  z-index: 101 !important;
 }
 
 .panel-left {
-    flex: 0 0 auto;
-    /* only manually resize */
-    padding: 0px;
-    width: 350px;
-    min-height: 200px;
-    min-width: 0px;
-    max-width: 400px;
-    white-space: nowrap;
-    color: white;
-    height: 100%;
+  flex: 0 0 auto;
+  /* only manually resize */
+  padding: 0px;
+  width: 350px;
+  min-height: 200px;
+  min-width: 0px;
+  max-width: 400px;
+  white-space: nowrap;
+  color: white;
+  height: 100%;
 }
 
 .splitter {
-    flex: 0 0 auto;
-    width: 18px;  
-    background: url("images/vsizegrip.png") center center no-repeat #535353;
-    min-height: 200px;
-    z-index: 100;
+  flex: 0 0 auto;
+  width: 18px;
+  background: url("images/vsizegrip.png") center center no-repeat #535353;
+  min-height: 200px;
+  z-index: 100;
 }
 
 .panel-right {
-    flex: 1 1 auto;
-    position: relative;
-    /* resizable */
-    padding: 0px;
-    width: 100%;
-    min-height: 200px;
-    min-width: 200px;
+  flex: 1 1 auto;
+  position: relative;
+  /* resizable */
+  padding: 0px;
+  width: 100%;
+  min-height: 200px;
+  min-width: 200px;
 }
 
 .splitter-horizontal {
-    flex: 0 0 auto;
-    height: 18px;
-    background: url("images/hsizegrip.png") center center no-repeat #535353;
-    z-index: 100;
+  flex: 0 0 auto;
+  height: 18px;
+  background: url("images/hsizegrip.png") center center no-repeat #535353;
+  z-index: 100;
 }
 
 .panel-right-bottom {
-    flex: 1 1 auto;
-    /* resizable */
-    background: #eee;
+  flex: 1 1 auto;
+  /* resizable */
+  background: #eee;
 }
 
-#database-dialog{
-    position: relative;
+#database-dialog {
+  position: relative;
 }
 
 #visualisation-dialog {
-    position: relative;
+  position: relative;
 }
 
-#opendb{
-    position: absolute;
-    left:    10px;
-    bottom:   10px;
+#opendb {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
 }
 
-#create-rails-dialog{
-    position: relative;
+#create-rails-dialog {
+  position: relative;
 }
 
-#createProject{
-    margin: 0 auto;
-    position: absolute;
-    left:    225px;
-    bottom:   10px;
+#createProject {
+  margin: 0 auto;
+  position: absolute;
+  left: 225px;
+  bottom: 10px;
 }
 
-#create-bundle-dialog{
-    position: relative;
+#create-bundle-dialog {
+  position: relative;
 }
 
-#bundleProject{
-    margin: 0 auto;
-    position: absolute;
-    left:    225px;
-    bottom:   10px;
+#bundleProject {
+  margin: 0 auto;
+  position: absolute;
+  left: 225px;
+  bottom: 10px;
 }
 
-#create-scaffold-dialog{
-    position: relative;
+#create-scaffold-dialog {
+  position: relative;
 }
 
-#createScaffold{
-    margin: 0 auto;
-    position: absolute;
-    left:    225px;
-    bottom:   10px;
+#createScaffold {
+  margin: 0 auto;
+  position: absolute;
+  left: 225px;
+  bottom: 10px;
 }
 
-#create-railsServer-dialog{
-    position: relative;
+#create-railsServer-dialog {
+  position: relative;
 }
 
-#railsServer{
-    margin: 0 auto;
-    position: absolute;
-    left:    275px;
-    bottom:   10px;
+#railsServer {
+  margin: 0 auto;
+  position: absolute;
+  left: 275px;
+  bottom: 10px;
 }
 
-#selectDirectory{
-    margin: 0 auto;
-    display: block;
-    margin-top: 5px;
+#selectDirectory {
+  margin: 0 auto;
+  display: block;
+  margin-top: 5px;
 }
 
-#enterName{
-    margin-left: 10px;
+#enterName {
+  margin-left: 10px;
 }
 
-#railsv{
-    margin-left: 10px;
+#railsv {
+  margin-left: 10px;
 }
 
-
-
-#create-rails-controller{
-    position: relative;
+#create-rails-controller {
+  position: relative;
 }
 
-#generateController{
-    margin: 0 auto;
-    position: absolute;
-    left:    225px;
-    bottom:   10px;
+#generateController {
+  margin: 0 auto;
+  position: absolute;
+  left: 225px;
+  bottom: 10px;
 }
 
-
-#create-rails-model{
-    position: relative;
+#create-rails-model {
+  position: relative;
 }
 
-#generateModel{
-    margin: 0 auto;
-    position: absolute;
-    left:    225px;
-    bottom:   10px;
+#generateModel {
+  margin: 0 auto;
+  position: absolute;
+  left: 225px;
+  bottom: 10px;
 }
 
-#rails-destroy{
-    position: relative;
+#rails-destroy {
+  position: relative;
 }
 
-#railsDestroy{
-    margin: 0 auto;
-    position: absolute;
-    left:    225px;
-    bottom:   10px;
+#railsDestroy {
+  margin: 0 auto;
+  position: absolute;
+  left: 225px;
+  bottom: 10px;
 }
 
-#gitClone{
-    position: relative;
+#gitClone {
+  position: relative;
 }
 
-#cloneDir{
-    margin: 0 auto;
-    position: absolute;
-    left:    245px;
-    bottom:   10px;
+#cloneDir {
+  margin: 0 auto;
+  position: absolute;
+  left: 245px;
+  bottom: 10px;
 }
 
-#selectDirToCloneInto{
-    margin: 0 auto;
-    display: block;
-    margin-top: 5px;
+#selectDirToCloneInto {
+  margin: 0 auto;
+  display: block;
+  margin-top: 5px;
 }
 
 
