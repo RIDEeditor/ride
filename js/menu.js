@@ -143,7 +143,7 @@ class Menu {
           },
           {
             label: "Generate Routes Diagram",
-            click: this.railroady.generateRouteDiagram.bind(this.railroady)
+            click: this.railroady.showRoutesDialog.bind(this.railroady)
           }
         ]
       },
