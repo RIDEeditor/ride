@@ -41,7 +41,11 @@ $(function() {
               video: {
                 mandatory: {
                   chromeMediaSource: "desktop",
-                  chromeMediaSourceId: sources[i].id
+                  chromeMediaSourceId: sources[i].id,
+				          minWidth: screen.width,
+				          maxWidth: screen.width,
+				          minHeight: screen.height,
+				          maxHeight: screen.height
                 }
               }
             }, onGetUserMedia, onGetUserMediaError);
