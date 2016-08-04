@@ -53,9 +53,9 @@ class RailroadyWrapper {
 
   injectVizRakeTask(projectDirectory) {
     // Add the visualizer rake task to this projects lib/task directory so we can generate routes diagrams
-    if (!path.exists("app/lib/viz.rake") {
+    if (!path.exists("app/lib/viz.rake")) {
       // Check if we have already 'injected' our task
-      
+
     }
   }
 
