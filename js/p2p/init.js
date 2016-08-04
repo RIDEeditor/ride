@@ -44,7 +44,7 @@ $(function() {
                   chromeMediaSourceId: sources[i].id,
                   minWidth: screen.width,
                   maxWidth: screen.width,
-                  minHeight:screen.height,
+                  minHeight: screen.height,
                   maxHeight: screen.height
                 }
               }
