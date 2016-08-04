@@ -534,9 +534,9 @@ class RailsUI {
 
   setStatusIcon(icon) {
     if (icon === "busy") {
-      $("#statusIndicatorImage").attr("src", "css/throbber2.gif");
+      $("#statusIndicatorImage").attr("src", "css/images/throbber.gif");
     } else if (icon === "done") {
-      $("#statusIndicatorImage").attr("src", "css/tick.png");
+      $("#statusIndicatorImage").attr("src", "css/images/tick.png");
     }
   }
 
