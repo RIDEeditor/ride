@@ -30,6 +30,10 @@ input[type=text] {
   padding: 20px;
 }
 
+#switch-input {
+  float: right;
+}
+
 #message-container {
   padding: 20px;
   background-color: #ccc;
