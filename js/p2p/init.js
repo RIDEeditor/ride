@@ -136,4 +136,15 @@ $(function() {
       onReceiveStream(stream, "peer-camera");
     });
   }
+
+  $(window).resize(function() {
+    // Resize the videos to maintain correct aspect ratios
+    let ids = ["myVideo", "theirVideo"];
+    for (let i = 0; i < ids.length; ++i) {
+      let currentWidth = $("#" + ids[i]).width();
+      let newHeight = (screen.height / screen.width) * currentWidth;
+      $("#" + ids[i]).height(newHeight);
+    }
+  });
+
 });
