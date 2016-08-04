@@ -59,7 +59,7 @@ class RailroadyWrapper {
         // Check if we have already 'injected' our task
 
       }
-    } catch(e) {
+    } catch (e) {
     }
   }
 

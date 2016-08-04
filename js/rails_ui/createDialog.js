@@ -244,31 +244,29 @@ class CreateDialog {
       $("#projectModel").append(option);
     }
 
-
     $("#create-rails-model").dialog("open");
   }
 
-	setupRailsDestory(){
-		document.getElementById('projectDestroy').innerHTML = "";
+  setupRailsDestory() {
+    document.getElementById("projectDestroy").innerHTML = "";
 
-		for(let i=0;i<this.filetree.openDirs.length;i++){
-			let option = document.createElement("option");
-			option.innerHTML =this.filetree.openDirs[i];
-			if(i === 0){
-				option.selected = "selected";
-			}
-			$("#projectDestroy").append(option);
-		}
+    for (let i = 0; i < this.filetree.openDirs.length; i++) {
+      let option = document.createElement("option");
+      option.innerHTML = this.filetree.openDirs[i];
+      if (i === 0) {
+        option.selected = "selected";
+      }
+      $("#projectDestroy").append(option);
+    }
 
-		$("#rails-destroy").dialog('open');
-	}
-
-  showClone(){
-    $("#gitClone").dialog('open');
-
-    //$("#authentication").hide();
+    $("#rails-destroy").dialog("open");
   }
 
+  showClone() {
+    $("#gitClone").dialog("open");
+
+    // $("#authentication").hide();
+  }
 
   showDirToCloneInto() {
     let d = dialog.showOpenDialog({

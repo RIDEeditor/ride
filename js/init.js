@@ -135,7 +135,6 @@ $(window).load(function() {
    // rails destroy
   $("#rails-destroy").dialog({autoOpen: false, title: "Rails Destroy", height: 200, width: 600});
 
-
   // create scaffold dialog
   $("#create-scaffold-dialog").dialog({autoOpen: false, title: "Create Scaffold", height: "auto", width: 620});
 
@@ -145,7 +144,6 @@ $(window).load(function() {
   $("#rails-server-running").dialog({autoOpen: false, title: "Rails Servers Running", height: 200, width: 600});
 
   $("#gitClone").dialog({autoOpen: false, title: "Git Clone", height: 400, width: 600});
-
 
   $(window).on("toggleTerminal", function(e) {
     if (!terminalIsLoaded) {
@@ -176,7 +174,7 @@ $(window).load(function() {
     for (var key in currentState.TabsList) {
       settings.openFiles.push(currentState.TabsList[key].fileEntry);
     }
-    
+
     settings.openDirectories = filetree.openDirs;
     settings.saveSettingsToDisk();
   };

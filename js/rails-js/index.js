@@ -101,19 +101,17 @@ class RailsWrapper {
     }
   }
 
-    newModel(project,modelName, attributesString,callback){
-        if (this.findRails()) {
-            return this.runCommandWithCwd(this.railsPath + " generate model " + modelName + " " + attributesString,project, callback);
-        }
+  newModel(project, modelName, attributesString, callback) {
+    if (this.findRails()) {
+      return this.runCommandWithCwd(this.railsPath + " generate model " + modelName + " " + attributesString, project, callback);
     }
+  }
 
-    destroy(command,project,callback){
-
-        if(this.findRails()){
-            return this.runCommandWithCwd("rails destroy " + command,project,callback);
-        }
-
+  destroy(command, project, callback) {
+    if (this.findRails()) {
+      return this.runCommandWithCwd("rails destroy " + command, project, callback);
     }
+  }
 
 }
 

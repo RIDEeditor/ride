@@ -42,10 +42,10 @@ $(function() {
                 mandatory: {
                   chromeMediaSource: "desktop",
                   chromeMediaSourceId: sources[i].id,
-				          minWidth: screen.width,
-				          maxWidth: screen.width,
-				          minHeight: screen.height,
-				          maxHeight: screen.height
+                  minWidth: screen.width,
+                  maxWidth: screen.width,
+                  minHeight:screen.height,
+                  maxHeight: screen.height
                 }
               }
             }, onGetUserMedia, onGetUserMediaError);
@@ -94,7 +94,7 @@ $(function() {
 
   function handleMessage(data) {
     messages.push(data);
-	$("#messages").append('<li><span class="from">' + data.from + ':</span> ' + data.text + '</li>');
+    $("#messages").append("<li><span class=\"from\">" + data.from + ":</span> " + data.text + "</li>");
     $("#messages-container").animate({scrollTop: $(document).height()}, 0);
   }
 
@@ -146,5 +146,4 @@ $(function() {
       $("#" + ids[i]).height(newHeight);
     }
   });
-
 });

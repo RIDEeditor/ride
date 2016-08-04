@@ -97,7 +97,7 @@ class Menu {
             click: this.RailsUI.generateNewController.bind(this.RailsUI)
           },
           {
-            label: 'New rails model',
+            label: "New rails model",
             click: this.RailsUI.generateNewModel.bind(this.RailsUI)
           }
         ]
@@ -132,8 +132,8 @@ class Menu {
             click: this.RailsUI.showRunningServers.bind(this.RailsUI)
           },
           {
-                label: 'Rails Destroy',
-                click: this.RailsUI.railsDestroy.bind(this.RailsUI)
+            label: "Rails Destroy",
+            click: this.RailsUI.railsDestroy.bind(this.RailsUI)
           }
         ]
       },
@@ -257,8 +257,8 @@ class Menu {
         submenu: [
           {
             label: "Chat",
-            click:  this.chat.sendNewChatEvent
-          },
+            click: this.chat.sendNewChatEvent
+          }
         ]
       }
 
