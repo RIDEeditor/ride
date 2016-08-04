@@ -37,7 +37,6 @@ $(function() {
       desktopCapturer.getSources({types: ["window"]}, function(error, sources) {
         if (error) throw error;
         for (let i = 0; i < sources.length; ++i) {
-          console.log(sources[i]);
           if (sources[i].name === "RIDE Editor") {
             navigator.webkitGetUserMedia({
               audio: false,
