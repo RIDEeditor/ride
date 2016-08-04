@@ -1,6 +1,7 @@
 "use strict";
 
 const childProcess = require("child_process");
+const fs = require("fs");
 const Viz = require("viz.js");
 require("svg-pan-zoom");
 
@@ -16,7 +17,7 @@ class RailroadyWrapper {
   }
 
   runCommand(workingDir, args, callback) {
-    console.log("Running: railroady", args);
+    console.log("Running: " + args);
     var prc = childProcess.exec(args, {stdio: "pipe", cwd: workingDir}, function(error, stdout, stderr) {
       if (error === null) {
         console.log("Finished running: " + args);
@@ -41,6 +42,25 @@ class RailroadyWrapper {
     this.runCommand(projectDirectory, "railroady --controllers" + optionsList, (function(stdout, error) {
       this.drawDiagram(stdout, "Controllers Diagram");
     }).bind(this));
+  }
+
+  generateRoutesDiagram(projectDirectory, callback) {
+    this.injectVizRakeTask(projectDirectory);
+    this.runCommand(projectDirectory, "rake viz:visualizer", (function(stdout, stderr) {
+      this.drawDiagram(stdout, "Routes Diagram");
+    }).bind(this));
+  }
+
+  injectVizRakeTask(projectDirectory) {
+    // Add the visualizer rake task to this projects lib/task directory so we can generate routes diagrams
+    try {
+      stats = fs.lstatSync("app/lib/viz.rake");
+      if (!stats.isFile()) {
+        // Check if we have already 'injected' our task
+
+      }
+    } catch(e) {
+    }
   }
 
   drawDiagram(dotSyntax, dialogTitle) {
@@ -73,6 +93,26 @@ class RailroadyWrapper {
         $("#svg-dialog").empty();
       },
       height: dialogHeight, width: dialogWidth});
+  }
+
+  showRoutesDialog() {
+    $("#model-project-selector").empty();
+    for (let i = 0; i < this.filetree.openDirs.length; i++) {
+      let option = document.createElement("option");
+      option.innerHTML = this.filetree.openDirs[i];
+      if (i === 0) {
+        option.selected = "selected";
+      }
+      $("#model-project-selector").append(option);
+    }
+    $("#gen-model").val("Generate Routes Diagram");
+    $("#visualisation-dialog").dialog({autoOpen: true, title: "Generate Routes Diagram", modal: true, height: 500, width: 600});
+    $("#gen-model").one("click", (function() {
+      let pathToDirectorySelected = $("#model-project-selector option:selected").text();
+      this.generateRoutesDiagram(pathToDirectorySelected);
+      // Close dialog
+      $("#visualisation-dialog").dialog("close");
+    }).bind(this));
   }
 
   showModelDialog() {
