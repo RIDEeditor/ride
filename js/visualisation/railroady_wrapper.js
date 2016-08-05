@@ -2,6 +2,7 @@
 
 const childProcess = require("child_process");
 const fs = require("fs");
+const path = require("path");
 const Viz = require("viz.js");
 require("svg-pan-zoom");
 
@@ -46,26 +47,31 @@ class RailroadyWrapper {
 
   generateRoutesDiagram(projectDirectory, callback) {
     this.injectVizRakeTask(projectDirectory);
-    this.runCommand(projectDirectory, "rake viz:visualizer", (function(stdout, stderr) {
+    this.runCommand(projectDirectory, "rake " + path.join("lib", "tasks", "routes.rake") + " viz:visualizer", (function(stdout, stderr) {
       this.drawDiagram(stdout, "Routes Diagram");
     }).bind(this));
   }
 
   injectVizRakeTask(projectDirectory) {
     // Add the visualizer rake task to this projects lib/task directory so we can generate routes diagrams
+    let projectTaskFile = path.join(projectDirectory, "lib", "tasks", "routes.rake");
     try {
-      stats = fs.lstatSync("app/lib/viz.rake");
-      if (!stats.isFile()) {
-        // Check if we have already 'injected' our task
-
-      }
+      stats = fs.lstatSync(projectTaskFile);
     } catch (e) {
+      if (e.code === "ENOENT") {
+        // Check if we have already 'injected' our task
+        let taskFile = path.join( path.dirname(require.main.filename), "routes.rake");
+        // Copy the routes task file into the projects tasks
+        fs.writeFileSync(projectTaskFile, fs.readFileSync(taskFile));
+      }
     }
   }
 
   drawDiagram(dotSyntax, dialogTitle) {
     // Create parser
     var parser = new DOMParser();
+
+    console.log(dotSyntax);
 
     // Convert dot input to svgXML
     var result = Viz(dotSyntax);
