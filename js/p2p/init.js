@@ -48,16 +48,21 @@ $(function() {
                   maxHeight: screen.height
                 }
               }
-            }, onGetUserMedia, onGetUserMediaError);
+            }, onSwitchMedia, onGetUserMediaError);
           }
         }
       });
       isCameraInput = false;
     } else {
       // Switch to camera input
-      navigator.webkitGetUserMedia({audio: true, video: true}, onGetUserMedia, onGetUserMediaError);
+      navigator.webkitGetUserMedia({audio: true, video: true}, onSwitchMedia, onGetUserMediaError);
       isCameraInput = true;
     }
+  }
+
+  function onSwitchMedia(stream) {
+    onGetUserMedia(stream);
+    peer.call(peerID, stream);
   }
 
   $("#switch-input").on("click", toggleMediaInput);
