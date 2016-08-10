@@ -108,7 +108,7 @@ $(window).load(function() {
   });
 
   // Setup popup dialog
-  $("#database-dialog").dialog({autoOpen: false, title: "Database dialog", height: 200, width: 600});
+  $("#database-dialog").dialog({autoOpen: false, title: "Database dialog", height: 200, width: 600,resizable:false});
   $("#opendb").click(function() {
     let pathToDirectorySelected = $("#selector option:selected").text();
     // run the rails command
@@ -118,32 +118,32 @@ $(window).load(function() {
   });
 
   // Setup rails dialog
-  $("#create-rails-dialog").dialog({autoOpen: false, title: "Create Project", height: 250, width: 600});
+  $("#create-rails-dialog").dialog({autoOpen: false, title: "Create Project", height: 250, width: 600,resizable:false});
 
   // setup bundle dialog
-  $("#create-bundle-dialog").dialog({autoOpen: false, title: "Bundle Project", height: 200, width: 600});
+  $("#create-bundle-dialog").dialog({autoOpen: false, title: "Bundle Project", height: 200, width: 600,resizable:false});
 
   // setup visualisation dialog
-  $("#visualisation-dialog").dialog({autoOpen: false, title: "Generate Model", height: 500, width: 600});
+  $("#visualisation-dialog").dialog({autoOpen: false, title: "Generate Model", height: 500, width: 600,resizable:false});
 
   // controller generate controller
-  $("#create-rails-controller").dialog({autoOpen: false, title: "Generate Controller", height: 250, width: 600});
+  $("#create-rails-controller").dialog({autoOpen: false, title: "Generate Controller", height: 250, width: 600,resizable:false});
 
   // controller generate model
-  $("#create-rails-model").dialog({autoOpen: false, title: "Generate Model", height: 250, width: 600});
+  $("#create-rails-model").dialog({autoOpen: false, title: "Generate Model", height: 250, width: 600,resizable:false});
 
    // rails destroy
-  $("#rails-destroy").dialog({autoOpen: false, title: "Rails Destroy", height: 200, width: 600});
+  $("#rails-destroy").dialog({autoOpen: false, title: "Rails Destroy", height: 200, width: 600,resizable:false});
 
   // create scaffold dialog
-  $("#create-scaffold-dialog").dialog({autoOpen: false, title: "Create Scaffold", height: "auto", width: 620});
+  $("#create-scaffold-dialog").dialog({autoOpen: false, title: "Create Scaffold",width:600, minWidth: 600, minHeight:300});
 
   // create the rails server dialog
-  $("#create-railsServer-dialog").dialog({autoOpen: false, title: "Rails Server", height: 200, width: 600});
+  $("#create-railsServer-dialog").dialog({autoOpen: false, title: "Rails Server", height: 200, width: 600,resizable:false});
 
-  $("#rails-server-running").dialog({autoOpen: false, title: "Rails Servers Running", height: 200, width: 600});
+  $("#rails-server-running").dialog({autoOpen: false, title: "Rails Servers Running", height: 200, width: 600,resizable:false});
 
-  $("#gitClone").dialog({autoOpen: false, title: "Git Clone", height: 400, width: 600});
+  $("#gitClone").dialog({autoOpen: false, title: "Git Clone", height: 400, width: 600,resizable:false});
 
   $(window).on("toggleTerminal", function(e) {
     if (!terminalIsLoaded) {
