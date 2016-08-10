@@ -7,6 +7,10 @@ body {
   overflow: auto;
 }
 
+label{
+   font-weight: normal !important;
+}
+
 footer {
   float: bottom;
   height: 2%;
@@ -166,9 +170,10 @@ button.new {
 
 #createScaffold {
   margin: 0 auto;
-  position: absolute;
-  left: 225px;
-  bottom: 10px;
+  /*position: absolute;*/
+  display: block;
+  /*left: 225px;
+  bottom: 10px;*/
 }
 
 #create-railsServer-dialog {
