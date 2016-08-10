@@ -12,6 +12,11 @@ footer {
   height: 2%;
 }
 
+code {
+  color: black;
+  background-color: transparent;
+}
+
 .tabs-shell {
   width: 100%;
 }

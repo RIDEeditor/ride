@@ -1,12 +1,13 @@
 .tabs-shell {
-	position: relative;
-	background-color: #161712;
-	padding: 0px 10px 6px 0px;
-	height: 19px;
-	overflow: hidden;
-	/*width: calc(100% - 50px);*/
-    width: 79%;
-    float: right;
+  position: relative;
+  background-color: #161712;
+  padding: 0px 10px 6px 0px;
+  height: 19px;
+  box-sizing: content-box;
+  overflow: hidden;
+  /*width: calc(100% - 50px);*/
+  width: 79%;
+  float: right;
 }
 
 .tabs-shell .chrome-shell-bottom-bar {
