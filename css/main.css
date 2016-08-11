@@ -7,6 +7,10 @@ body {
   overflow: auto;
 }
 
+* {
+  -webkit-user-select: none;
+}
+
 label{
    font-weight: normal !important;
 }
