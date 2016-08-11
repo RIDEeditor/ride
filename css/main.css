@@ -154,11 +154,15 @@ button.new {
   position: relative;
 }
 
+
 #createProject {
   margin: 0 auto;
-  position: absolute;
+  display: block;
+  margin-top: 15px;
+  /*position: absolute;
+
   left: 225px;
-  bottom: 10px;
+  bottom: 10px;*/
 }
 
 #create-bundle-dialog {
@@ -248,9 +252,10 @@ button.new {
 
 #cloneDir {
   margin: 0 auto;
-  position: absolute;
-  left: 245px;
-  bottom: 10px;
+  /*position: absolute;*/
+  display: block;
+  /*left: 245px;
+  bottom: 10px;*/
 }
 
 #selectDirToCloneInto {
@@ -263,6 +268,5 @@ button.new {
   background: transparent;
   border: none;
 }
-
 
 
