@@ -11,6 +11,10 @@ body {
   -webkit-user-select: none;
 }
 
+:focus {
+  outline: none;
+}
+
 label{
    font-weight: normal !important;
 }
