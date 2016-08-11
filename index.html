@@ -79,8 +79,8 @@
         <div id="svg-dialog"></div>
 
         <div id="database-dialog">
-            <code id="database-dialog-contentholder">
-            </code>
+            <div id="database-dialog-contentholder">
+            </div>
             <label for="project database">Select a Project</label>
             <br><br>
             <select id="selector" name="folder_chosen"></select>
@@ -88,30 +88,30 @@
         </div>
 
         <div id="create-rails-dialog">
-            <code id="create-rails-dialog-contentholder">
+            <div id="create-rails-dialog-contentholder">
                 <input id="selectDirectory" type="submit" value="Select Directory">
                 <p id="dirChosen">Directory:</p>
                 Name of Rails project:<input id="enterName" type="text" name="projectName">
                 <br><br>
                 Select Rails version: <select name="rails_chosen" id="railsv"></select>
-            </code>
+            </div>
             <input class="btn btn-primary" id="createProject" type="submit" value="create new rails project">
         </div>
 
         <div id="create-rails-controller">
-            <code id="create-rails-controller-dialog-contentholder">
+            <div id="create-rails-controller-dialog-contentholder">
                 Select Railsproject: <select id="projectController" name="railsProjectChosenController"></select>
                 <br><br>
                 Controller name: <input id="controllerName" name="controller" type="text">
                 <br><br>
                 Enter actions (comma seperated): <input id="enterActions" name="Actions" type="text">
-            </code>
+            </div>
             <input class="btn btn-primary" id="generateController" type="submit" value="generate rails controller">
         </div>
 
 
         <div id="create-rails-model">
-            <code id="create-rails-model-dialog-contentholder">
+            <div id="create-rails-model-dialog-contentholder">
 
             Select Rails project: <select name="railsProjectChosenModel" id="projectModel"></select>
 
@@ -126,21 +126,21 @@
             Enter attributes (comma seperated): <input placeholder="e.g name:string" id="enterAttributes" type="text" name="Attributes">
 
 
-            </code>
+            </div>
             <input class="btn btn-primary" id="generateModel" type="submit" value="generate rails model">
         </div>
 
         <div id="create-bundle-dialog">
-            <code id="create-bundle-dialog-contentholder">
+            <div id="create-bundle-dialog-contentholder">
                 Select Rails project:<select id="bundle" name="rails_chosen"></select>
                 <br><br>
                 Options: <input id="enterOptions" name="bundleOptions" type="text">
-            </code>
+            </div>
             <input class="btn btn-primary" id="bundleProject" type="submit" value="bundle rails project">
         </div>
 
         <div id="create-scaffold-dialog">
-            <code id="create-scaffold-dialog-contentholder">
+            <div id="create-scaffold-dialog-contentholder">
                 <label>Select Rails project:</label> <select name="rails_chosen" id="scaffold"></select>
                 <br><br>
                 <div>
@@ -156,18 +156,18 @@
                     <br><br>
                 </div>
                 <br><br>
-            </code>
+            </div>
             <input class="btn btn-primary" id="createScaffold" type="submit" value="create rails scaffold">
         </div>
 
         <div id="create-railsServer-dialog">
-            <code id="create-railsServer-dialog-contentholder">
+            <div id="create-railsServer-dialog-contentholder">
                 <label>Select port number:</label>
                 <input id="railsServerPort" name="portNumber" type="text">
                 <br><br>
                 <label>Select project:</label>
                 <select id="projectRun" name="project_chosen_railsServer"></select>
-            </code>
+            </div>
             <input class="btn btn-primary" id="railsServer" type="submit" value="run rails">
         </div>
 
