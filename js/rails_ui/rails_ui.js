@@ -34,6 +34,7 @@ class RailsUI {
   }
 
   generateNewRailsProject() {
+
     let createdDialog = this.createdDialog;
 
     // this just allows it to close. It does nothing else as the state is stored in this class as variables
