@@ -251,6 +251,10 @@ button.new {
   margin-top: 5px;
 }
 
+#addAction{
+  background: transparent;
+  border: none;
+}
 
 
 
