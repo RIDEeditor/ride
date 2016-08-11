@@ -3,6 +3,7 @@
     <head>
         <title>RIDE Editor</title>
         <link href="css/lib/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
         <!--Import jquery and jquery-ui-->
         <script>window.$ = window.jQuery = require("jquery");</script>
         <script>require("./js/lib/jquery-ui/jquery-ui.js");</script>
@@ -88,13 +89,16 @@
 
         <div id="create-rails-dialog">
             <div id="create-rails-dialog-contentholder">
-                <input id="selectDirectory" type="submit" value="Select Directory">
+                <input id="selectDirectory" class="btn btn-default" type="submit" value="Select Directory">
                 <p id="dirChosen">Directory:</p>
                 Name of Rails project:<input id="enterName" type="text" name="projectName">
                 <br><br>
-                Select Rails version: <select name="rails_chosen" id="railsv"></select>
+                Select Rails version: <select  name="rails_chosen" id="railsv"></select>
             </div>
+
             <input class="btn btn-primary" id="createProject" type="submit" value="create new rails project">
+            
+            
         </div>
 
         <div id="create-rails-controller">
@@ -197,11 +201,9 @@
             <input type="radio" name="privateorpublic" value="private" checked="checked"> Private<br>
             <input type="radio" name="privateorpublic" value="public"> Public<br>
             <br>
-            <br>
-            <button id="selectDirToCloneInto" type="button">Select Directory to Clone into</button>
+            <button class="btn btn-default" id="selectDirToCloneInto" type="button">Select Directory to Clone into</button>
             <br>
             <label id="dirClone">Directory:</label>
-            <br>
             <br>
             <div id="authentication">
                 <label id="username">Username:</label></label><input id="auth1" type="text"name="usernameInput">
