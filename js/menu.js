@@ -82,8 +82,24 @@ class Menu {
         ]
       },
       {
-        label: "Rails Generate",
-        submenu: [
+        label: "Rails",
+        submenu:
+        [
+          {
+            label: "Rails server",
+            click: this.RailsUI.startRailsServer.bind(this.RailsUI)
+          },
+          {
+            label: "Rails Servers Running",
+            click: this.RailsUI.showRunningServers.bind(this.RailsUI)
+          },
+          {
+            label: "Rails Destroy",
+            click: this.RailsUI.railsDestroy.bind(this.RailsUI)
+          },
+          {
+            label: "Rails Generate",
+            submenu: [
           {
             label: "New rails project",
             click: this.RailsUI.generateNewRailsProject.bind(this.RailsUI)
@@ -101,6 +117,8 @@ class Menu {
             click: this.RailsUI.generateNewModel.bind(this.RailsUI)
           }
         ]
+      }
+        ]
       },
       {
         label: "Bundle",
@@ -116,24 +134,6 @@ class Menu {
           {
             label: "bundle exec rake db:migrate",
             click: this.RailsUI.bundleMigrate.bind(this.RailsUI)
-          }
-        ]
-      },
-      {
-        label: "Rails",
-        submenu:
-        [
-          {
-            label: "Rails server",
-            click: this.RailsUI.startRailsServer.bind(this.RailsUI)
-          },
-          {
-            label: "Rails Servers Running",
-            click: this.RailsUI.showRunningServers.bind(this.RailsUI)
-          },
-          {
-            label: "Rails Destroy",
-            click: this.RailsUI.railsDestroy.bind(this.RailsUI)
           }
         ]
       },
