@@ -101,7 +101,7 @@ button.new {
   min-width: 0px;
   max-width: 400px;
   white-space: nowrap;
-  color: black;
+  color: white;
   height: 100%;
   background-color: #161712;
 }
