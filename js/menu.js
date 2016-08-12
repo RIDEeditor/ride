@@ -26,6 +26,18 @@ class Menu {
     electronMenu.setApplicationMenu(this.buildMenu.bind(this)());
   }
 
+  changeColorLight() {
+    $(".tabs-shell").css("background-color", "#e6e6e6");
+    $(".panel-left").css("background-color", "#e6e6e6");
+    $(".panel-left").css("color", "black");
+  }
+
+  changeColorDark() {
+    $(".tabs-shell").css("background-color", "#161712");
+    $(".panel-left").css("background-color", "#161712");
+    $(".panel-left").css("color", "white");
+  }
+
   buildMenu() {
     // Defines the menu structure
     var menuTemplate = [
@@ -252,9 +264,13 @@ class Menu {
           {
             label: "Set Background Colour",
             submenu: [
-               {label: "Light"},
+               {label: "Light",
+                click: this.changeColorLight
+                },
                 {label: "Medium"},
-                {label: "Dark"}
+                {label: "Dark",
+                click: this.changeColorDark
+                }
             ]
           }
         ]
