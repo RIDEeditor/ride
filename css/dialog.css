@@ -17,9 +17,21 @@
 	font-weight: bold;
 	color: #eb8f00;
 }
-/*.ui-widget-content {
-
-}*/
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+  background: none;
+  border: none;
+}
+.ui-icon
+{
+  background-image: url(lib/images/ui-icons_222222_256x240.png) !important;
+}
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus {
+	border: none;
+	background: none;
+}
 .ui-dialog {
 	overflow: hidden;
 	position: absolute;
