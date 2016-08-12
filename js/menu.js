@@ -248,6 +248,14 @@ class Menu {
           {
             label: "Set Font Size",
             click: function() {console.log(editor.getFontSize()); editor.setFontSize("14");}
+          },
+          {
+            label: "Set Background Colour",
+            submenu: [
+               {label: "Light"},
+                {label: "Medium"},
+                {label: "Dark"}
+            ]
           }
         ]
       },

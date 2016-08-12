@@ -103,6 +103,7 @@ button.new {
   white-space: nowrap;
   color: white;
   height: 100%;
+  background-color: #161712;
 }
 
 .splitter {
