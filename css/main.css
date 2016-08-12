@@ -82,13 +82,13 @@ button.new {
 
 .ui-resizable-e {
   width: 19px;
-  right: -19px;
+  right: -10px;
   z-index: 101 !important;
 }
 
 .ui-resizable-s {
   height: 19px;
-  bottom: -19px;
+  bottom: -10px;
   z-index: 101 !important;
 }
 
@@ -101,15 +101,15 @@ button.new {
   min-width: 0px;
   max-width: 400px;
   white-space: nowrap;
-  color: white;
+  color: black;
   height: 100%;
   background-color: #161712;
 }
 
 .splitter {
   flex: 0 0 auto;
-  width: 18px;
-  background: url("images/vsizegrip.png") center center no-repeat #535353;
+  width: 1px;
+  background: center center no-repeat black;
   min-height: 200px;
   z-index: 100;
 }
@@ -126,8 +126,8 @@ button.new {
 
 .splitter-horizontal {
   flex: 0 0 auto;
-  height: 18px;
-  background: url("images/hsizegrip.png") center center no-repeat #535353;
+  height: 1px;
+  background: center center no-repeat black;
   z-index: 100;
 }
 
