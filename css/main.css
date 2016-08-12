@@ -96,7 +96,7 @@ button.new {
   flex: 0 0 auto;
   /* only manually resize */
   padding: 0px;
-  width: 350px;
+  width: 250px;
   min-height: 200px;
   min-width: 0px;
   max-width: 400px;
