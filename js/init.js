@@ -54,6 +54,11 @@ $(window).load(function() {
   editor.setTheme("ace/theme/monokai");
   editor.setAutoScrollEditorIntoView(true);
 
+  // Set the correct colors based on the theme
+  setTimeout(() => {
+    menu.changeTheme();
+  }, 100);
+
   // Define what the 'new tab' button does
   $(".new").on("click", function(ev) {
     new editorLib.Editor("Untitled", currentState);
