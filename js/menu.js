@@ -38,6 +38,12 @@ class Menu {
     $(".panel-left").css("color", "white");
   }
 
+  changeColourMedium(){
+    $(".tabs-shell").css("background-color", "#808080");
+    $(".panel-left").css("background-color", "#808080");
+    $(".panel-left").css("color", "black");
+  }
+
   buildMenu() {
     // Defines the menu structure
     var menuTemplate = [
@@ -267,7 +273,9 @@ class Menu {
                {label: "Light",
                 click: this.changeColorLight
                 },
-                {label: "Medium"},
+                {label: "Medium",
+                  click: this.changeColourMedium
+                },
                 {label: "Dark",
                 click: this.changeColorDark
                 }
