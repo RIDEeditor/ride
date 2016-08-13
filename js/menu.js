@@ -363,12 +363,19 @@ class Menu {
           // A single editor instance is used, so only need to set theme on it
           editor.setTheme("ace/theme/" + label);
 
-          let delay=100;
+          let delay = 100;
 
           setTimeout(function() {
+              let cssModify = require("./cssModify");
+              let selectedTabClass = cssModify.getCSSRule(".tabs .tab.current, .tabs .tab.current::before");
+              let tabTitleClass = cssModify.getCSSRule(".tabs .tab .title");
+
+              // your code to be executed after 1 second
               var tinycolor = require("tinycolor2");
               let code_col = $("#code").css("background-color");
               let button_col = $(".new").css("color");
+              selectedTabClass.style.background = code_col;
+              tabTitleClass.style.color = $("#code").css("color");
 
               let col1 = tinycolor(code_col);
               let col2 = tinycolor(button_col);
