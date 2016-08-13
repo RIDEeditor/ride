@@ -27,7 +27,7 @@ class Menu {
   }
 
   changeColorLight() {
-    $(".tabs-shell").css("background-color", "#e6e6e6");
+    //$(".tabs-shell").css("background-color", "#e6e6e6");
     $(".panel-left").css("background-color", "#e6e6e6");
     $(".panel-left").css("color", "black");
   }
@@ -39,7 +39,7 @@ class Menu {
   }
 
   changeColourMedium(){
-    $(".tabs-shell").css("background-color", "#808080");
+    //$(".tabs-shell").css("background-color", "#808080");
     $(".panel-left").css("background-color", "#808080");
     $(".panel-left").css("color", "black");
   }
@@ -362,6 +362,16 @@ class Menu {
         click: function() {
           // A single editor instance is used, so only need to set theme on it
           editor.setTheme("ace/theme/" + label);
+
+          let delay=1000; //1 second
+
+          setTimeout(function() {
+            //your code to be executed after 1 second
+              let t = $("#code").css("background-color");
+              $(".tabs-shell").css("background-color", t);
+          }, delay);
+
+
         }
       }
         );
