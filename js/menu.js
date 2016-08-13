@@ -363,12 +363,24 @@ class Menu {
           // A single editor instance is used, so only need to set theme on it
           editor.setTheme("ace/theme/" + label);
 
-          let delay=1000; //1 second
+          let delay=100;
 
           setTimeout(function() {
-            //your code to be executed after 1 second
-              let t = $("#code").css("background-color");
-              $(".tabs-shell").css("background-color", t);
+              var tinycolor = require("tinycolor2");
+              let code_col = $("#code").css("background-color");
+              let button_col = $(".new").css("color");
+
+              let col1 = tinycolor(code_col);
+              let col2 = tinycolor(button_col);
+              if (col1.isLight()) {
+                col1.darken(10);
+                col1.darken(20);
+              } else {
+                col1.lighten(10);
+                col1.lighten(20);
+              }
+              $(".tabs-shell").css("background-color", col1.toString());
+              $(".new").css("color", col2.toString());
           }, delay);
 
 
@@ -376,6 +388,7 @@ class Menu {
       }
         );
   }
+
 
   /**
   * Should be called when the 'open file' menu option is selected
