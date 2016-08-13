@@ -33,7 +33,7 @@ class Menu {
   }
 
   changeColorDark() {
-    $(".tabs-shell").css("background-color", "#161712");
+    //$(".tabs-shell").css("background-color", "#161712");
     $(".panel-left").css("background-color", "#161712");
     $(".panel-left").css("color", "white");
   }
