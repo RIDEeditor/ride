@@ -102,20 +102,8 @@ class Menu {
       {
         label: "Rails",
         submenu:
-        [
-          {
-            label: "Rails server",
-            click: this.RailsUI.startRailsServer.bind(this.RailsUI)
-          },
-          {
-            label: "Rails Servers Running",
-            click: this.RailsUI.showRunningServers.bind(this.RailsUI)
-          },
-          {
-            label: "Rails Destroy",
-            click: this.RailsUI.railsDestroy.bind(this.RailsUI)
-          },
-          {
+        [ 
+                    {
             label: "Rails Generate",
             submenu: [
           {
@@ -134,8 +122,20 @@ class Menu {
             label: "New rails model",
             click: this.RailsUI.generateNewModel.bind(this.RailsUI)
           }
-        ]
-      }
+          ]
+         },
+          {
+            label: "Rails server",
+            click: this.RailsUI.startRailsServer.bind(this.RailsUI)
+          },
+          {
+            label: "Rails Servers Running",
+            click: this.RailsUI.showRunningServers.bind(this.RailsUI)
+          },
+          {
+            label: "Rails Destroy",
+            click: this.RailsUI.railsDestroy.bind(this.RailsUI)
+          },
         ]
       },
       {
