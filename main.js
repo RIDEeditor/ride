@@ -18,6 +18,7 @@ let railsdbWindow;
 let railsDbPrc;
 
 let chatWindow;
+let visualisationWindow;
 
 const request = require("request");
 
@@ -42,6 +43,24 @@ function createMainWindow() {
     chatWindow.show();
   });
 
+  ipcMain.on("launch-visualisation", function(event, result, dialogTitle) {
+    ipcMain.once("visualisation-ready", function(event) {
+      // Send svg image to visualisation window
+      event.sender.send('svg', result);
+    });
+    visualisationWindow = new BrowserWindow({
+      title: dialogTitle,
+      width: 800,
+      height: 600,
+      fullscreenable: true,
+    });
+    // Load window location
+    visualisationWindow.loadURL(path.join("file://", __dirname, "/js/visualisation/index.html"));
+    visualisationWindow.setMenu(null);
+    visualisationWindow.show();
+    visualisationWindow.maximize();
+  });
+
   ipcMain.on("launch-rails-db", function(event, arg) {
     // Start rails_db
     railsDbPrc = launchRailsDb(arg);
@@ -64,8 +83,10 @@ function createMainWindow() {
     createRailsdbWindow();
     railsdbWindow.show();
 
+    // Wait 5 seconds and check if rails_db has loaded in window
+    // If it hasn't refresh window, wait 1 second
+    // Repeat until rails_db is loaded
     setTimeout(invokeAndProcessResponse, 5000);
-
     function invokeAndProcessResponse() {
       request("http://0.0.0.0:12345/rails/db", function(error, response, body) {
         if (!error && response.statusCode === 200) {
@@ -85,6 +106,7 @@ function createMainWindow() {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     if (railsDbPrc) {
+      // destroy _db process if it is running
       railsDbPrc.kill("SIGTERM");
     }
     if (railsdbWindow) {
@@ -92,6 +114,7 @@ function createMainWindow() {
       railsdbWindow.close();
     }
     if (termProc) {
+      // Destory terminal process if it is running
       termProc.destroy();
     }
     railsdbWindow = null;
@@ -107,11 +130,10 @@ function createChatWindow(isNew){
     show: false
   });
 
+  // TODO set menu to null to hide it
   //chatWindow.setMenu(null);
 
-  var end_url = "/js/p2p/index.html";
-
-  chatWindow.loadURL(path.join("file://", __dirname, end_url));
+  chatWindow.loadURL(path.join("file://", __dirname, "/js/p2p/index.html"));
   chatWindow.on("closed", function() {
   });
 }
@@ -152,7 +174,7 @@ function setupTerminal() {
   var http = require("http");
   var express = require("express");
   var io = require("socket.io");
-  var pty = require("pty.js");
+  var pty = require("ptyw.js");
   var terminal = require("term.js");
 
   /**

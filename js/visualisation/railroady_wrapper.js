@@ -1,14 +1,17 @@
 "use strict";
 
 const childProcess = require("child_process");
-const fs = require("fs");
+const path = require("path");
+const fs = require("fs-extra");
 const Viz = require("viz.js");
+const {ipcRenderer} = require("electron");
 require("svg-pan-zoom");
 
 class RailroadyWrapper {
 
   constructor(filetree) {
     this.filetree = filetree;
+    this.railroadyPath = path.join(__dirname, "../../railroady/bin/", "railroady");
 
     $("#visualisation-dialog").on("dialogclose", function(event, ui) {
       // Clear options from dialog
@@ -33,13 +36,13 @@ class RailroadyWrapper {
   }
 
   generateModelDiagram(projectDirectory, optionsList, callback) {
-    this.runCommand(projectDirectory, "railroady --models --all" + optionsList, (function(stdout, error) {
+    this.runCommand(projectDirectory, this.railroadyPath + " --models --all" + optionsList, (function(stdout, error) {
       this.drawDiagram(stdout, "Models Diagram");
     }).bind(this));
   }
 
   generateControllerDiagram(projectDirectory, optionsList, callback) {
-    this.runCommand(projectDirectory, "railroady --controllers" + optionsList, (function(stdout, error) {
+    this.runCommand(projectDirectory, this.railroadyPath + " --controllers" + optionsList, (function(stdout, error) {
       this.drawDiagram(stdout, "Controllers Diagram");
     }).bind(this));
   }
@@ -53,46 +56,27 @@ class RailroadyWrapper {
 
   injectVizRakeTask(projectDirectory) {
     // Add the visualizer rake task to this projects lib/task directory so we can generate routes diagrams
+    let destinationFile = path.join(projectDirectory, "lib/tasks/viz.rake");
     try {
-      stats = fs.lstatSync("app/lib/viz.rake");
-      if (!stats.isFile()) {
-        // Check if we have already 'injected' our task
-
+      let stats = fs.statSync(destinationFile);
+      stats.isFile();
+    } catch (err) {
+      if (err.code === "ENOENT") {
+        let rakeFile = path.join(__dirname, "routes.rake");
+        fs.copySync(rakeFile, destinationFile)
+      } else {
+        console.error(err);
       }
-    } catch (e) {
     }
   }
 
   drawDiagram(dotSyntax, dialogTitle) {
-    // Create parser
-    var parser = new DOMParser();
-
     // Convert dot input to svgXML
     var result = Viz(dotSyntax);
 
-    // Parse svgXML
-    var svg = parser.parseFromString(result, "image/svg+xml");
-    // Append svg image to dialog
-    $("#svg-dialog").append(svg.documentElement);
-    // Set svg id
-    document.getElementsByTagName("svg")[0].id = "svg-diagram";
-    // Make svg image zoomable and pannable
-    svgPanZoom("#svg-diagram");
+    // Send svg to main process to open in a new window
+    ipcRenderer.send("launch-visualisation", result, dialogTitle);
 
-    var svgElement = document.getElementById("svg-diagram");
-    var rect = svgElement.getBoundingClientRect();
-
-    let dialogHeight = Math.min($(window).height() - 10, rect.height + 100);
-    let dialogWidth = Math.min($(window).width() - 10, rect.width + 100);
-
-    // Show dialog
-    $("#svg-dialog").dialog({
-      autoOpen: true, title: dialogTitle,
-      close: function(event, ui) {
-        $(this).dialog("destroy");
-        $("#svg-dialog").empty();
-      },
-      height: dialogHeight, width: dialogWidth});
   }
 
   showRoutesDialog() {
