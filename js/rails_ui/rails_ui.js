@@ -42,7 +42,7 @@ class RailsUI {
       createdDialog.getNameAndVersion();
 
       let dir = createdDialog.directory;
-      let version = createdDialog.versionChosen;
+      let version = $.trim(createdDialog.versionChosen);
       if (!dir) {
         return;
       }
