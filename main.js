@@ -174,7 +174,7 @@ function setupTerminal() {
   var http = require("http");
   var express = require("express");
   var io = require("socket.io");
-  var pty = require("ptyw.js");
+  var pty = require("pty.js");
   var terminal = require("term.js");
 
   /**
