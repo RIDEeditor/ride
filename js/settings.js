@@ -18,7 +18,8 @@ class Settings {
     this.showTerminal = false;
     this.openFiles = [];
     this.openDirectories = [];
-        // Create settings directory if it doesn't yet exist
+    this.editor_theme = "monokai" // Default theme if not set in settings file
+    // Create settings directory if it doesn't yet exist
     mkdirp(settingsDir);
     this.loadSettingsFromDisk();
   }
@@ -28,6 +29,7 @@ class Settings {
     json.showTerminal = this.showTerminal;
     json.openFiles = this.openFiles;
     json.openDirectories = this.openDirectories;
+    json.editor_theme = this.editor_theme;
     return JSON.stringify(json);
   }
 
@@ -50,6 +52,7 @@ class Settings {
     } catch (err) {
       if (err.code != "ENOENT") {
         console.log("Reading settings failed: " + err);
+        console.log(err);
         dialog.showErrorBox("Error Opening", "There was an error opening the settings file");
       }
     }

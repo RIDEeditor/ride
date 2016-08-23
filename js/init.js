@@ -4,6 +4,7 @@
  *
  */
 
+const path = require("path");
 const filetreeLib = require("./js/filetree");
 const menuLib = require("./js/menu");
 const terminalLib = require("./js/terminal");
@@ -71,7 +72,7 @@ $(window).load(function() {
   // Read settings from disk
   // Open files from last session
   for (var i = 0; i < settings.openFiles.length; i++) {
-    var file = settings.openFiles[i];
+    let file = settings.openFiles[i];
     new editorLib.Editor("Untitled", currentState);
     if (file) {
       currentState.currentEditor.readFileIntoEditor(settings.openFiles[i]);
@@ -87,6 +88,9 @@ $(window).load(function() {
   for (let i = 0; i < settings.openDirectories.length; i++) {
     filetree.addDirectoryToTree(settings.openDirectories[i], false);
   }
+
+  // Set the editor theme from the settings
+  editor.setTheme("ace/theme/" + settings.editor_theme);
 
   // Create a simple status indicator
   var StatusBar = ace.require("ace/ext/statusbar").StatusBar;
@@ -185,6 +189,11 @@ $(window).load(function() {
     }
 
     settings.openDirectories = filetree.openDirs;
+
+    // Save the currently selected editor theme
+    settings.editor_theme = path.basename(editor.getTheme());
+
+    // Persist settings to disk
     settings.saveSettingsToDisk();
   };
 });
