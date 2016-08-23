@@ -64,12 +64,15 @@ class FileTree {
     }
   }
 
-  addDirectoryToTree(dirname, expanded) {
+  addDirectoryToTree(dirname, expanded, pos) {
     if (typeof expanded === "undefined") { expanded = true; }
     this.openDirs.push(dirname);
     var node = this.buildNode(path.basename(dirname.toString()), dirname.toString(), "directory");
     node.state = {opened: expanded};
-    var rootNodeId = $("#treeview").jstree("create_node", "#", node, "last");
+    if (typeof pos === "undefined") {
+      pos = "last";
+    }
+    var rootNodeId = $("#treeview").jstree("create_node", "#", node, pos);
     this.recurseTree(rootNodeId, dirname);
   }
 
@@ -98,6 +101,58 @@ class FileTree {
         console.log(err);
       }
     });
+  }
+
+  refreshDirectory(directoryPath) {
+    let resolvedPath = path.resolve(directoryPath);
+    let oldIndex = this.removeNode(resolvedPath);
+    this.addDirectoryToTree(resolvedPath, true, oldIndex);
+  }
+
+  /**
+   * Remove node from filetree that has given path
+   * Returns the position that the directory was at in the tree
+   *
+   * @param {String} directoryPath
+   */
+  removeNode(directoryPath) {
+    let index = -1;
+    for (let i = 0; i < this.openDirs.length; i++) {
+      if (directoryPath === path.resolve(this.openDirs[i][0])) {
+        index = i;
+        break;
+      }
+    }
+    if (index != -1) {
+      console.log("Index: " + index);
+      // This directory is in filetree, so can remove it
+      // Get the jstree node that corresponds to this path
+      let treeNode = this.getNodeByPath(directoryPath);
+      if (treeNode != null) {
+        // Remove node from tree
+        this.treeElement.jstree("delete_node", treeNode);
+        // Remove directory from openDirs list
+        this.openDirs.splice(index, 1);
+        return index;
+      }
+    }
+  }
+
+  /**
+   * Returns the toplevel jstree node that has given path.
+   * If no such node exists, returns null
+   *
+   * @param {String} directoryPath
+   */
+  getNodeByPath(directoryPath) {
+    let rootNode = this.treeElement.jstree("get_node", "#");
+    let childNode = null;
+    for (let i = 0; i < rootNode.children.length; i++) {
+      childNode = this.treeElement.jstree("get_node", rootNode.children[i]);
+      if (childNode.data === directoryPath) {
+        return childNode;
+      }
+    }
   }
 
   buildNode(nameString, fullPath, type) {

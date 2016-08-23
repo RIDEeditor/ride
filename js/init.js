@@ -42,6 +42,10 @@ $(window).load(function() {
     filetree.addDirectoryToTree(e.detail);
   });
 
+  $(window).on("dirToRefresh", function(e) {
+    filetree.refreshDirectory(e.detail);
+  });
+
   // Setup the tabs bar
   tabBar = new Tabs({
     shell: $(".tabs-shell"),

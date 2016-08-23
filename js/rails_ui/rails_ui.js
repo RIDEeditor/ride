@@ -189,9 +189,11 @@ class RailsUI {
       this.setStatusIconVisibility(true);
       this.setStatusIcon("busy");
       var proc = this.RailsWrapper.buildScaffold(project, resourceName, options, (function(stdout, stderr) {
-        // Open new project in file tree
         this.setStatusIcon("done");
         this.setStatusIndicatorText("Done");
+        // Refresh this project in file tree
+        var evt = new CustomEvent("dirToRefresh", {detail: project});
+        window.dispatchEvent(evt);
       }).bind(this));
 
       this.clearDialog();
@@ -378,6 +380,9 @@ class RailsUI {
         // TODO update filetree to show new file generated
         this.setStatusIcon("done");
         this.setStatusIndicatorText("Done");
+        // Refresh this project in file tree
+        var evt = new CustomEvent("dirToRefresh", {detail: project});
+        window.dispatchEvent(evt);
       }).bind(this));
       if (proc != null) {
         // Read from childprocess stdout
@@ -420,6 +425,9 @@ class RailsUI {
           // TODO update filetree to show new file generated
         this.setStatusIcon("done");
         this.setStatusIndicatorText("Done");
+        // Refresh this project in file tree
+        var evt = new CustomEvent("dirToRefresh", {detail: project});
+        window.dispatchEvent(evt);
       }).bind(this));
       if (proc != null) {
           // Read from childprocess stdout
@@ -448,13 +456,15 @@ class RailsUI {
       this.setStatusIconVisibility(true);
       this.setStatusIcon("busy");
       var proc = this.RailsWrapper.destroy(command, project, (function(stdout, stderr) {
-                    // TODO update filetree to show new file generated
         this.setStatusIcon("done");
         this.setStatusIndicatorText("Done");
+        // Refresh this project in file tree
+        var evt = new CustomEvent("dirToRefresh", {detail: project});
+        window.dispatchEvent(evt);
       }).bind(this));
       if (proc != null) {
-                    // Read from childprocess stdout
-                    // TODO handle stderr as well
+        // Read from childprocess stdout
+        // TODO handle stderr as well
         proc.stdout.on("data", (function(data) {
           this.appendToDialogContents(data);
         }).bind(this));
