@@ -92,6 +92,16 @@ $(window).load(function() {
   // Set the editor theme from the settings
   editor.setTheme("ace/theme/" + settings.editor_theme);
 
+  // Set the background color
+  let setBackgroundColor = settings.background_color.toLowerCase();
+  if (setBackgroundColor === "light") {
+    menu.changeColorLight();
+  } else if (setBackgroundColor === "medium") {
+    menu.changeColorMedium();
+  } else if (setBackgroundColor === "dark") {
+    menu.changeColorDark();
+  }
+
   // Create a simple status indicator
   var StatusBar = ace.require("ace/ext/statusbar").StatusBar;
   var statusBar = new StatusBar(editor, document.getElementById("statusBar"));

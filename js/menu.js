@@ -27,19 +27,16 @@ class Menu {
   }
 
   changeColorLight() {
-    //$(".tabs-shell").css("background-color", "#e6e6e6");
     $(".panel-left").css("background-color", "#e6e6e6");
     $(".panel-left").css("color", "black");
   }
 
   changeColorDark() {
-    //$(".tabs-shell").css("background-color", "#161712");
     $(".panel-left").css("background-color", "#161712");
     $(".panel-left").css("color", "white");
   }
 
-  changeColourMedium(){
-    //$(".tabs-shell").css("background-color", "#808080");
+  changeColorMedium(){
     $(".panel-left").css("background-color", "#808080");
     $(".panel-left").css("color", "black");
   }

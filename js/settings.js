@@ -1,7 +1,5 @@
 "use strict";
 
-// TODO move this into a node.js module
-
 const os = require("os");
 const fs = require("fs");
 const path = require("path");
@@ -19,6 +17,7 @@ class Settings {
     this.openFiles = [];
     this.openDirectories = [];
     this.editor_theme = "monokai" // Default theme if not set in settings file
+    this.background_color = "dark"; // Default background color
     // Create settings directory if it doesn't yet exist
     mkdirp(settingsDir);
     this.loadSettingsFromDisk();
@@ -30,6 +29,7 @@ class Settings {
     json.openFiles = this.openFiles;
     json.openDirectories = this.openDirectories;
     json.editor_theme = this.editor_theme;
+    json.background_color = this.background_color;
     return JSON.stringify(json);
   }
 
