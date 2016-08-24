@@ -65,7 +65,12 @@ $(function() {
     peer.call(peerID, stream);
   }
 
-  $("#switch-input").on("click", toggleMediaInput);
+  $("#switch-input-btn").on("click", toggleMediaInput);
+  $("#fullscreen-btn").on("click", toggleVideoFullscreen);
+
+  function toggleVideoFullscreen() {
+    $("#theirVideo")[0].webkitRequestFullscreen();
+  }
 
   function onReceiveStream(stream, elementID) {
     var video = $("#" + elementID + " video")[0];

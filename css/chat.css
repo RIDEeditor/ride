@@ -25,13 +25,21 @@ input[type=text] {
   margin-bottom: 10px;
 }
 
+#video-buttons-div {
+  padding-bottom: 30px;
+}
+
 #connect {
   background-color: #fff;
   padding: 20px;
 }
 
-#switch-input {
+#switch-input-btn {
   float: right;
+}
+
+#fullscreen-btn {
+  float: left;
 }
 
 #message-container {
