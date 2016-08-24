@@ -92,6 +92,9 @@ $(window).load(function() {
   // Set the editor theme from the settings
   editor.setTheme("ace/theme/" + settings.editor_theme);
 
+  // Set editor font size
+  editor.setFontSize(settings.font_size);
+
   // Set the background color
   let setBackgroundColor = settings.background_color.toLowerCase();
   if (setBackgroundColor === "light") {
@@ -205,6 +208,9 @@ $(window).load(function() {
 
     // Save the current background color
     settings.background_color = menu.background_color;
+
+    // Save the font_size
+    settings.font_size = editor.getFontSize();
 
     // Persist settings to disk
     settings.saveSettingsToDisk();

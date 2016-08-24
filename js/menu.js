@@ -264,8 +264,14 @@ class Menu {
             ]
           },
           {
-            label: "Set Font Size",
-            click: function() {console.log(editor.getFontSize()); editor.setFontSize("14");}
+            label: "Increase Font Size",
+            click: function() {editor.setFontSize(editor.getFontSize() + 1);},
+            accelerator: "CmdOrCtrl+Plus"
+          },
+          {
+            label: "Decrease Font Size",
+            click: function() {editor.setFontSize(editor.getFontSize() - 1);},
+            accelerator: "CmdOrCtrl+_"
           },
           {
             label: "Set Background Colour",

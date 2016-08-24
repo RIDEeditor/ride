@@ -18,6 +18,7 @@ class Settings {
     this.openDirectories = [];
     this.editor_theme = "monokai" // Default theme if not set in settings file
     this.background_color = "dark"; // Default background color
+    this.font_size = 12;
     // Create settings directory if it doesn't yet exist
     mkdirp(settingsDir);
     this.loadSettingsFromDisk();
@@ -30,6 +31,7 @@ class Settings {
     json.openDirectories = this.openDirectories;
     json.editor_theme = this.editor_theme;
     json.background_color = this.background_color;
+    json.font_size = this.font_size;
     return JSON.stringify(json);
   }
 
