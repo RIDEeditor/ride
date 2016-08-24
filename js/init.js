@@ -203,6 +203,9 @@ $(window).load(function() {
     // Save the currently selected editor theme
     settings.editor_theme = path.basename(editor.getTheme());
 
+    // Save the current background color
+    settings.background_color = menu.background_color;
+
     // Persist settings to disk
     settings.saveSettingsToDisk();
   };

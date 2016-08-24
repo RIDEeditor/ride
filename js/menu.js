@@ -19,8 +19,8 @@ class Menu {
     this.RailsUI = new RailsUiLib.RailsUI(currentState, filetree);
     this.database = new databaseLib.Database(filetree);
     this.railroady = new railroadyLib.RailroadyWrapper(filetree);
-
     this.chat = new chatLib.Chat();
+    this.background_color = "dark";
 
     // Set the menu
     electronMenu.setApplicationMenu(this.buildMenu.bind(this)());
@@ -29,16 +29,19 @@ class Menu {
   changeColorLight() {
     $(".panel-left").css("background-color", "#e6e6e6");
     $(".panel-left").css("color", "black");
+    this.background_color = "light";
   }
 
   changeColorDark() {
     $(".panel-left").css("background-color", "#161712");
     $(".panel-left").css("color", "white");
+    this.background_color = "dark";
   }
 
   changeColorMedium(){
     $(".panel-left").css("background-color", "#808080");
     $(".panel-left").css("color", "black");
+    this.background_color = "medium";
   }
 
   buildMenu() {
@@ -268,13 +271,13 @@ class Menu {
             label: "Set Background Colour",
             submenu: [
                {label: "Light",
-                click: this.changeColorLight
+                click: this.changeColorLight.bind(this)
                 },
                 {label: "Medium",
-                  click: this.changeColourMedium
+                  click: this.changeColorMedium.bind(this)
                 },
                 {label: "Dark",
-                click: this.changeColorDark
+                click: this.changeColorDark.bind(this)
                 }
             ]
           }
