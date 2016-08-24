@@ -259,9 +259,7 @@ class Menu {
         submenu: [
           {
             label: "Themes",
-            submenu: [
-
-            ]
+            submenu: []
           },
           {
             label: "Increase Font Size",

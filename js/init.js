@@ -54,7 +54,13 @@ $(window).load(function() {
     maxWidth: 180
   });
 
+  ace.require("ace/ext/language_tools");
   editor = ace.edit("code");
+  editor.setOptions({
+    enableBasicAutocompletion: true,
+    enableSnippets: true,
+    enableLiveAutocompletion: false
+  });
   editor.setValue("");
   editor.setTheme("ace/theme/monokai");
   editor.setAutoScrollEditorIntoView(true);
