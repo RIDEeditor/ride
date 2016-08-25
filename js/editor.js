@@ -5,7 +5,7 @@ const modelist = ace.require("ace/ext/modelist");
 const AceDocument = ace.require("ace/document");
 const EditSession = ace.require("ace/edit_session");
 const UndoManager = ace.require("ace/undomanager");
-const dialog = require("electron").dialog;
+const dialog = require("electron").remote.dialog;
 const path = require("path");
 const fs = require("fs");
 
@@ -67,7 +67,7 @@ class Editor {
     fs.writeFile(this.fileEntry, editorContents, function(err) {
       if (err) {
         console.log("Writing to file failed: " + err);
-        require("electron").dialog.showErrorBox("Error Saving", "There was an error saving the file");
+        dialog.showErrorBox("Error Saving", "There was an error saving the file");
         return;
       }
     });
@@ -87,7 +87,7 @@ class Editor {
     fs.readFile(filePath.toString(), (function(err, data) {
       if (err) {
         console.log("Read failed: " + err);
-        require("electron").dialog.showErrorBox("Error Opening", "There was an error opening the file " + filePath.toString());
+        dialog.showErrorBox("Error Opening", "There was an error opening the file " + filePath.toString());
         return;
       }
       // Set the editor's contents to that of the file
