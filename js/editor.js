@@ -81,8 +81,7 @@ class Editor {
   */
   readFileIntoEditor(filePath) {
     // Detect and set the type of file we are loading
-    var mode = modelist.getModeForPath(filePath).mode;
-    this.aceSession.setMode(mode);
+    this.updateFileType(filePath);
 
     // Read file data
     fs.readFile(filePath.toString(), (function(err, data) {
@@ -97,6 +96,14 @@ class Editor {
       tabBar.updateTab(this.tab, {title: path.basename(filePath)});
       this.fileEntry = filePath;
     }).bind(this));
+  }
+
+  updateFileType(filePath) {
+    if (typeof filePath === "undefined") { filePath = this.fileEntry; }
+    console.log(filePath);
+    console.log(this.fileEntry);
+    let mode = modelist.getModeForPath(filePath).mode;
+    this.aceSession.setMode(mode);
   }
 
 }

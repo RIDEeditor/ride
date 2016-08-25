@@ -451,6 +451,8 @@ class Menu {
         this.currentState.currentEditor.writeEditorDataToFile();
         // Set tab title to filename
         this.setCurrentTabTitle(path.basename(filename));
+        // Detect file type
+        this.currentState.currentEditor.updateFileType(filename);
       }
     }).bind(this));
   }
