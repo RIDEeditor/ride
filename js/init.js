@@ -64,6 +64,22 @@ $(window).load(function() {
   editor.setValue("");
   editor.setTheme("ace/theme/monokai");
   editor.setAutoScrollEditorIntoView(true);
+  editor.commands.addCommands([{
+    name: "nextFile",
+    bindKey: {win: "Ctrl-tab", mac: "Command-tab"},
+    exec: function(editor) {
+      let currentID = currentState.currentEditor.idNumber;
+      // Check if editor on "right" exists
+      let nextEditor = currentState.TabsList["document-" + (+currentID + 1)];
+      if (nextEditor != null && nextEditor != "undefined") {
+        // There is an editor to the "right" so switch to it
+        tabBar.setCurrent(nextEditor.tab);
+      } else {
+        tabBar.setCurrent(currentState.TabsList["document-1"].tab);
+      }
+    },
+    readOnly: true
+  }]);
 
   // Set the correct colors based on the theme
   setTimeout(() => {

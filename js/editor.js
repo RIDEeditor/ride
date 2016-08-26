@@ -18,14 +18,14 @@ class Editor {
     this.currentState = currentState;
 
     var self = this;
-    var id = "document-" + _.uniqueId(); // Unique id for this tab
-    this.id = id;
+    this.idNumber = _.uniqueId(); // Unique id for this tab
+    this.id = "document-" + this.idNumber;
     this.fileEntry = null; // Contains the path of the file currently open in the editor
 
     // Create actual tab and add it to the tab bar
     this.tab = tabBar.add({title: tabTitle});
 
-    this.tab.data("id", id);
+    this.tab.data("id", this.id);
 
     this.currentState.currentEditor = self;
 
@@ -40,6 +40,10 @@ class Editor {
     this.tab.on("close", (function() {
       delete this.currentState.TabsList[self.id]; // Remove this tab from list
       tabBar.closeTab(self.tab); // Remove tab from tab bar
+      if (Object.keys(this.currentState.TabsList).length === 0) {
+        // No more tabs are open, create new untitled tab
+        new Editor("Untitled", this.currentState);
+      }
     }).bind(this));
 
     // Create new ace document
@@ -50,10 +54,10 @@ class Editor {
     this.aceSession = new EditSession.EditSession(this.aceDocument, "ace/mode/text");
     this.aceSession.setUndoManager(new UndoManager.UndoManager());
 
-        // Add this tabs id to the list of tabs
+    // Add this tabs id to the list of tabs
     this.currentState.TabsList[this.id] = this;
 
-        // Switch focus to this tab
+    // Switch focus to this tab
     var evt = new CustomEvent("switchTab", {detail: this.id});
     window.dispatchEvent(evt);
   }
@@ -100,8 +104,6 @@ class Editor {
 
   updateFileType(filePath) {
     if (typeof filePath === "undefined") { filePath = this.fileEntry; }
-    console.log(filePath);
-    console.log(this.fileEntry);
     let mode = modelist.getModeForPath(filePath).mode;
     this.aceSession.setMode(mode);
   }
