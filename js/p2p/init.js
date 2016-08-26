@@ -66,10 +66,10 @@ $(function() {
   }
 
   $("#switch-input-btn").on("click", toggleMediaInput);
-  $("#fullscreen-btn").on("click", toggleVideoFullscreen);
+  $("#fullscreen-btn").on("click", toggleVideoFullscreen("theirVideo"));
 
-  function toggleVideoFullscreen() {
-    $("#theirVideo")[0].webkitRequestFullscreen();
+  function toggleVideoFullscreen(elementID) {
+    $("#" + elementID)[0].webkitRequestFullscreen();
   }
 
   function onReceiveStream(stream, elementID) {
@@ -77,6 +77,14 @@ $(function() {
     video.src = window.URL.createObjectURL(stream);
     window.peerStream = stream;
   }
+
+  $("#theirVideo").on("dblclick", function() {
+    toggleVideoFullscreen("theirVideo")
+  });
+
+  $("#myVideo").on("dblclick", function() {
+    toggleVideoFullscreen("myVideo")
+  });
 
   $("#login").click(function() {
     name = $("#name").val();
