@@ -2,7 +2,7 @@
 
 website: https://rideeditor.github.io/
 
-![alt tag](documentation/screenshot_july22.png)
+![alt tag](documentation/1.png)
 
 To clone and run this repository:
 
