@@ -1,5 +1,6 @@
 # The RIDE Editor
 ![alt tag](documentation/screenshot_july22.png)
+website: https://rideeditor.github.io/
 To clone and run this repository:
 
 ```bash
