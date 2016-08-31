@@ -66,7 +66,7 @@ $(window).load(function() {
   editor.setAutoScrollEditorIntoView(true);
   editor.commands.addCommands([{
     name: "nextFile",
-    bindKey: {win: "Ctrl-tab", mac: "Command-tab"},
+    bindKey: {win: "Ctrl-tab", mac: "Ctrl-tab"},
     exec: function(editor) {
       let currentID = currentState.currentEditor.idNumber;
       // Check if editor on "right" exists
