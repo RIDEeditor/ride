@@ -20,13 +20,17 @@ class RailsUI {
     this.filetree = filetree;
 
     // run the sync to find rails versions
-    let railsVersions = String(childProcess.execSync("gem list '^rails$' --local"));
     let versions = "";
-    let found = railsVersions.match(/((\d(\.)?){3,}(, )?)+/g);
-    if (found === null) {
-      dialog.showErrorBox("Missing Rails", "Ruby on Rails is not installed. Please install it to continue.");
-    } else {
-      versions = found.toString().split(",");
+    try {
+      let railsVersions = String(childProcess.execSync("gem list '^rails$' --local"));
+      let found = railsVersions.match(/((\d(\.)?){3,}(, )?)+/g);
+      if (found === null) {
+        dialog.showErrorBox("Missing Rails", "Ruby on Rails is not installed. Please install it to continue.");
+      } else {
+        versions = found.toString().split(",");
+      }
+    } catch(err) {
+      dialog.showMessageBox(null, {type: "warning", buttons: ["Ok"], title: "Missing Rails", message: "Unable to detect if Ruby on Rails is installed."});
     }
 
     // create dialog box and get stuff
