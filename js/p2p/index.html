@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <title>Chat</title>
 
-    <link rel="stylesheet" type="text/css" href="../../css/lib/ink-3.1.10/css/ink.min.css"> <!-- inks css file -->
-    <script type="text/javascript" src="../../css/lib/ink-3.1.10/js/ink-all.min.js"></script> <!-- inks js bundle -->
     <script src="init.js"></script>
+    <link href="../../css/lib/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="../../css/chat.css" rel="stylesheet" type="text/css">
 
   </head>
@@ -37,7 +36,7 @@
               Connected Peer:
               <span id="connected_peer"></span>
             </div>
-            <button class="ink-button blue" id="login">Connect</button>
+            <button class="btn btn-primary" id="login">Connect</button>
           </div>
 
           <div id="chat" class="hidden">
@@ -46,8 +45,8 @@
             </div>
             <div id="message-container">
               <input type="text" name="message" id="message" placeholder="Type message..">
-              <button class="ink-button blue" id="send-message">Send Message</button>
-              <button class="ink-button green" id="call">Call</button>
+              <button class="btn btn-primary" id="send-message">Send Message</button>
+              <button class="btn btn-success" id="call">Call</button>
             </div>
           </div>
         </div>
