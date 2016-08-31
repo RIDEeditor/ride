@@ -5,8 +5,9 @@ const fs = require("fs");
 const path = require("path");
 const mkdirp = require("mkdirp");
 const dialog = require("electron").remote.dialog;
+const app = require("electron").remote.app;
 
-var settingsDir = path.join(os.homedir(), ".config", "ride");
+var settingsDir = app.getPath("userData");
 var settingsFile = "config.json";
 var settingsPath = path.join(settingsDir, settingsFile);
 
