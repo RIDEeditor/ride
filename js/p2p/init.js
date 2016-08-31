@@ -66,7 +66,7 @@ $(function() {
   }
 
   $("#switch-input-btn").on("click", toggleMediaInput);
-  $("#fullscreen-btn").on("click", toggleVideoFullscreen("theirVideo"));
+  $("#fullscreen-btn").on("click", function() {toggleVideoFullscreen("theirVideo")});
 
   function toggleVideoFullscreen(elementID) {
     $("#" + elementID)[0].webkitRequestFullscreen();
