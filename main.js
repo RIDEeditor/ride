@@ -27,7 +27,8 @@ function createMainWindow() {
   mainWindow = new BrowserWindow({
     minHeight: 600,
     minWidth: 1100,
-    fullscreenable: true
+    fullscreenable: true,
+    icon: path.join(__dirname, 'icon.png')
   });
 
   setupTerminal();
