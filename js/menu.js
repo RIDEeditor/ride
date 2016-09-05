@@ -109,7 +109,8 @@ class Menu {
             submenu: [
           {
             label: "New rails project",
-            click: this.RailsUI.generateNewRailsProject.bind(this.RailsUI)
+            click: this.RailsUI.generateNewRailsProject.bind(this.RailsUI),
+            accelerator: "CmdOrCtrl+Shift+n"
           },
           {
             label: "New rails scaffold",
@@ -117,11 +118,13 @@ class Menu {
           },
           {
             label: "New rails controller",
-            click: this.RailsUI.generateNewController.bind(this.RailsUI)
+            click: this.RailsUI.generateNewController.bind(this.RailsUI),
+            accelerator: "CmdOrCtrl+Shift+c"
           },
           {
             label: "New rails model",
-            click: this.RailsUI.generateNewModel.bind(this.RailsUI)
+            click: this.RailsUI.generateNewModel.bind(this.RailsUI),
+            accelerator: "CmdOrCtrl+Shift+m"
           }
           ]
          },
