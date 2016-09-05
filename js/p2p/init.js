@@ -97,6 +97,7 @@ $(function() {
     }
 
     $("#chat").removeClass("hidden");
+    $("#message").focus();
     $("#connect").addClass("hidden");
   });
 
