@@ -95,7 +95,7 @@ class Menu {
           },
           {
             label: "Git Clone",
-            accelerator: "CmdOrCtrl+Shift+G",
+            accelerator: "CmdOrCtrl+Shift+F",
             click: this.RailsUI.gitClone.bind(this.RailsUI)
           }
         ]
@@ -127,14 +127,17 @@ class Menu {
          },
           {
             label: "Rails server",
+            accelerator: "CmdOrCtrl+Shift+S",
             click: this.RailsUI.startRailsServer.bind(this.RailsUI)
           },
           {
             label: "Rails Servers Running",
+            accelerator: "CmdOrCtrl+Shift+R",
             click: this.RailsUI.showRunningServers.bind(this.RailsUI)
           },
           {
             label: "Rails Destroy",
+            accelerator: "CmdOrCtrl+Shift+W",
             click: this.RailsUI.railsDestroy.bind(this.RailsUI)
           },
         ]
