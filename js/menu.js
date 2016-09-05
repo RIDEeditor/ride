@@ -95,6 +95,7 @@ class Menu {
           },
           {
             label: "Git Clone",
+            accelerator: "CmdOrCtrl+Shift+G",
             click: this.RailsUI.gitClone.bind(this.RailsUI)
           }
         ]
