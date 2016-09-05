@@ -118,13 +118,12 @@ class FileTree {
   removeNode(directoryPath) {
     let index = -1;
     for (let i = 0; i < this.openDirs.length; i++) {
-      if (directoryPath === path.resolve(this.openDirs[i][0])) {
+      if (directoryPath === path.resolve(this.openDirs[i])) {
         index = i;
         break;
       }
     }
     if (index != -1) {
-      console.log("Index: " + index);
       // This directory is in filetree, so can remove it
       // Get the jstree node that corresponds to this path
       let treeNode = this.getNodeByPath(directoryPath);
