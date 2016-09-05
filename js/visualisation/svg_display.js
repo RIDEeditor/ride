@@ -1,6 +1,8 @@
 window.$ = window.jQuery = require("jquery");
-require("svg-pan-zoom");
+const fs = require("fs");
+const dialog = require("electron").remote.dialog;
 const {ipcRenderer} = require("electron");
+require("svg-pan-zoom");
 
 $(document).ready(function() {
   //ipcRenderer.send("launch-visualisation");
@@ -21,6 +23,21 @@ $(document).ready(function() {
     let rect = svgElement.getBoundingClientRect();
     let dialogHeight = Math.min($(window).height() - 10, rect.height + 100);
     let dialogWidth = Math.min($(window).width() - 10, rect.width + 100);
+
+    $("#save").on("click", function() {
+      dialog.showSaveDialog({title: "Choose where to save file"}, function(filename) {
+        if (filename) {
+          fs.writeFile(filename, result, function(err) {
+            if (err) {
+              console.log("Writing to file failed: " + err);
+              dialog.showErrorBox("Error Saving", "There was an error saving the file");
+              return;
+            }
+          });
+        }
+      });
+    });
   });
   ipcRenderer.send("visualisation-ready");
+
 });
