@@ -150,14 +150,17 @@ class Menu {
         submenu: [
           {
             label: "bundle install",
+            accelerator: "CmdOrCtrl+Shift+B",
             click: this.RailsUI.bundleInstall.bind(this.RailsUI)
           },
           {
             label: "bundle Install with options",
+            accelerator: "CmdOrCtrl+Shift+H",
             click: this.RailsUI.bundleInstallOptions.bind(this.RailsUI)
           },
           {
             label: "bundle exec rake db:migrate",
+            accelerator: "CmdOrCtrl+Shift+J",
             click: this.RailsUI.bundleMigrate.bind(this.RailsUI)
           }
         ]
