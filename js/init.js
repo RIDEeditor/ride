@@ -84,7 +84,7 @@ $(window).load(function() {
   // Set the correct colors based on the theme
   setTimeout(() => {
     menu.changeTheme();
-  }, 100);
+  }, 200);
 
   // Define what the 'new tab' button does
   $(".new").on("click", function(ev) {
