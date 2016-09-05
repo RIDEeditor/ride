@@ -362,7 +362,7 @@ class RailsUI {
 
     createdDialog.setupGenerateController();
 
-    $("#generateController").click(() => {
+    $("#generateController").one("click", () => {
       let actions = (document.getElementById("enterActions").value).split(",");
 
       let project = $("#projectController option:selected").text() + path.sep;
@@ -405,7 +405,7 @@ class RailsUI {
 
     createdDialog.setupGenerateModel();
 
-    $("#generateModel").click(() => {
+    $("#generateModel").one("click", () => {
       let attributes = (document.getElementById("enterAttributes").value).split(",");
 
       let project = $("#projectModel option:selected").text() + path.sep;
@@ -450,7 +450,7 @@ class RailsUI {
 
     createdDialog.setupRailsDestory();
 
-    $("#railsDestroy").click(() => {
+    $("#railsDestroy").one("click", () => {
       let project = $("#projectDestroy option:selected").text() + path.sep;
 
       let command = document.getElementById("destroyCommand").value;
