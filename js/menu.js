@@ -113,10 +113,6 @@ class Menu {
             accelerator: "CmdOrCtrl+Shift+n"
           },
           {
-            label: "New rails scaffold",
-            click: this.RailsUI.generateScaffold.bind(this.RailsUI)
-          },
-          {
             label: "New rails controller",
             click: this.RailsUI.generateNewController.bind(this.RailsUI),
             accelerator: "CmdOrCtrl+Shift+c"
@@ -125,6 +121,10 @@ class Menu {
             label: "New rails model",
             click: this.RailsUI.generateNewModel.bind(this.RailsUI),
             accelerator: "CmdOrCtrl+Shift+m"
+          },
+          {
+            label: "New rails scaffold",
+            click: this.RailsUI.generateScaffold.bind(this.RailsUI)
           }
           ]
          },
