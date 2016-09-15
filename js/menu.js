@@ -103,7 +103,7 @@ class Menu {
       {
         label: "Rails",
         submenu:
-        [ 
+        [
                     {
             label: "Rails Generate",
             submenu: [
@@ -437,11 +437,13 @@ class Menu {
    * Should be called when the 'open directory' menu option is selected
    */
   handleDirectoryOpenClicked() {
-    dialog.showOpenDialog({properties: ["openDirectory"], title: "Choose directory to open"}, (function(dirname) {
-      if (dirname) {
-        // Open directory in treeview
-        var evt = new CustomEvent("dirToOpen", {detail: dirname});
-        window.dispatchEvent(evt);
+    dialog.showOpenDialog({properties: ["openDirectory"], title: "Choose directory to open"}, (function(dirnames) {
+      if (dirnames) {
+        for (let i = 0; i < dirnames.length; i++) {
+          // Open directory in treeview
+          var evt = new CustomEvent("dirToOpen", {detail: dirnames[i]});
+          window.dispatchEvent(evt);
+        }
       }
     }).bind(this));
   }
