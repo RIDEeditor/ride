@@ -156,3 +156,20 @@ button.new {
   border: none;
 }
 
+#statusIndicatorImage {
+  display: none;
+  float: left;
+  margin-left: 5px;
+  margin-right: 10px;
+  height:15px;
+  width: 15px;
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+}
+
+#statusIndicatorText {
+  float: left;
+  color: white;
+}
+
