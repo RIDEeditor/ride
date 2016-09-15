@@ -166,7 +166,7 @@ $(window).load(function() {
   });
 
   // Setup rails dialog
-  $("#create-rails-dialog").dialog({autoOpen: false, title: "Create Project", height: 250, width: 600,resizable:false});
+  $("#create-rails-dialog").dialog({autoOpen: false, title: "Create Project", height: 280, width: 600,resizable:false});
 
   // setup bundle dialog
   $("#create-bundle-dialog").dialog({autoOpen: false, title: "Bundle Project", height: 200, width: 600,resizable:false});

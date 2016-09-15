@@ -138,6 +138,11 @@ button.new {
   background: #eee;
 }
 
+.dialog-btn {
+  margin: 0 auto;
+  display: block;
+}
+
 #database-dialog {
   position: relative;
 }
@@ -146,64 +151,20 @@ button.new {
   position: relative;
 }
 
-#opendb {
-  margin: 0 auto;
-  display: block;
-}
-
 #create-rails-dialog {
   position: relative;
-}
-
-
-#createProject {
-  margin: 0 auto;
-  display: block;
-  margin-top: 15px;
-  /*position: absolute;
-
-  left: 225px;
-  bottom: 10px;*/
 }
 
 #create-bundle-dialog {
   position: relative;
 }
 
-#bundleProject {
-  margin: 0 auto;
-  position: absolute;
-  left: 225px;
-  bottom: 10px;
-}
-
 #create-scaffold-dialog {
   position: relative;
 }
 
-#createScaffold {
-  margin: 0 auto;
-  /*position: absolute;*/
-  display: block;
-  /*left: 225px;
-  bottom: 10px;*/
-}
-
 #create-railsServer-dialog {
   position: relative;
-}
-
-#railsServer {
-  margin: 0 auto;
-  position: absolute;
-  left: 275px;
-  bottom: 10px;
-}
-
-#selectDirectory {
-  margin: 0 auto;
-  display: block;
-  margin-top: 5px;
 }
 
 #enterName {
@@ -218,54 +179,20 @@ button.new {
   position: relative;
 }
 
-#generateController {
-  margin: 0 auto;
-  position: absolute;
-  left: 225px;
-  bottom: 10px;
-}
-
 #create-rails-model {
   position: relative;
-}
-
-#generateModel {
-  margin: 0 auto;
-  position: absolute;
-  left: 225px;
-  bottom: 10px;
 }
 
 #rails-destroy {
   position: relative;
 }
 
-#railsDestroy {
-  margin: 0 auto;
-  display: block;
-}
-
 #gitClone {
   position: relative;
-}
-
-#cloneDir {
-  margin: 0 auto;
-  /*position: absolute;*/
-  display: block;
-  /*left: 245px;
-  bottom: 10px;*/
-}
-
-#selectDirToCloneInto {
-  margin: 0 auto;
-  display: block;
-  margin-top: 5px;
 }
 
 #addAction{
   background: transparent;
   border: none;
 }
-
 
