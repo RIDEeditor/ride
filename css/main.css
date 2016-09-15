@@ -143,52 +143,12 @@ button.new {
   display: block;
 }
 
-#database-dialog {
-  position: relative;
-}
-
-#visualisation-dialog {
-  position: relative;
-}
-
-#create-rails-dialog {
-  position: relative;
-}
-
-#create-bundle-dialog {
-  position: relative;
-}
-
-#create-scaffold-dialog {
-  position: relative;
-}
-
-#create-railsServer-dialog {
-  position: relative;
-}
-
 #enterName {
   margin-left: 10px;
 }
 
 #railsv {
   margin-left: 10px;
-}
-
-#create-rails-controller {
-  position: relative;
-}
-
-#create-rails-model {
-  position: relative;
-}
-
-#rails-destroy {
-  position: relative;
-}
-
-#gitClone {
-  position: relative;
 }
 
 #addAction{
