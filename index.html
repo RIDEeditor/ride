@@ -71,11 +71,14 @@
             <br><br>
             <select id="model-project-selector" name="folder_chosen"></select>
             <br><br>
-            <label>Options:</label>
-            <br>
-            <form id="visualisation-dialog-options" name="visualisation-dialog-options"></form>
+            <button class="accordion">Options</button>
+            <div class="panel">
+              <br>
+              <form id="visualisation-dialog-options" name="visualisation-dialog-options"></form>
+            </div>
             <br><br>
-            <input class="btn btn-primary" id="gen-model" type="submit" value="Button text here">
+            <input class="btn btn-primary" id="gen-model" type="submit" style="display: block; margin: 0 auto;" value="Button text here">
+            </div>
         </div>
 
         <div id="database-dialog">
@@ -84,6 +87,7 @@
             <label for="project database">Select a Project</label>
             <br><br>
             <select id="selector" name="folder_chosen"></select>
+            <br><br>
             <input class="btn btn-primary" id="opendb" type="submit" value="Open database of selected folder">
         </div>
 
@@ -97,8 +101,6 @@
             </div>
 
             <input class="btn btn-primary" id="createProject" type="submit" value="create new rails project">
-            
-            
         </div>
 
         <div id="create-rails-controller">
@@ -115,20 +117,11 @@
 
         <div id="create-rails-model">
             <div id="create-rails-model-dialog-contentholder">
-
             Select Rails project: <select name="railsProjectChosenModel" id="projectModel"></select>
-
-            <br>
-            <br>
-
+            <br><br>
             Model name:  <input id="modelName" type="text" name="model" autofocus>
-
-            <br>
-            <br>
-
+            <br><br>
             Enter attributes (comma seperated): <input placeholder="e.g name:string" id="enterAttributes" type="text" name="Attributes">
-
-
             </div>
             <input class="btn btn-primary" id="generateModel" type="submit" value="generate rails model">
         </div>
@@ -183,7 +176,6 @@
 
         <div id="rails-destroy" >
             <label>Select project:</label><select name="project_chosen_railsDestroy" id="projectDestroy"></select>
-
             <br>
             <br>
             <label>rails destroy </label> <input id="destroyCommand" type="text" name="toDestroy" autofocus>

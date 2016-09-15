@@ -90,7 +90,7 @@ class RailroadyWrapper {
       $("#model-project-selector").append(option);
     }
     $("#gen-model").val("Generate Routes Diagram");
-    $("#visualisation-dialog").dialog({autoOpen: true, title: "Generate Routes Diagram", modal: true, height: 500, width: 600});
+    $("#visualisation-dialog").dialog({autoOpen: true, title: "Generate Routes Diagram", modal: true, width: 600, autoResize:true, resizable: false});
     $("#gen-model").one("click", (function() {
       let pathToDirectorySelected = $("#model-project-selector option:selected").text();
       this.generateRoutesDiagram(pathToDirectorySelected);
@@ -172,7 +172,7 @@ class RailroadyWrapper {
       }
       $("#gen-model").val("Generate Model diagram");
     }
-    $("#visualisation-dialog").dialog({autoOpen: true, title: "Generate Model", modal: true, height: 500, width: 600});
+    $("#visualisation-dialog").dialog({autoOpen: true, title: "Generate Model", modal: true, width: 600, autoResize:true, resizable: false});
     $("#gen-model").one("click", (function() {
       let pathToDirectorySelected = $("#model-project-selector option:selected").text();
       let inputs = $("#visualisation-dialog-options :input[type=checkbox]:checked");
@@ -228,7 +228,7 @@ class RailroadyWrapper {
     }
 
     $("#gen-model").val("Generate Controller diagram");
-    $("#visualisation-dialog").dialog({autoOpen: true, title: "Generate Controller Diagram", modal: true, height: 350, width: 600});
+    $("#visualisation-dialog").dialog({autoOpen: true, title: "Generate Controller Diagram", modal: true, width: 600, autoResize:true, resizable: false});
     $("#gen-model").one("click", (function() {
       let pathToDirectorySelected = $("#model-project-selector option:selected").text();
       let inputs = $("#visualisation-dialog-options :input[type=checkbox]:checked");
