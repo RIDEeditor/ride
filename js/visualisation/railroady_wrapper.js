@@ -36,21 +36,36 @@ class RailroadyWrapper {
   }
 
   generateModelDiagram(projectDirectory, optionsList, callback) {
+    this.setStatusIndicatorText("Generating model diagram");
+    this.setStatusIconVisibility(true);
+    this.setStatusIcon("busy");
     this.runCommand(projectDirectory, this.railroadyPath + " --models --all" + optionsList, (function(stdout, error) {
       this.drawDiagram(stdout, "Models Diagram");
+      this.setStatusIcon("done");
+      this.setStatusIndicatorText("Done");
     }).bind(this));
   }
 
   generateControllerDiagram(projectDirectory, optionsList, callback) {
+    this.setStatusIndicatorText("Generating controller diagram");
+    this.setStatusIconVisibility(true);
+    this.setStatusIcon("busy");
     this.runCommand(projectDirectory, this.railroadyPath + " --controllers" + optionsList, (function(stdout, error) {
       this.drawDiagram(stdout, "Controllers Diagram");
+      this.setStatusIcon("done");
+      this.setStatusIndicatorText("Done");
     }).bind(this));
   }
 
   generateRoutesDiagram(projectDirectory, callback) {
+    this.setStatusIndicatorText("Generating routes diagram");
+    this.setStatusIconVisibility(true);
+    this.setStatusIcon("busy");
     this.injectVizRakeTask(projectDirectory);
     this.runCommand(projectDirectory, "rake viz:visualizer", (function(stdout, stderr) {
       this.drawDiagram(stdout, "Routes Diagram");
+      this.setStatusIcon("done");
+      this.setStatusIndicatorText("Done");
     }).bind(this));
   }
 
@@ -90,7 +105,7 @@ class RailroadyWrapper {
       $("#model-project-selector").append(option);
     }
     $("#gen-model").val("Generate Routes Diagram");
-    $("#visualisation-dialog").dialog({autoOpen: true, title: "Generate Routes Diagram", modal: true, width: 600, autoResize:true, resizable: false});
+    $("#visualisation-dialog").dialog({autoOpen: true, title: "Generate Routes Diagram", modal: true, width: 600, autoResize:true, resizable: false, close: function() {$("#gen-model").off("click");}});
     $("#gen-model").one("click", (function() {
       let pathToDirectorySelected = $("#model-project-selector option:selected").text();
       this.generateRoutesDiagram(pathToDirectorySelected);
@@ -172,8 +187,8 @@ class RailroadyWrapper {
       }
       $("#gen-model").val("Generate Model diagram");
     }
-    $("#visualisation-dialog").dialog({autoOpen: true, title: "Generate Model", modal: true, width: 600, autoResize:true, resizable: false});
-    $("#gen-model").one("click", (function() {
+    $("#visualisation-dialog").dialog({autoOpen: true, title: "Generate Model", modal: true, width: 600, autoResize:true, resizable: false, close: function() {$("#gen-model").off("click");}});
+    $("#gen-model").one("click", () => {
       let pathToDirectorySelected = $("#model-project-selector option:selected").text();
       let inputs = $("#visualisation-dialog-options :input[type=checkbox]:checked");
       let cmdOptions = "";
@@ -183,7 +198,7 @@ class RailroadyWrapper {
       this.generateModelDiagram(pathToDirectorySelected, cmdOptions, null);
       // Close dialog
       $("#visualisation-dialog").dialog("close");
-    }).bind(this));
+    });
   }
 
   showControllerDialog() {
@@ -228,7 +243,7 @@ class RailroadyWrapper {
     }
 
     $("#gen-model").val("Generate Controller diagram");
-    $("#visualisation-dialog").dialog({autoOpen: true, title: "Generate Controller Diagram", modal: true, width: 600, autoResize:true, resizable: false});
+    $("#visualisation-dialog").dialog({autoOpen: true, title: "Generate Controller Diagram", modal: true, width: 600, autoResize:true, resizable: false, close: function() {$("#gen-model").off("click");}});
     $("#gen-model").one("click", (function() {
       let pathToDirectorySelected = $("#model-project-selector option:selected").text();
       let inputs = $("#visualisation-dialog-options :input[type=checkbox]:checked");
@@ -240,6 +255,22 @@ class RailroadyWrapper {
       // Close dialog
       $("#visualisation-dialog").dialog("close");
     }).bind(this));
+  }
+
+  setStatusIndicatorText(text) {
+    $("#statusIndicatorText").text(text);
+  }
+
+  setStatusIconVisibility(shouldShow) {
+    $("#statusIndicatorImage").toggle(shouldShow);
+  }
+
+  setStatusIcon(icon) {
+    if (icon === "busy") {
+      $("#statusIndicatorImage").attr("src", "css/images/throbber.gif");
+    } else if (icon === "done") {
+      $("#statusIndicatorImage").attr("src", "css/images/tick.png");
+    }
   }
 
 }
