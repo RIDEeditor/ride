@@ -131,8 +131,8 @@ function createChatWindow(isNew){
     show: false
   });
 
-  // TODO set menu to null to hide it
-  //chatWindow.setMenu(null);
+  // Set menu to null to hide it
+  chatWindow.setMenu(null);
 
   chatWindow.loadURL(path.join("file://", __dirname, "/js/p2p/index.html"));
   chatWindow.on("closed", function() {
