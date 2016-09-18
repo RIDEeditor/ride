@@ -1,7 +1,8 @@
 {
-  "name": "part-4-project",
+  "name": "rails-editor",
   "version": "0.0.1",
-  "description": "An easy to use Ruby on Rails IDE built with electron",
+  "description": "An easy to use Ruby on Rails Editor built with Electron",
+  "license": "GPL-3.0",
   "main": "main.js",
   "scripts": {
     "lint": "eslint",
@@ -10,19 +11,28 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xxChinasaurxx/part-4-project"
+    "url": "git+https://github.com/RIDEeditor/ride"
   },
   "keywords": [
     "Electron",
     "Ruby",
     "Rails",
-    "IDE"
+    "Editor"
   ],
-  "author": "GitHub",
   "bugs": {
-    "url": "https://github.com/xxChinasaurxx/part-4-project/issues"
+    "url": "https://github.com/RIDEeditor/ride/issues"
   },
-  "homepage": "https://github.com/xxChinasaurxx/part-4-project#readme",
+  "contributors": [
+    {
+      "name": "Anmol Desai",
+      "email": "ades597@aucklanduni.ac.nz"
+    },
+    {
+      "name": "Nicholas Molloy",
+      "email": "nmol886@aucklanduni.ac.nz"
+    }
+  ],
+  "homepage": "https://github.com/RIDEeditor/ride#readme",
   "devDependencies": {
     "devtron": "^1.0.1",
     "electron-prebuilt": "1.2.6",
