@@ -48,7 +48,7 @@ class RailsWrapper {
     } else {
       argObject = {stdio: "pipe", cwd: cwd, shell: "/bin/bash"}
     }
-    var prc = childProcess.exec(this.rvmSource + "; rvm use " + this.rubyVersion + "; " + args, argObject, function(error, stdout, stderr) {
+    var prc = childProcess.exec(this.rvmSource + "; rvm install " + this.rubyVersion +"; rvm use " + this.rubyVersion + "; " + args, argObject, function(error, stdout, stderr) {
       console.log("Finished running: " + args);
       if (callback != null) {
         callback(stdout, stderr);
