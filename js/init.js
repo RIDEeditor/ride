@@ -171,6 +171,8 @@ $(window).load(function() {
   // setup bundle dialog
   $("#create-bundle-dialog").dialog({autoOpen: false, title: "Bundle Project", height: 200, width: 600,resizable:false});
 
+  // Setup visualisation dialog
+  $("#visualisation-dialog").dialog({autoOpen: false, title: "Generate Model", height: 500, width: 600,resizable:false});
   // Setup hide/show for options in diagram dialog
   $(function() {
     let acc = $(".accordion")[0];
