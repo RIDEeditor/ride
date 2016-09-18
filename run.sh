@@ -11,7 +11,8 @@ NC='\033[0m' # No Color
 install_rvm() {
     echo -e "${YELLOW}Starting rvm install...${NC}"
     # Add rvm key to keyring
-    gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+    # Use solution from https://stackoverflow.com/a/38362809
+    gpg2 --keyserver $(getent hosts keys.gnupg.net | awk '{ print $1 }' | head -1) --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
     # Install rvm, along with rails
     \curl -sSL https://get.rvm.io | bash -s stable --rails
 }
@@ -83,7 +84,7 @@ main() {
 
     # Run application
     echo -e "${GREEN}Starting application...${NC}"
-    ./Rails\ Editor
+    ./rails-editor
 }
 
 # Run script
