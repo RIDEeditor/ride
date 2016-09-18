@@ -9,8 +9,10 @@ class RailsWrapper {
     if (typeof railsPath === "undefined") {
       railsPath = null;
     }
+    this.rvmSource = 'export PATH="$PATH:$HOME/.rvm/bin" && source "$HOME/.rvm/scripts/rvm"';
     this.railsPath = railsPath;
     this.searched = false;
+    this.rubyVersion = "";
   }
 
   /**
@@ -33,41 +35,37 @@ class RailsWrapper {
     }
   }
 
-  runCommand(args, callback) {
-    var prc = childProcess.exec(args, {stdio: "pipe"}, function(error, stdout, stderr) {
-      if (error === null) {
-        console.log("Finished running: " + args);
-        if (callback != null) {
-          callback(stdout, stderr);
-        }
-        return stdout.toString();
-      } else {
-        console.log(error);
-      }
-    });
-    return prc;
+  getRubyVersion(projectDirectory) {
+    let gemfile = path.join(projectDirectory, "Gemfile");
+    //let gemfile = projectDirectory;
+    this.rubyVersion = childProcess.execSync("grep -oP \"(ruby ')\\K[[:digit:]].[[:digit:]].[[:digit:]]\" " + gemfile, {encoding: "utf8"}).trim();
   }
 
-  runCommandWithCwd(args, cwd, callback) {
-    console.log("Arg: " + args);
-    console.log("Dir: " + cwd);
-    var prc = childProcess.exec(args, {stdio: "pipe", cwd: cwd}, function(error, stdout, stderr) {
-      if (error === null) {
-        console.log("Finished running: " + args);
-        if (callback != null) {
-          callback(stdout, stderr);
-        }
-        return stdout.toString();
-      } else {
-        console.log(error);
+  runCommand(args, callback, cwd) {
+    let argObject = {};
+    if (typeof cwd === "undefined") {
+      argObject = {stdio: "pipe", shell: "/bin/bash"};
+    } else {
+      argObject = {stdio: "pipe", cwd: cwd, shell: "/bin/bash"}
+    }
+    var prc = childProcess.exec(this.rvmSource + "; rvm use " + this.rubyVersion + "; " + args, argObject, function(error, stdout, stderr) {
+      console.log("Finished running: " + args);
+      if (callback != null) {
+        callback(stdout, stderr);
       }
+      if (error != null) {
+      console.log(error);
+      }
+      return stdout.toString();
     });
     return prc;
   }
 
   bundle(pathToBundle, callback) {
+    this.getRubyVersion(pathToBundle);
+    let gemfile = path.join(pathToBundle, "Gemfile");
     if (this.findRails()) {
-      return this.runCommand("bundle install --gemfile=" + pathToBundle, callback);
+      return this.runCommand("bundle install --gemfile=" + gemfile, callback);
     }
   }
 
@@ -79,13 +77,13 @@ class RailsWrapper {
 
   buildScaffold(pathFinal, resourceName, options, callback) {
     if (this.findRails()) {
-      return this.runCommandWithCwd("rails generate scaffold " + resourceName + " " + options, pathFinal, callback);
+      return this.runCommand("rails generate scaffold " + resourceName + " " + options, callback, pathFinal);
     }
   }
 
   bundleMigrate(file, callback) {
     if (this.findRails()) {
-      return this.runCommandWithCwd("bundle exec rake db:migrate", file, callback);
+      return this.runCommand("bundle exec rake db:migrate", callback, file);
     }
   }
 
@@ -96,20 +94,21 @@ class RailsWrapper {
   }
 
   newController(project, controllerName, actions, callback) {
+    this.getRubyVersion(project);
     if (this.findRails()) {
-      return this.runCommandWithCwd(this.railsPath + " generate controller " + controllerName + " " + actions, project, callback);
+      return this.runCommand(this.railsPath + " generate controller " + controllerName + " " + actions, callback, project);
     }
   }
 
   newModel(project, modelName, attributesString, callback) {
     if (this.findRails()) {
-      return this.runCommandWithCwd(this.railsPath + " generate model " + modelName + " " + attributesString, project, callback);
+      return this.runCommand(this.railsPath + " generate model " + modelName + " " + attributesString, callback, project);
     }
   }
 
   destroy(command, project, callback) {
     if (this.findRails()) {
-      return this.runCommandWithCwd("rails destroy " + command, project, callback);
+      return this.runCommand("rails destroy " + command, callback, project);
     }
   }
 

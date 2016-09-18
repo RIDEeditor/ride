@@ -78,14 +78,6 @@ class RailsUI {
     });
 
     createdDialog.showDialog();
-
-    // TODO open dialog prompting user for project options
-    // let dir = dialog.showOpenDialog({properties: ['openDirectory','createDirectory'], title: "Choose directory to generate rails application in"});
-
-    // everything happens after this dialog box closes
-    // $("#create-rails-dialog").on('dialogclose', (event) => {
-
-    // });
   }
 
   bundleInstall() {
@@ -117,8 +109,6 @@ class RailsUI {
     if (fileToCallBundle === "") {
       return;
     }
-
-    fileToCallBundle = fileToCallBundle + path.sep + "Gemfile";
 
     this.setStatusIndicatorText("Bundling Rails project '" + fileToCallBundle + "'");
     this.setStatusIconVisibility(true);
