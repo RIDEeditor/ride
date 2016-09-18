@@ -2,7 +2,7 @@
 
 # Colors
 RED='\033[0;31m'
-YELLOW='\033[1;33m'
+YELLOW='\033[0;33m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
@@ -23,13 +23,11 @@ install_rails() {
 # Check if ruby is installed and available
 has_ruby() {
     ruby_path=$(which ruby)
-    return $?
 }
 
 # Check if rails is installed
 has_rails() {
     rails_path=$(which rails)
-    return $?
 }
 
 # Load rvm
@@ -51,11 +49,10 @@ ask() {
 
 main() {
     source_rvm
-    if [[ ! has_ruby ]]
+    if ! has_ruby
     then
         echo -e "${RED}Ruby is required for this program${NC}"
-        ask "Do you want to install it now?"
-        if [[ $? ]]
+        if ask "Do you want to install it now?"
         then
             install_rvm
             source_rvm
@@ -68,11 +65,10 @@ main() {
         echo -e "${GREEN}Ruby is installed${NC}"
     fi
 
-    if [[ ! has_rails ]]
+    if ! has_rails
     then
         echo -e "${RED}Ruby on Rails is required for this program${NC}"
-        ask "Do you want to install it now?"
-        if [[ $? ]]
+        if ask "Do you want to install it now?"
         then
             install_rails
             source_rvm
@@ -86,7 +82,8 @@ main() {
     fi
 
     # Run application
-    #./Rails\ Editor
+    echo -e "${GREEN}Starting application...${NC}"
+    ./Rails\ Editor
 }
 
 # Run script
