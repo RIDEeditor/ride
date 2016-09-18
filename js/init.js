@@ -69,13 +69,14 @@ $(window).load(function() {
     bindKey: {win: "Ctrl-tab", mac: "Ctrl-tab"},
     exec: function(editor) {
       let currentID = currentState.currentEditor.idNumber;
-      // Check if editor on "right" exists
-      let nextEditor = currentState.TabsList["document-" + (+currentID + 1)];
+      let listOfTabs = Object.keys(currentState.TabsList);
+      let currentIndex = listOfTabs.indexOf("document-" + currentID);
+      let nextEditor = currentState.TabsList[listOfTabs[currentIndex+1]];
       if (nextEditor != null && nextEditor != "undefined") {
         // There is an editor to the "right" so switch to it
         tabBar.setCurrent(nextEditor.tab);
       } else {
-        tabBar.setCurrent(currentState.TabsList["document-1"].tab);
+        tabBar.setCurrent(currentState.TabsList[listOfTabs[0]].tab);
       }
     },
     readOnly: true
