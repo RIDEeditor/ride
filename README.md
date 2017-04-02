@@ -1,4 +1,4 @@
-rideeditor.github.io
+https://rideeditor.github.io/
 
 # The RIDE Editor
 ![alt tag](documentation/screenshot_22_4.png)
